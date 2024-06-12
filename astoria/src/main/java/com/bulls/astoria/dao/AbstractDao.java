@@ -26,5 +26,5 @@ public abstract class AbstractDao implements Serializable{
     public void update(Object entity) {
     	
         getSession().update(entity);
-    }//aaaaaaqqqqsss
+    }//aaaaaaqqqqsssdsds
 }
