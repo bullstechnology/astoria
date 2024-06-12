@@ -1,0 +1,212 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui">
+        
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+		<title>SISCOMFLOR</title>
+        
+     <h:head>
+
+       <!--  <h:outputStylesheet library="css" name="styles.css" /> -->
+        <h:outputStylesheet name="webjars/primeflex/2.0.0/primeflex.css" />
+
+    </h:head>
+    
+    <style type="text/css">
+    .box,
+    .sample-layout > div {
+        background-color: #cce4f7;
+        text-align: center;
+        padding-top: 1em;
+        padding-bottom: 1em;
+        border-radius: 4px;
+        
+    }
+ 
+    .box-stretched {
+        height: 100%;
+    }
+ 
+    .sample-layout {
+        margin: 0;
+    }
+ 
+    .sample-layout > div {
+        border: 1px solid #ffffff;
+    }
+ 
+    .vertical-container {
+        margin: 0;
+        height: 200px;
+        background: #efefef;
+        border-radius: 4px;
+    }
+ 
+    .nested-grid .p-col-4 {
+        padding-bottom: 1em;
+    }
+    
+   .p-grid {
+  width: 100%;
+  height:100%;
+  border: 1px solid black;
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  padding: 10px;
+}
+.container {
+  background: red;
+  height: 100%;
+}
+#top{
+      height:10%;
+      width: 100%;
+      background-color: gray;
+    }
+#left{
+      height:85%;
+      width: 100%;
+
+    }
+#centro{
+      height:85%;
+      width: 100%;
+      overflow-y: scroll;
+    }
+#bottom{
+
+      width: 100%;
+      background-color:#FFFFFF;
+      bottom: 0;
+      position:fixed;
+    }
+    html, body{
+      height:100%;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+</style>
+    
+    
+
+    <h:body style="background-color:#FFFFFF;">
+
+        <div id="header">
+
+            <ui:include src="../main/templates/header.xhtml" />
+
+        </div>
+        
+        <div id='centro'>
+            <div id="left" style='float: left; width: 15%'>
+                <ui:include src="../main/templates/menu.xhtml" />
+            </div>
+            <div id="content" class="left_content" style='float: right; width: 85%'>
+                        <!-- inicio del form interno -->
+						 <h:form id="formcrear">
+       
+       
+        <p:panelGrid style="margin-top:20px">
+    		<f:facet name="header">
+        			<p:row>
+            			<p:column colspan="6">#{msg['titulo.crearhandler']}</p:column>
+        			</p:row>
+           </f:facet>
+ 
+    		<p:row>
+        			<p:column><h:outputLabel value="#{msg['label.codigo']} : "/></p:column>
+        			<p:column ><p:inputText id="tipo" value="#{handlerMB.codigo}" readonly="#{!handlerMB.getPermiso(231,'U')}"/></p:column>
+        			<p:column><h:outputLabel value="#{msg['label.nombre']} : "/></p:column>
+        			<p:column ><p:inputText id="nombre" value="#{handlerMB.nombre}" readonly="#{!handlerMB.getPermiso(231,'U')}"/></p:column>
+        			<p:column><h:outputLabel for="desc" value="#{msg['label.descripcion']} : "/></p:column>
+        			<p:column ><p:inputTextarea rows="5" cols="50" id="desc" value="#{handlerMB.descripcion}" readonly="#{!handlerMB.getPermiso(231,'U')}"/></p:column>
+        			
+        			
+    		</p:row>
+    		<p:row>
+        			<p:column><h:outputLabel value="#{msg['label.preculincli']} : "/></p:column>
+        			<p:column ><p:inputText id="preculincli" value="#{handlerMB.preculincli}" readonly="#{!handlerMB.getPermiso(231,'U')}"/></p:column>
+        			<p:column><h:outputLabel value="#{msg['label.preculinast']} : "/></p:column>
+        			<p:column ><p:inputText id="preculinast" value="#{handlerMB.preculinast}" readonly="#{!handlerMB.getPermiso(231,'U')}"/></p:column>
+        			<p:column></p:column>
+        			<p:column ></p:column>
+        			
+        			
+    		</p:row>
+    		<p:row>
+        			<p:column></p:column>
+        			<p:column></p:column>
+        			<p:column></p:column>
+        			<p:column ></p:column>
+        			<p:column></p:column>
+        			<p:column ></p:column>
+    		</p:row>
+    		
+    		
+    		<p:row>
+        			<p:column colspan="3"><p:commandButton id="addUser" value="#{msg['label.aceptar']}" action="#{handlerMB.crearHandler}" ajax="false" update="formcrear" rendered="#{handlerMB.getPermiso(231,'U')}"/></p:column>
+        			<p:column colspan="3"><p:commandButton id="reset" value="#{msg['label.cancelar']}" action="#{handlerMB.reset}" ajax="false" rendered="#{handlerMB.getPermiso(231,'U')}">
+        			   
+        			   </p:commandButton>
+        			</p:column>
+    		</p:row>
+    
+</p:panelGrid>
+
+<p:dataTable var="item" value="#{handlerMB.handlers}" id="listaHandlers" sortMode="multiple">
+    		<p:column headerText="#{msg['label.codigo']}" sortBy="#{item.codigo}">
+        		<h:outputText value="#{item.codigo}" />
+     		</p:column>
+            <p:column headerText="#{msg['label.nombre']}" sortBy="#{item.nombre}">
+        		<h:outputText value="#{item.nombre}" />
+    		</p:column>
+    		<p:column headerText="#{msg['label.saldo']}" >
+        		<h:outputText value="#{uMB.format(handlerMB.getSaldoHandler(item)*-1)}" />
+     		</p:column>
+    		<p:column headerText="#{msg['label.descripcion']}">
+        		<h:outputText value="#{item.descripcion}" />
+    		</p:column>
+    		<p:column headerText="#{msg['label.preculincli']}">
+        		<h:outputText value="#{uMB.format(item.preculincli)}" />
+    		</p:column>
+    		<p:column headerText="#{msg['label.preculinast']}">
+        		<h:outputText value="#{uMB.format(item.preculinast)}" />
+    		</p:column>
+    		<p:column headerText="#{msg['label.editar']}">
+					<p:commandButton icon="ui-icon ui-icon-pencil" action="#{handlerMB.editar(item)}"  ajax="false" value="Editar" rendered="#{handlerMB.getPermiso(231,'U')}">
+					</p:commandButton>
+    		</p:column>
+ 
+    		
+    		
+	</p:dataTable>
+     <p:separator />
+	<div align="center">
+       <p:commandButton value ="EXCEL" ajax ="false">
+        
+        <p:dataExporter type="xls" target="formcrear:listaAgencias" fileName="agenciasexcel" pageOnly="false"/>
+      </p:commandButton>
+      <p:commandButton value ="PDF" ajax ="false">
+        
+        <p:dataExporter type="pdf" target="form:listaAgencias" fileName="agenciaspdf" pageOnly="false"/>
+      </p:commandButton>
+      </div>   
+        </h:form>
+						<!-- fin del form interno-->
+            </div>
+        </div>
+        <div id="bottom">
+            <ui:insert name="bottom">
+              <ui:include src="../main/templates/footer.xhtml" />
+            </ui:insert>
+        </div>
+ </h:body> 
+  <br/>     
+</html>
+
+

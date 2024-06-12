@@ -1,0 +1,239 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+    
+       <style type="text/css">
+    				.imgeditar {
+       							 background-image:url("#{resource['images/editar.jpg']}") !important;
+       							 width: 40px;
+								 height: 40px;
+    					  }
+    			    .imgeliminar {
+       							 background-image:url("#{resource['images/eliminar.jpg']}") !important;
+    					  }		
+    				 .imgesperar {
+       							 background-image:url("#{resource['images/ajax-loader.gif']}") !important;
+    					  }		 
+    					  
+    			     .ui-panelgrid td, .ui-panelgrid tr
+							{
+    							border-style: none !important
+							}  
+							
+						.centrar
+
+	{
+
+		position: absolute;
+
+		top:10%;
+
+		left:50%;
+
+		width:400px;
+
+		margin-left:-200px;
+
+
+		height:300px;
+
+
+
+		margin-top:-150px;
+
+		border:0px solid #808080;
+
+		padding:5px;
+
+	}	
+	
+	.panelGridCenter {
+    margin: 0 auto;
+}	 
+			</style>
+			
+			<link rel="stylesheet" href="#{resource['template/templates.css']}" type="text/css" />
+    </h:head>
+    <h:body id="page_bg">
+	<div id="header">
+		
+		<div id="pillmenu"><ul id="mainlevel"><li><a href="../public/prelogin.xhtml" class="mainlevel">Iniciar sesion</a></li></ul></div>
+		<div id="search"><form action="index.php" method="post">
+	<div class="search">
+     </div>
+</form><div id="jflanguageselection"><div class="rawimages"><span><a href="../public/catalogoen.xhtml"><img src="#{resource['images/en.gif']}" alt="English (United Kingdom)" title="English (United Kingdom)"></img></a></span><span><a href="../public/catalogoru.xhtml"><img src="#{resource['images/ru.gif']}" alt="Russian (CIS)" title="Russian (CIS)"></img></a></span><span id="active_language"><a href="../public/catalogoes.xhtml"><img src="#{resource['images/es.gif']}" alt="Español" title="Español"></img></a></span></div></div><!--JoomFish V2.1.7 (Dafad)-->
+<!-- &copy; 2003-2011 Think Network, released under the GPL. -->
+<!-- More information: at http://www.joomfish.net -->
+</div>					
+		<div class="clr"></div>
+		<div class="logo"><p style="text-align: left" class="MsoNormal" align="left"><img src="#{resource['images/logoheader.jpg']}" alt="Astoria Flowers"></img> </p></div>
+
+	
+
+	</div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        <div id="content">
+                 <div id="leftcolumn">
+                 <br></br>
+		        </div>
+				
+				<div id="maincolumn">	
+				    <h:form  id="formcrear" prependId="false">
+            <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+            <h:panelGroup>
+            <p:panelGrid style="width: 500px">
+            
+    <f:facet name="header">
+        <p:row>
+            <p:column colspan="2"><h:outputText value="CATALOGO DE PRODUCTOS" /></p:column>
+        </p:row>
+        <p:row>
+            <p:column colspan="2"><div align="center"><h:outputText value="#{msg['label.compania']}" /></div></p:column>
+    </p:row>
+    </f:facet>
+    
+    
+    
+    <p:row>
+        <p:column colspan="2" styleClass="ui-widget-header">
+            <p:spacer height="0"/>
+        </p:column>
+    </p:row>
+     <p:row>
+        			<p:column><h:outputLabel value="#{msg['label.tipoflor']}:"/></p:column>
+        			<p:column colspan="3"><p:selectOneMenu value="#{catalogoMB.padre}" id="padre">
+        							<f:selectItem itemValue="" itemLabel="#{msg['label.seleccioneopcion']}"/> 
+        							<f:selectItems value="#{catalogoMB.listaTiposFlor}" />
+    						   </p:selectOneMenu>  </p:column>
+    						   
+    						   
+        			        			
+    </p:row>
+    
+     <p:row>
+           		<p:column> <h:outputLabel value="#{msg['label.color']}:"/></p:column>
+       	   		<p:column><p:selectOneMenu id="colores" value="#{catalogoMB.idColor}" >
+            						<f:selectItem itemLabel="#{msg['label.seleccioneopcion']}" itemValue="" />
+            						<f:selectItems value="#{catalogoMB.coloresSelect}" />
+       				 	  </p:selectOneMenu>
+       	  		</p:column>
+
+    </p:row>
+     <p:row>
+    			<p:column colspan="2">
+    			<div align ="center">
+    				<p:commandButton id="addUser" value="#{msg['label.aceptar']}" action="#{catalogoMB.getCatalogo}" ajax="true" update="formcrear resultados"/>
+    			</div>	
+    			</p:column>
+    				
+     </p:row>
+     <p:row>
+     <p:column colspan="2"> <h:outputLabel id="resultados" value="** No hubo resultados para la consulta **" rendered="#{catalogoMB.noresultados}"/></p:column>
+     </p:row> 
+</p:panelGrid>
+  <p:dataTable var="item" value="#{catalogoMB.listavariedades}" rows="10"
+                         paginator="true"
+                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15" rendered="#{not empty catalogoMB.listavariedades}" style="width: 500px">
+        <p:column headerText="Flor" style="width: 20%">
+            <h:outputText value="#{item.nombreFlor}" />
+        </p:column>
+        <p:column headerText="Color" style="width: 20%">
+            <h:outputText value="#{item.nombreColor}" />
+        </p:column>
+ 
+        <p:column headerText="Variedad" style="width: 50%">
+            <h:outputText value="#{item.nombreVariedad}" />
+        </p:column>
+ 
+        <p:column headerText="#{msg['label.foto']}" style="width: 10%">
+    		<div align ="center">
+    		<p:commandLink update=":formcrear:detalle" oncomplete="PF('dialogo').show()" title="Vista" styleClass="ui-icon ui-icon-search">
+            	<f:setPropertyActionListener value="#{item}" target="#{catalogoMB.selectedDominio}" />
+        	</p:commandLink>
+        	</div>
+       </p:column>
+ 
+        
+    </p:dataTable>  
+    </h:panelGroup>         
+     <p:dialog header="Imagen" widgetVar="dialogo" modal="false" showEffect="blind" hideEffect="explode" resizable="false">
+        <p:outputPanel id="detalle" style="text-align:center;">
+            <p:panelGrid  columns="1" rendered="#{not empty catalogoMB.selectedDominio}" columnClasses="label,value">
+                <f:facet name="header">
+                    <h:graphicImage value="/images/dynamic/?file=#{catalogoMB.selectedDominio.url}"/>
+                </f:facet>
+ 
+                <h:outputText value="#{catalogoMB.selectedDominio.nombreVariedad}" />
+
+ 
+               
+            </p:panelGrid>
+        </p:outputPanel>
+    </p:dialog>        
+            
+                    
+            </h:form>		
+		        </div>
+			
+				<div id="rightcolumn">
+		        </div>
+				<div class="clr"></div>
+        
+        
+        
+           
+        </div>
+
+    </h:body>
+    </html>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+									
+				
+	
+		
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

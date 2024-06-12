@@ -1,0 +1,21 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:form>
+	<p:commandLink value="qqDo Actsdsdion" actionListener="#{usuarioMB.editar}">
+	<f:param name="eventId"
+                     value="3" />
+	</p:commandLink>
+	
+	<p:commandButton actionListener="#{usuarioMB.editar}" value="aceptarrr">
+	     <f:param name="action" value="delete" />
+</p:commandButton>
+
+<p:commandButton value="Save" actionListener="#{usuarioMB.editar}" async="true" ajax="true" update="@form">
+   <f:attribute name="parameter" value="composeTheParameters()"/>
+</p:commandButton> 
+</h:form>
+</html>

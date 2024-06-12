@@ -1,0 +1,1351 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui">
+        
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+		<title>SISCOMFLOR</title>
+        
+     <h:head>
+
+       <!--  <h:outputStylesheet library="css" name="styles.css" /> -->
+        <h:outputStylesheet name="webjars/primeflex/2.0.0/primeflex.css" />
+
+    </h:head>
+    
+    <style type="text/css">
+    .box,
+    .sample-layout > div {
+        background-color: #cce4f7;
+        text-align: center;
+        padding-top: 1em;
+        padding-bottom: 1em;
+        border-radius: 4px;
+        
+    }
+ 
+    .box-stretched {
+        height: 100%;
+    }
+ 
+    .sample-layout {
+        margin: 0;
+    }
+ 
+    .sample-layout > div {
+        border: 1px solid #ffffff;
+    }
+ 
+    .vertical-container {
+        margin: 0;
+        height: 200px;
+        background: #efefef;
+        border-radius: 4px;
+    }
+ 
+    .nested-grid .p-col-4 {
+        padding-bottom: 1em;
+    }
+    
+   .p-grid {
+  width: 100%;
+  height:100%;
+  border: 1px solid black;
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  padding: 10px;
+}
+.container {
+  background: red;
+  height: 100%;
+}
+#top{
+      height:10%;
+      width: 100%;
+      background-color: gray;
+    }
+#left{
+      height:85%;
+      width: 100%;
+
+    }
+#centro{
+      height:85%;
+      width: 100%;
+      overflow-y: scroll;
+    }
+#bottom{
+
+      width: 100%;
+      background-color:#FFFFFF;
+      bottom: 0;
+      position:fixed;
+    }
+    html, body{
+      height:100%;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+</style>
+    
+    
+
+    <h:body style="background-color:#FFFFFF;">
+
+        <div id="header">
+
+            <ui:include src="../main/templates/header.xhtml" />
+
+        </div>
+        
+        <div id='centro'>
+            <div id="left" style='float: left; width: 15%'>
+                <ui:include src="../main/templates/menu.xhtml" />
+            </div>
+            <div id="content" class="left_content" style='float: right; width: 85%'>
+                        <!-- inicio del form interno -->
+						<h:form id="formcrear" >
+        <p:growl id="growl" sticky="true" showDetail="true"/>
+       <p:wizard flowListener="#{invoicePedidoMB.onFlowProcess}">
+       <p:tab id="generales" title="#{msg['titulo.datoscliente']}">
+       				<p:panel header="Datos generales">
+       <h:panelGrid columns="4" >
+       <h:outputLabel value="#{msg['label.paisorigen']} : "/>
+       <p:selectOneMenu id="paises" value="#{invoicePedidoMB.idPais}" disabled="true">
+            						<f:selectItem itemLabel="#{msg['label.seleccioneopcion']}" itemValue="" />
+            						<f:selectItems value="#{invoicePedidoMB.listaPaisesDom}" />
+            						<p:ajax listener="#{invoicePedidoMB.getCiudadesPais}" update="ciudades"/>
+       </p:selectOneMenu>
+       
+       <h:outputLabel value="#{msg['label.ciudadorigen']} : "/>
+       <p:selectOneMenu id="ciudades" value="#{invoicePedidoMB.idCiudad}" disabled="true">
+            						<f:selectItem itemLabel="#{msg['label.seleccioneopcion']}" itemValue="" />
+            						<f:selectItems value="#{invoicePedidoMB.listaCiudadesDom}" />
+       </p:selectOneMenu>
+       
+        <h:outputLabel value="#{msg['label.paisdestino']} : "/>
+       <p:selectOneMenu id="paisesdestino" value="#{invoicePedidoMB.idPaisDestino}" disabled="true">
+            						<f:selectItem itemLabel="#{msg['label.seleccioneopcion']}" itemValue="" />
+            						<f:selectItems value="#{invoicePedidoMB.listaPaisesDom}" />
+            						<p:ajax listener="#{invoicePedidoMB.getCiudadesPaisDestino}" update="ciudadesdestino"/>
+       </p:selectOneMenu>
+       
+       <h:outputLabel value="#{msg['label.ciudaddestino']} : "/>
+       <p:selectOneMenu id="ciudadesdestino" value="#{invoicePedidoMB.idCiudadDestino}" disabled="true">
+            						<f:selectItem itemLabel="#{msg['label.seleccioneopcion']}" itemValue="" />
+            						<f:selectItems value="#{invoicePedidoMB.listaCiudadesDestinoDom}" />
+       </p:selectOneMenu>
+       
+       <h:outputLabel value="#{msg['label.cliente']} : "/> 
+       <p:selectOneMenu id="cliente" value="#{invoicePedidoMB.idCliente}" disabled="true">
+            						<f:selectItem itemLabel="#{msg['label.seleccioneopcion']}" itemValue="" />
+            						<f:selectItems value="#{invoicePedidoMB.clientesSelect}" />
+       </p:selectOneMenu>
+       <h:outputLabel value="#{msg['label.fechadespacho']} : "/>
+       <p:calendar id="fechadespacho" value="#{invoicePedidoMB.fechadespacho}" pattern="yyyy-MM-dd" mask="true" disabled="true"/>
+        <h:outputLabel value="#{msg['label.fechallegada']} : "/>
+       <p:calendar id="fechallegada" value="#{invoicePedidoMB.fechallegada}" pattern="yyyy-MM-dd" mask="true" disabled="true"/>
+       <h:outputLabel value="#{msg['label.fechallegadafinal']} : "/>
+       <p:calendar id="fechallegadafinal" value="#{invoicePedidoMB.fechallegadafinal}" pattern="yyyy-MM-dd" mask="true" disabled="true"/>
+       <h:outputLabel value="#{msg['label.observaciones']} : "/>
+       <p:inputTextarea rows="10" cols="50" id="observaciones" value="#{invoicePedidoMB.observaciones}" readonly="true"/>
+       <h:outputLabel value="#{msg['label.programado']} : "/>
+       <p:selectBooleanCheckbox id="idProgramado" value="#{invoicePedidoMB.programado}" disabled="true">
+       	    <p:ajax update ="dias" listener="#{invoicePedidoMB.programar}" />
+       </p:selectBooleanCheckbox>
+       
+    </h:panelGrid>
+    <p:outputPanel autoUpdate="true">
+    <p:outputPanel id="dias" rendered="#{invoicePedidoMB.programado}">
+    <p:panelGrid columns="4">
+    <p:column><h:outputLabel value="#{msg['label.diasdespacho']} : "/></p:column>
+        			<p:column colspan="3">
+        			  <p:panelGrid colums="14">
+        			     <p:row>
+        			           <p:column><h:outputLabel value="#{msg['label.lunes']} : "/></p:column>
+        			           <p:column><p:selectBooleanCheckbox id="lunes" value="#{invoicePedidoMB.lunes}" /></p:column>
+        			           <p:column><h:outputLabel value="#{msg['label.martes']} : "/></p:column>
+        			           <p:column><p:selectBooleanCheckbox id="martes" value="#{invoicePedidoMB.martes}" /></p:column>
+        			           <p:column><h:outputLabel value="#{msg['label.miercoles']} : "/></p:column>
+        			           <p:column><p:selectBooleanCheckbox id="miercoles" value="#{invoicePedidoMB.miercoles}" /></p:column>
+        			           <p:column><h:outputLabel value="#{msg['label.jueves']} : "/></p:column>
+        			           <p:column><p:selectBooleanCheckbox id="jueves" value="#{invoicePedidoMB.jueves}" /></p:column>
+        			           <p:column><h:outputLabel value="#{msg['label.viernes']} : "/></p:column>
+        			           <p:column><p:selectBooleanCheckbox id="viernes" value="#{invoicePedidoMB.viernes}" /></p:column>
+        			           <p:column><h:outputLabel value="#{msg['label.sabado']} : "/></p:column>
+        			           <p:column><p:selectBooleanCheckbox id="sabado" value="#{invoicePedidoMB.sabado}" /></p:column>
+        			           <p:column><h:outputLabel value="#{msg['label.domingo']} : "/></p:column>
+        			           <p:column><p:selectBooleanCheckbox id="domingo" value="#{invoicePedidoMB.domingo}" /></p:column>
+        			     </p:row>
+        			  </p:panelGrid>
+        			</p:column>
+       
+       </p:panelGrid>
+       </p:outputPanel>
+       </p:outputPanel>
+		</p:panel>
+       				
+		</p:tab>
+		
+				
+		       <p:tab id="original" title="#{msg['label.pedidoconciliado']} #{invoicePedidoMB.idPedido}">
+    		<p:panel header="#{msg['label.detallespedidoconciliado']} #{invoicePedidoMB.idPedido}" id="datosgeneralesoriginal">
+    		
+     <h:panelGrid columns="4" >
+       <h:outputLabel value="#{msg['label.cliente']} : "/> 
+       <p:selectOneMenu id="cliente3" value="#{invoicePedidoMB.idCliente}" disabled="true">
+            						<f:selectItem itemLabel="#{msg['label.seleccioneopcion']}" itemValue="" />
+            						<f:selectItems value="#{invoicePedidoMB.clientesSelect}" />
+       </p:selectOneMenu>
+       <h:outputLabel value="#{msg['label.fechadespacho']} : "/>
+       <p:calendar id="fechadespacho3" value="#{invoicePedidoMB.fechadespacho}" pattern="yyyy-MM-dd" mask="true" disabled="true"/>
+       
+    </h:panelGrid>		
+    <h:panelGrid >
+    <p:dataTable var="item" value="#{invoicePedidoMB.detallesPedidoConciliado}" id="listatoriginal" widgetVar="listatoriginal" rowStyleClass="#{item.num !=  null ? 'highlight1' : 'highlight2'}">
+
+			<f:facet name="header">
+           			#{msg['label.detalledefinitivo']}
+       		</f:facet>
+       		<p:column headerText="#{msg['label.plantacion']}">
+        		<h:outputText value="#{item.nombreplantacion}" />
+     		</p:column>
+     		<p:column headerText="#{msg['label.composicion']}">
+        		<h:outputText value="#{item.nombrecomposicion}" />
+     		</p:column>
+     		<p:column headerText="#{msg['label.tipo']}">
+        		<h:outputText value="#{item.nombretipo}" />
+     		</p:column>
+    		<p:column headerText="#{msg['label.producto']}">
+        		<h:outputText value="#{item.nombrevariedad}" />
+     		</p:column>
+     		
+     		<p:column headerText="#{msg['label.grado']}">
+        		<h:outputText value="#{item.nombregrado}" />
+     		</p:column>
+     		<p:column headerText="#{msg['label.cantidadfull']}">
+        		<h:outputText value="#{item.cantidadfull}" />
+     		</p:column>
+     		<p:column headerText="#{msg['label.packing']}">
+				<h:outputText value="#{item.packing}" />
+     		</p:column>
+     		<p:column headerText="#{msg['label.unidades']}">
+				<h:outputText value="#{item.tallosporfull}" />
+     		</p:column>
+     		
+     		
+ 
+    		<p:column headerText="#{msg['label.precioplantacion']}">
+						<h:outputText value="#{item.precio}" />
+    		</p:column>
+    		<p:column headerText="#{msg['label.comisioncorto']}">
+						<h:outputText value="#{item.comision}" />
+    		</p:column>
+    		<p:column headerText="#{msg['label.preciototal']}">
+        		<h:outputText value="#{uMB.format(item.preciototal)}" />
+     		</p:column>
+     		<p:column headerText="#{msg['label.observaciones']}">
+        		<p:inputTextarea rows="3" cols="15" id="observaciones" value="#{item.observaciones}" readonly="true"/>
+     		</p:column>
+     		<p:columnGroup type="footer">
+  <p:row>
+    <p:column colspan="5" footerText="#{msg['label.totalmayusculas']}:" style="text-align:left"/>
+    <p:column footerText="#{invoicePedidoMB.totalBoxesConciliado}" />
+    <p:column>
+    </p:column>
+    <p:column footerText="#{invoicePedidoMB.totalUnidadesConciliado}" />
+            <p:column>
+            </p:column>
+            <p:column>
+            </p:column>
+            <p:column footerText="#{uMB.format(invoicePedidoMB.totalPrecioConciliado)}" />
+            <p:column>
+             </p:column>
+             
+  </p:row>
+</p:columnGroup>      
+	</p:dataTable>
+    </h:panelGrid>
+   </p:panel>
+ </p:tab>
+
+       <p:tab id="detalles" title="#{msg['label.pedido']}">
+    		<p:panel header="#{msg['label.detallespedidofacturado']}" id="datosgenerales">
+    		
+    		<p:panelGrid>
+    		<f:facet name="header">
+        			#{msg['label.encabezadofactura']}
+    		</f:facet>
+    		<p:row>
+    				<p:column>
+    				</p:column>  
+    				<p:column>		    
+    				</p:column>  
+    				<p:column>		    
+    				</p:column> 
+    				<p:column>		    
+    				</p:column> 
+    				<p:column colspan="2">	
+    					      <h:outputLabel value="INVOICE:"/>
+    				</p:column> 
+    				<p:column>
+    				          <h:outputLabel value="#{invoicePedidoMB.numinvoice}"/>
+    				</p:column> 		    
+	    
+    				
+    		</p:row>
+    		<p:row>
+    		
+    				<p:column>
+    				       <h:outputLabel value="CLIENT:"/>
+    				</p:column> 
+    				<p:column colspan="3">	
+    				       <p:inputText id="client" value="#{invoicePedidoMB.client}" size="45" maxlength="45"/> 	
+    				</p:column>  
+    				<p:column>		    
+    				</p:column>  
+    				<p:column>		    
+    				</p:column> 
+    				<p:column> 
+    				</p:column> 
+		    
+    				    
+    		</p:row>
+    		<p:row>
+    				<p:column>
+    				       <h:outputLabel value="CUSTOMER:"/>
+    				</p:column>  
+    				<p:column colspan="3">	
+    				       <p:selectOneMenu id="cliente2" value="#{invoicePedidoMB.idCliente2}" disabled="true">
+            						<f:selectItem itemLabel="#{msg['label.seleccioneopcion']}" itemValue="" />
+            						<f:selectItems value="#{invoicePedidoMB.clientesSelect}" />
+       						</p:selectOneMenu>	
+    				</p:column>  
+    				<p:column>		    
+    				</p:column>  
+    				<p:column>
+    				       <h:outputLabel value="DATE:"/>
+    				</p:column> 
+    			    <p:column>	
+    				       <p:calendar id="fechafactura" value="#{invoicePedidoMB.fechafactura}" pattern="yyyy-MM-dd" mask="true"/>
+    				</p:column> 		    
+    				
+    		</p:row>
+    		<p:row>
+    				<p:column>
+    				          <h:outputLabel value="BOXES ID:"/>
+    				</p:column>  
+    				<p:column colspan="3">
+    				          <h:outputLabel value="#{invoicePedidoMB.boxesid}"/>		    
+    				</p:column>  
+    				<p:column>		    
+    				</p:column>  
+    				<p:column>		    
+    				</p:column> 
+    				<p:column> 		    
+    				</p:column>  
+    		</p:row>		
+    		<p:row>
+    		  		<p:column>
+    				</p:column>  
+    				<p:column>		    
+    				</p:column>  
+    				<p:column>		    
+    				</p:column>  
+    				<p:column>		    
+    				</p:column> 
+    				<p:column> 		    
+    				</p:column>  
+    				<p:column>		    
+    				</p:column>  	
+    				<p:column>	    
+    				</p:column>  
+    		</p:row>
+    				
+    		
+    		</p:panelGrid>
+   <p:panelGrid style="margin-top:20px" columns="8" columnClasses="left">
+                    
+                  
+                    
+                    <p:column style = "text-align: center">
+       				<h:outputLabel value="#{msg['label.plantacion']}"/>
+       				</p:column>
+       				
+       				<p:column style = "text-align: center">
+        			<p:selectOneMenu value="#{invoicePedidoMB.idPlantacion}" id="plantacion" effect="fade" filter="true" filterMatchMode="startsWith">
+        							<f:selectItem itemValue="" itemLabel="#{msg['label.seleccioneopcion']}"/> 
+        							<f:selectItems value="#{invoicePedidoMB.listaPlantacionesSelect}" />
+        							<p:ajax listener="#{invoicePedidoMB.getPackingPlantacion}" update="cpacking cantidad formcrear:eventsDT"/>
+    			    </p:selectOneMenu>
+    			    </p:column >
+       				
+       				
+                    <p:column  style = "text-align: center">
+       				<h:outputLabel value="#{msg['label.cantidadfull']}"/>
+       				</p:column>
+       				
+       				<p:column style = "text-align: center">
+       				<p:inputText id="cantidadfull" value="#{invoicePedidoMB.cantidadfull}"  size="4">
+       				  <p:ajax event="blur" update="cantidad" listener="#{invoicePedidoMB.multiplica}" />
+       				</p:inputText>
+       				</p:column>
+       				
+       				<p:column style = "text-align: center">
+    			    <h:outputLabel value="#{msg['label.packing']}"/>
+    			    </p:column>
+    			    
+    			     <p:column style = "text-align: center">
+       				<p:inputText id="cpacking" value="#{invoicePedidoMB.packing}"  size="4">
+       				    <p:ajax event="blur" update="cantidad" listener="#{invoicePedidoMB.multiplica}" />
+       				</p:inputText>
+       				</p:column>
+       				
+       				<p:column style = "text-align: center">
+    			     <table>	
+    			    <tr>
+    			    <td>
+    			        <h:outputLabel value="#{msg['label.cantidadtallos']}"/>
+    			    </td>
+    			    <td>	    
+       				   <p:inputText id="cantidad" value="#{invoicePedidoMB.cantidad}"  size="4" readonly="true"></p:inputText>
+       				
+       				</td>
+        	        </tr>
+        	        </table>	 
+       				</p:column> 
+       			    <p:column style = "text-align: center">
+    			    
+    			    </p:column>
+    		 
+                    
+        			<p:column style = "text-align: center">
+    			    	<h:outputLabel value="#{msg['label.codigo']}"/>
+    			    </p:column>
+    			     <p:column style = "text-align: center">
+    			    <table>	
+    			    <tr>
+    			    <td>
+    			    
+    			    	<p:inputText id="codigo" value="#{invoicePedidoMB.codigo}"  size="6" onkeyup="if (event.keyCode != 13) return false;">
+    			    		<p:ajax event="blur" update="nombrepro" listener="#{invoicePedidoMB.handleKeyEvent}" />
+    			    	</p:inputText>
+    			    </td>
+    			   <td>	
+    			   		 <p:commandLink update="nombrepro codigo" oncomplete="PF('dialogo').show()" title="Vista" styleClass="ui-icon ui-icon-search" style="float:center;margin-right:10px">
+        	        	 </p:commandLink>
+        	       </td>
+        	        <td>	
+        	        	 <p:inputText value="#{invoicePedidoMB.nombreproducto}" id="nombrepro"/>
+        	       </td>
+        	        </tr>
+        	        </table>	 
+        	        </p:column>
+        	        <p:column style = "text-align: center">	
+       				<h:outputLabel value="#{msg['label.unidades']}"/>
+       				</p:column>
+       				
+       				<p:column style = "text-align: center">
+       				<p:inputText id="cantidadxfull" value="#{invoicePedidoMB.cantidadxfull}"  size="6">
+       				</p:inputText>
+       				</p:column>
+       				
+       				<p:column style = "text-align: center">
+       				<h:outputLabel value="#{msg['label.precioplantacion']}"/>
+       				</p:column>
+       		
+       		        <p:column style = "text-align: center">
+    			    	<p:inputText id="precio" value="#{invoicePedidoMB.precio}"  size="7">
+    			    	    <p:ajax event="blur" update="precio comision preciomascomision" listener="#{invoicePedidoMB.multiplica3}" />
+    			    	</p:inputText>
+        	        </p:column>
+       				
+       					<p:column style = "text-align: center">
+       					    <table>	
+    			    		<tr>
+    			    		<td>
+       					       <h:outputLabel value="#{msg['label.comisioncorto']}"/>
+       					   </td>
+       					   <td>
+       					      <p:inputText id="comision" value="#{invoicePedidoMB.comision}"  size="7">
+       					         <p:ajax event="blur" update="precio comision preciomascomision" listener="#{invoicePedidoMB.multiplica3}" />
+       					      </p:inputText>
+       					    </td>
+        	        		</tr>
+        	       			 </table>
+       				</p:column>
+       				
+    			    <p:column style = "text-align: center">	 
+    			     <table>	
+    			    		<tr>
+    			    		<td>
+    			    		<h:outputLabel value="#{msg['label.preciototal']}"/>
+       					   </td>
+       					   <td>
+        	        	   <p:inputText id="preciomascomision" value="#{uMB.format(invoicePedidoMB.precioconcomision)}"  size="7" readonly="true">
+        	        	      <p:ajax event="blur" update="precio comision preciomascomision" listener="#{invoicePedidoMB.multiplica3}" />
+        	        	   </p:inputText>
+        	                </td>
+        	        		</tr>
+        	        </table>	    
+        	        </p:column>
+       				 <p:column>
+       				 </p:column>
+       				  <p:column>
+       				 </p:column>
+       				  <p:column>
+       				 </p:column>
+       				  <p:column colspan="2">
+       				     <div align="center">
+                				<p:commandButton id="subirdetalle" value="#{msg['label.aceptar']}" action="#{invoicePedidoMB.subirDetalle}" ajax="true"  update="formcrear:listatemporal"/>
+         				 </div>
+       				 </p:column>
+       				  <p:column>
+       				 </p:column>
+       				  <p:column>
+       				 </p:column>
+       				  <p:column>
+       				 </p:column>
+	</p:panelGrid>
+
+   
+       <h:panelGrid >
+    <p:dataTable var="itemdetalle" value="#{invoicePedidoMB.detallesTemporal}" id="listatemporal" widgetVar="wlistatemporal" editable="true" editMode="cell">
+
+			<f:facet name="header">
+           			#{msg['label.detalletemporal']}
+       		</f:facet>
+       		<p:ajax event="cellEdit" listener="#{invoicePedidoMB.onCellEdit}" update="listatemporal"/>
+       		
+    		<p:column headerText="#{msg['label.producto']}">
+        		<h:outputText value="#{itemdetalle.nombrevariedad}" />
+     		</p:column>
+     		
+     		<p:column headerText="#{msg['label.grado']}">
+        		<h:outputText value="#{itemdetalle.nombregrado}" />
+     		</p:column>
+     		
+     		<p:column headerText="#{msg['label.unidades']}">
+				<p:cellEditor>
+                  <f:facet name="output"><h:outputText value="#{itemdetalle.unidades}"/></f:facet>
+                  <f:facet name="input"><p:inputText id="modelInputUnidades" value="#{itemdetalle.unidades}" style="width:96%">
+                                         <p:ajax event="blur" update="listatemporal" listener="#{invoicePedidoMB.multiplica2}" />
+                                        </p:inputText>                      
+                  </f:facet>
+               </p:cellEditor>
+     		</p:column>
+     		
+    		<p:column headerText="#{msg['label.precioplantacion']}">
+				<p:cellEditor>
+                  <f:facet name="output"><h:outputText value="#{itemdetalle.precio}"/></f:facet>
+                  <f:facet name="input"><p:inputText id="modelInputPrecio" value="#{itemdetalle.precio}" style="width:96%">
+                  							<p:ajax event="blur" update="listatemporal" listener="#{invoicePedidoMB.multiplica2}" />
+                                        </p:inputText>
+                  </f:facet>
+               </p:cellEditor>
+    		</p:column>
+    		<p:column headerText="#{msg['label.comisioncorto']}">
+				<p:cellEditor>
+                  <f:facet name="output"><h:outputText value="#{itemdetalle.comision}"/></f:facet>
+                  <f:facet name="input"><p:inputText id="modelInputComision" value="#{itemdetalle.comision}" style="width:96%">
+                  							<p:ajax event="blur" update="listatemporal" listener="#{invoicePedidoMB.multiplica2}" />
+                                        </p:inputText>
+                  </f:facet>
+               </p:cellEditor>
+    		</p:column>
+    		<p:column headerText="#{msg['label.preciototal']}">
+					<h:outputText value="#{uMB.format((itemdetalle.comision + itemdetalle.precio) * itemdetalle.unidades)}"/>
+                  
+    		</p:column>
+    		
+    		<p:column headerText="#{msg['label.borrar']}">
+					<p:commandButton icon="ui-icon ui-icon-trash" actionListener="#{invoicePedidoMB.eliminar(itemdetalle)}"  ajax="true"  value="Eliminar" update="listatemporal">
+					</p:commandButton>
+    		</p:column>
+  		    
+    		
+	</p:dataTable>
+
+          <div align="center">
+             <p:commandButton id="subirTotal" value="#{msg['label.aceptar']}" action="#{invoicePedidoMB.subir}" ajax="true"  update="listat datosgenerales formcrear:listatemporal"/>
+          </div>
+
+    </h:panelGrid>
+   
+   
+   
+   
+   
+   
+   
+    <h:panelGrid >
+    <p:dataTable var="item" value="#{invoicePedidoMB.detallesPedido}" id="listat" editable="true" editMode="cell" widgetVar="wlistat" rowIndexVar="rowIndex"  rowStyleClass="#{item.num !=  null ? 'highlight1' : 'highlight2'}" >
+
+			<f:facet name="header">
+			<p:column colspan="10">#{msg['label.detalledefinitivo']}</p:column>
+           			
+       		</f:facet>
+       		
+       		<p:ajax event="cellEdit" listener="#{invoicePedidoMB.onCellEdit}" update="listat"/>
+       		<p:column headerText="#{msg['label.plantacion']}" style="width:18%">
+        		<p:cellEditor>
+               <f:facet name="output"><h:outputText value="#{item.nombreplantacion}" /></f:facet>
+               <f:facet name="input">
+                   <h:selectOneMenu value="#{item.nombreplantacion}" style="width:100%" rendered="#{item.tipocomposicion == null}">
+                       <f:selectItems value="#{invoicePedidoMB.listaPlantacionesSelect}" var="plan" itemlabel="#{plan.label}" itemValue="#{plan.label}"/>
+                   </h:selectOneMenu>
+               </f:facet>
+           </p:cellEditor>
+     		</p:column>
+     		<p:column headerText="#{msg['label.bodega']}" style="width:5%">
+				<p:cellEditor>
+                   <f:facet name="output"><h:outputText value="#{item.bodega}" /></f:facet>
+                   <f:facet name="input"><p:inputText value="#{item.bodega}" style="width:96%" rendered="#{item.tipocomposicion != null}">
+                  				 			
+                   						</p:inputText>
+                   </f:facet>
+                </p:cellEditor>
+     		</p:column>
+     		<p:column headerText="#{msg['label.composicion']}" style="width:5%">
+        		<h:outputText value="#{item.nombrecomposicion}" />
+     		</p:column>
+     		<p:column headerText="#{msg['label.tipo']}" style="width:5%">
+        		<h:outputText value="#{item.nombretipo}" />
+     		</p:column>
+    		<p:column headerText="#{msg['label.producto']}" style="width:11%">
+        		<h:outputText value="#{item.nombrevariedad}" />
+     		</p:column>
+     		
+     		<p:column headerText="#{msg['label.grado']}" style="width:7%">
+        		<h:outputText value="#{item.nombregrado}" />
+     		</p:column>
+     		<p:column headerText="#{msg['label.cantidadfull']}" style="width:5%">
+        		<p:cellEditor>
+                   <f:facet name="output"><h:outputText value="#{item.cantidadfull}" /></f:facet>
+                   <f:facet name="input"><p:inputText value="#{item.cantidadfull}" style="width:96%" rendered="#{item.tipocomposicion != null}">
+                  				            <p:ajax event="blur" update="listat formcrear:idcostos formcrear:tf1 formcrear:tf2 formcrear:tf3 formcrear:tf4 formcrear:tf5" listener="#{invoicePedidoMB.getNuevaLista}" />
+                   			             </p:inputText>
+                   </f:facet>
+                </p:cellEditor>
+     		</p:column>
+     		<p:column headerText="#{msg['label.packing']}" style="width:5%">
+				<p:cellEditor>
+                   <f:facet name="output"><h:outputText value="#{item.packing}" /></f:facet>
+                   <f:facet name="input"><p:inputText value="#{item.packing}" style="width:96%" rendered="#{item.tipocomposicion != null}"/></f:facet>
+                </p:cellEditor>
+     		</p:column>
+     		<p:column headerText="#{msg['label.piezas']}" style="width:5%">
+				<p:cellEditor>
+                   <f:facet name="output"><h:outputText value="#{item.piezas}" /></f:facet>
+                   <f:facet name="input"><p:inputText value="#{item.piezas}" style="width:96%" rendered="#{item.tipocomposicion != null}">
+                  				 			<p:ajax event="blur" update="listat formcrear:idcostos formcrear:idpiezas1" listener="#{invoicePedidoMB.getNuevaLista}" />
+                   						</p:inputText>
+                   </f:facet>
+                </p:cellEditor>
+     		</p:column>
+     		
+     		<p:column headerText="#{msg['label.unidades']}" style="width:5%">
+				
+				<p:cellEditor>
+                   <f:facet name="output"><h:outputText value="#{item.tallosporfull}" /></f:facet>
+                   <f:facet name="input">
+                            <p:inputText value="#{item.tallosporfull}" style="width:96%" rendered="#{item.tipocomposicion == null}">
+                  				 <p:ajax event="blur" update="formcrear:datosgenerales formcrear:listatemporal listat formcrear:idcostos formcrear:tf1 formcrear:tf2 formcrear:tf3 formcrear:tf4 formcrear:tf5" listener="#{invoicePedidoMB.getNuevaLista}" />
+                   			</p:inputText>
+                   </f:facet>
+                </p:cellEditor>
+     		</p:column>
+     		
+     		
+ 
+    		<p:column headerText="#{msg['label.precioplantacion']}" style="width:5%">
+						<p:cellEditor>
+                   			<f:facet name="output"><h:outputText value="#{item.precio}" /></f:facet>
+                   			<f:facet name="input">
+                   			<p:inputText value="#{item.precio}" style="width:96%" rendered="#{item.tipocomposicion == null}">
+                   			     <p:ajax event="blur" update="formcrear:datosgenerales formcrear:listatemporal listat formcrear:idcostos formcrear:tf1 formcrear:tf2 formcrear:tf3 formcrear:tf4 formcrear:tf5" listener="#{invoicePedidoMB.getNuevaLista}" />
+                   			</p:inputText>     
+                   			</f:facet>
+                		</p:cellEditor>
+    		</p:column>
+    		<p:column headerText="#{msg['label.comisioncorto']}" style="width:5%">
+						<p:cellEditor>
+                   			<f:facet name="output"><h:outputText value="#{item.comision}" /></f:facet>
+                   			<f:facet name="input">
+                   			<p:inputText value="#{item.comision}" style="width:96%" rendered="#{item.tipocomposicion == null}">
+                   			     <p:ajax event="blur" update="formcrear:datosgenerales formcrear:listatemporal listat formcrear:idcostos formcrear:tf1 formcrear:tf2 formcrear:tf3 formcrear:tf4 formcrear:tf5" listener="#{invoicePedidoMB.getNuevaLista}" />
+                   			</p:inputText>     
+                   			</f:facet>
+                		</p:cellEditor>
+    		</p:column>
+    		<p:column headerText="#{msg['label.preciototal']}" style="width:5%">
+        		<h:outputText value="#{uMB.format(item.preciototal)}" />
+        		
+     		</p:column>
+     		<p:column headerText="#{msg['label.invoicecorto']}" style="width:5%">
+				<p:cellEditor>
+                   <f:facet name="output"><h:outputText value="#{item.invoice}" /></f:facet>
+                   <f:facet name="input"><p:inputText value="#{item.invoice}" style="width:96%" rendered="#{item.tipocomposicion != null}"/></f:facet>
+                </p:cellEditor>
+     		</p:column>
+     		
+     		<p:column headerText="#{msg['label.observaciones']}" style="width:10%">
+						<p:cellEditor>
+                   			<f:facet name="output"><h:outputText value="#{item.observaciones}" /></f:facet>
+                   			<f:facet name="input">
+                   			<p:inputTextarea rows="2" cols="15" id="observaciones" value="#{item.observaciones}"/>     
+                   			</f:facet>
+                		</p:cellEditor>
+    		</p:column>
+    		<p:column headerText="" style="width:2%">
+					            	<p:commandLink update="listat formcrear:cpacking formcrear:cantidad formcrear:plantacion formcrear:tf1 formcrear:tf2 formcrear:tf3 formcrear:tf4 formcrear:tf5" actionListener = "#{invoicePedidoMB.eliminar2(item)}" styleClass="ui-icon ui-icon-trash" style="float:center;margin-right:10px" rendered="#{item.detalle}">
+        	        	 			</p:commandLink>
+        	        	 		
+    		</p:column>
+    		<p:column headerText="" style="width:2%">
+					      			<p:commandLink update="listat formcrear:listatemporal formcrear:cantidadfull formcrear:cpacking formcrear:cantidad formcrear:plantacion formcrear:tf1 formcrear:tf2 formcrear:tf3 formcrear:tf4 formcrear:tf5 formcrear:eventsDT" actionListener = "#{invoicePedidoMB.retomar(item)}" styleClass="ui-icon ui-icon-pencil" style="float:center;margin-right:10px" rendered="#{item.detalle}">
+        	        	 			</p:commandLink>
+        	        	 		
+    		</p:column>
+	         		
+     		<p:columnGroup type="footer">
+  <p:row>
+    <p:column colspan="6" footerText="#{msg['label.totalmayusculas']}" style="text-align:left"/>
+    <p:column footerText="#{invoicePedidoMB.totalBoxes}" />
+    <p:column></p:column>
+    <p:column footerText="#{invoicePedidoMB.totalPiezas}" />
+    <p:column footerText="#{invoicePedidoMB.totalUnidades}" />
+    <p:column></p:column>
+    <p:column></p:column>
+    <p:column footerText="#{uMB.format(invoicePedidoMB.preciototalflor)}" />
+    <p:column></p:column>
+    <p:column></p:column>
+    <p:column></p:column>
+    <p:column></p:column>
+    <p:column></p:column>
+            
+  </p:row>
+</p:columnGroup>
+
+     
+    	
+            
+
+</p:dataTable>
+
+<p:panelGrid style="width:100%" id="idpiezas1">
+    		<f:facet name="header">
+        			<p:row>
+    				<p:column colspan="4">
+    				  <h:outputLabel value="Piezas"/>
+    				</p:column>  
+       		        </p:row>
+    		</f:facet>
+    		<p:row>
+    				<p:column>
+    				  <h:outputLabel value="Piezas de pedido : #{invoicePedidoMB.totalPiezas}"/>
+    				</p:column>
+    				<p:column>
+    				  <h:outputLabel value="Piezas Adicionales :"/>
+    				</p:column>  
+    				<p:column>	
+    					<p:inputText id="piezasadd" value="#{invoicePedidoMB.totalPiezasAdicional}" size="5" maxlength="5">
+    						<p:ajax event="blur" update="listat formcrear:idcostos formcrear:idpiezas1" listener="#{invoicePedidoMB.getNuevaLista}" />
+                   		</p:inputText>
+    				</p:column>  
+    				<p:column>
+    				  <h:outputLabel value="Total Piezas : #{invoicePedidoMB.totalPiezas + invoicePedidoMB.totalPiezasAdicional}"/>
+    				</p:column>
+    		</p:row>
+
+</p:panelGrid>
+
+<p:panelGrid style="width:100%">
+    		<f:facet name="header">
+        			<p:row>
+    				<p:column colspan="2">
+    				  <h:outputLabel value="#{msg['label.infocarga']}"/>
+    				</p:column>  
+       		        </p:row>
+    		</f:facet>
+    		<p:row>
+    				<p:column>
+    				  <h:outputLabel value="#{msg['label.awb']}"/>
+    				</p:column>  
+    				<p:column>	
+    					<p:inputText id="awb" value="#{invoicePedidoMB.awb}" size="45" maxlength="45"/>
+    				</p:column>  
+    		</p:row>
+    		
+    		<p:row>
+    				<p:column>
+    				  <h:outputLabel value="#{msg['label.forwarder']}"/>
+    				</p:column>  
+    				<p:column>	
+    					<p:selectOneMenu id="agencia" value="#{invoicePedidoMB.idAgencia}" filter="true" filterMatchMode="startsWith">
+            						<f:selectItem itemLabel="#{msg['label.seleccioneopcion']}" itemValue="" />
+            						<f:selectItems value="#{invoicePedidoMB.listaAgenciasSelect}"/>
+            						<p:ajax listener="#{invoicePedidoMB.getAerolineas}" update="aerolinea"/>
+       					</p:selectOneMenu>	    
+    				</p:column>  
+    		</p:row>
+    		
+    		<p:row>
+    				<p:column>
+    				  <h:outputLabel value="#{msg['label.airlaine']}"/>
+    				</p:column>  
+    				<p:column>	
+    					<p:selectOneMenu id="aerolinea" value="#{invoicePedidoMB.idAerolinea}" filter="true" filterMatchMode="startsWith">
+            						<f:selectItem itemLabel="#{msg['label.seleccioneopcion']}" itemValue="" />
+            						<f:selectItems value="#{invoicePedidoMB.listaAerolineasSelect}"/>
+            						<p:ajax listener="#{invoicePedidoMB.getPrecioCarga}" update="idcostos"/>
+       					</p:selectOneMenu>	    
+    				</p:column>  
+    		</p:row>
+    		
+    		<p:row>
+    				<p:column>
+    				  <h:outputLabel value="#{msg['label.handler']}"/>
+    				</p:column>  
+    				<p:column>	
+    					<p:selectOneMenu id="handler" value="#{invoicePedidoMB.idHandler}" filter="true" filterMatchMode="startsWith">
+            						<f:selectItem itemValue="" itemLabel="#{msg['label.seleccioneopcion']} "/> 
+        							<f:selectItems value="#{invoicePedidoMB.listaHandlersItem}" />
+        							<p:ajax listener="#{invoicePedidoMB.getTrucksHandler}" update=" idcostos truck tf1 tf2 tf3 tf4 tf5"/>
+       					</p:selectOneMenu>	    
+    				</p:column>  
+    		</p:row>
+    		
+    		<p:row>
+    				<p:column>
+    				  <h:outputLabel value="#{msg['label.truck']}"/>
+    				</p:column>  
+    				<p:column>	
+    					<p:selectOneMenu id="truck" value="#{invoicePedidoMB.idTruck}" filter="true" filterMatchMode="startsWith">
+            						<f:selectItem itemLabel="#{msg['label.seleccioneopcion']}" itemValue="" />
+            						<f:selectItems value="#{invoicePedidoMB.listaTrucksItem}" />
+       					</p:selectOneMenu>	    
+    				</p:column>  
+    		</p:row>
+    		
+    		</p:panelGrid>
+    		
+    		
+<p:panelGrid style="width:100%" id="idcostos">
+             <f:facet name="header">
+        			<p:row>
+    				<p:column colspan="2">
+    				  <h:outputLabel value="#{msg['label.infocostos']}"/>
+    				</p:column>  
+       		        </p:row>
+    		</f:facet>
+             <p:row>
+    			<p:column style="text-align:left">TOTAL COST OF FLOWER:</p:column>
+    			<p:column style="text-align:right"><h:outputLabel id="totales1" value="#{uMB.format(invoicePedidoMB.preciototalflor)}"/></p:column>
+    		</p:row>
+    		<p:row>
+    			<p:column style="text-align:left">TOTAL COST OF FLOWER (AST):</p:column>
+    			<p:column style="text-align:right"><h:outputLabel id="totales1ast" value="#{uMB.format(invoicePedidoMB.preciototalflorast)}"/></p:column>
+    		</p:row>
+    		
+    		<!--  Costos adicionales y variaciones en tarifas -->
+    		
+    		<p:row>
+    			<p:column style="text-align:left">Peso Astoria Kg :</p:column>
+    			<p:column style="text-align:right">
+    			
+    			    <table>
+                           <tr>
+                              <td>Peso Astoria</td>
+                              <td><p:inputText id="pesoast" value="#{invoicePedidoMB.pesoast}" size="5" maxlength="5">
+                                     <p:ajax event="blur" update="tf1 tf2 tf3 tf4 tf5" listener="#{invoicePedidoMB.getPrecioCarga3}" />
+                                  </p:inputText>
+                              </td> 
+                              <td>Valor</td>
+                              <td><p:inputText id="valorkgast" value="#{invoicePedidoMB.valorkgast}" size="6" maxlength="6">
+                                  	<p:ajax event="blur" update="tf1 tf2 tf3 tf4 tf5" listener="#{invoicePedidoMB.getPrecioCarga3}" />
+                                  </p:inputText>
+                              </td>
+                           </tr>  			    
+    			    </table>
+    			
+    			</p:column>
+    		</p:row>
+    		<p:row>
+    			<p:column style="text-align:left">Peso Cliente Kg :</p:column>
+    			<p:column style="text-align:right">
+    			
+    			    <table>
+                           <tr>
+                              <td>Peso Cliente</td>
+                              <td><p:inputText id="pesocli" value="#{invoicePedidoMB.pesoacli}" size="5" maxlength="5">
+                                    <p:ajax event="blur" update="tf1 tf2 tf3 tf4 tf5" listener="#{invoicePedidoMB.getPrecioCarga3}" />
+                                  </p:inputText>
+                              </td>
+                              <td>Valor</td>
+                              <td><p:inputText id="valorkgcli" value="#{invoicePedidoMB.valorkgcli}" size="6" maxlength="6">
+                                  <p:ajax event="blur" update="tf1 tf2 tf3 tf4 tf5" listener="#{invoicePedidoMB.getPrecioCarga3}" />
+                                  </p:inputText>
+                              </td>
+                           </tr>  			    
+    			    </table>
+    			
+    			</p:column>
+    		</p:row>
+    		<p:row>
+    			<p:column style="text-align:left">Precooling Cliente:</p:column>
+    			<p:column style="text-align:right">
+    			
+    			    <table>
+                           <tr>
+                              <td colspan="2"><p:inputText id="preculingclie" value="#{invoicePedidoMB.preculinclie}" size="5" maxlength="5">
+                                    <p:ajax event="blur" update="tf1 tf2 tf3 tf4 tf5 tf6 tf7" listener="#{invoicePedidoMB.getPrecioCarga5}" />
+                                  </p:inputText>
+                              </td>
+                              
+                           </tr>  			    
+    			    </table>
+    			
+    			</p:column>
+    		</p:row>
+    		<p:row>
+    			<p:column style="text-align:left">Precooling Astoria:</p:column>
+    			<p:column style="text-align:right">
+    			
+    			    <table>
+                           <tr>
+                              <td colspan="2"><p:inputText id="preculingast" value="#{invoicePedidoMB.preculinast}" size="5" maxlength="5">
+                                    <p:ajax event="blur" update="tf1 tf2 tf3 tf4 tf5 tf6 tf7" listener="#{invoicePedidoMB.getPrecioCarga5}" />
+                                  </p:inputText>
+                              </td>
+                             
+                           </tr>  			    
+    			    </table>
+    			
+    			</p:column>
+    		</p:row>
+    		<p:row rendered='#{invoicePedidoMB.concepto1trans != ""}'>
+    			<p:column style="text-align:left">#{invoicePedidoMB.concepto1trans} :</p:column>
+    			<p:column style="text-align:right">
+    			
+    			    <table>
+                           <tr>
+                              <td>Valor Cliente</td>
+                              <td><p:inputText id="concepto1" value="#{invoicePedidoMB.valorconcepto1trans}" size="5" maxlength="5">
+                                    <p:ajax event="blur" update="tf1 tf2 tf3 tf4 tf5" listener="#{invoicePedidoMB.getPrecioCarga3}" />
+                                  </p:inputText>
+                              </td>
+                              <td>Valor Astoria</td>
+                              <td><p:inputText id="concepto11" value="#{invoicePedidoMB.valorconcepto1transast}" size="6" maxlength="6">
+                                  <p:ajax event="blur" update="tf1 tf2 tf3 tf4 tf5" listener="#{invoicePedidoMB.getPrecioCarga3}" />
+                                  </p:inputText>
+                              </td>
+                           </tr>  			    
+    			    </table>
+    			
+    			</p:column>
+    		</p:row>
+    		<p:row rendered='#{invoicePedidoMB.concepto2trans != ""}'>
+    			<p:column style="text-align:left">#{invoicePedidoMB.concepto2trans} :</p:column>
+    			<p:column style="text-align:right">
+    			
+    			    <table>
+                           <tr>
+                              <td>Valor Cliente</td>
+                              <td><p:inputText id="concepto2" value="#{invoicePedidoMB.valorconcepto2trans}" size="5" maxlength="5">
+                                    <p:ajax event="blur" update="tf1 tf2 tf3 tf4 tf5" listener="#{invoicePedidoMB.getPrecioCarga3}" />
+                                  </p:inputText>
+                              </td>
+                              <td>Valor Astoria</td>
+                              <td><p:inputText id="concepto22" value="#{invoicePedidoMB.valorconcepto2transast}" size="6" maxlength="6">
+                                  <p:ajax event="blur" update="tf1 tf2 tf3 tf4 tf5" listener="#{invoicePedidoMB.getPrecioCarga3}" />
+                                  </p:inputText>
+                              </td>
+                           </tr>  			    
+    			    </table>
+    			
+    			</p:column>
+    		</p:row>
+    		<p:row rendered='#{invoicePedidoMB.concepto3trans != ""}'>
+    			<p:column style="text-align:left">#{invoicePedidoMB.concepto3trans} :</p:column>
+    			<p:column style="text-align:right">
+    			
+    			    <table>
+                           <tr>
+                              <td>Valor Cliente</td>
+                              <td><p:inputText id="concepto3" value="#{invoicePedidoMB.valorconcepto3trans}" size="5" maxlength="5">
+                                    <p:ajax event="blur" update="tf1 tf2 tf3 tf4 tf5" listener="#{invoicePedidoMB.getPrecioCarga3}" />
+                                  </p:inputText>
+                              </td>
+                              <td>Valor Astoria</td>
+                              <td><p:inputText id="concepto33" value="#{invoicePedidoMB.valorconcepto3transast}" size="6" maxlength="6">
+                                  <p:ajax event="blur" update="tf1 tf2 tf3 tf4 tf5" listener="#{invoicePedidoMB.getPrecioCarga3}" />
+                                  </p:inputText>
+                              </td>
+                           </tr>  			    
+    			    </table>
+    			
+    			</p:column>
+    		</p:row>
+    		<p:row rendered='#{invoicePedidoMB.concepto4trans != ""}'>
+    			<p:column style="text-align:left">#{invoicePedidoMB.concepto4trans} :</p:column>
+    			<p:column style="text-align:right">
+    			
+    			    <table>
+                           <tr>
+                              <td>Valor Cliente</td>
+                              <td><p:inputText id="concepto4" value="#{invoicePedidoMB.valorconcepto4trans}" size="5" maxlength="5">
+                                    <p:ajax event="blur" update="tf1 tf2 tf3 tf4 tf5" listener="#{invoicePedidoMB.getPrecioCarga3}" />
+                                  </p:inputText>
+                              </td>
+                              <td>Valor Astoria</td>
+                              <td><p:inputText id="concepto44" value="#{invoicePedidoMB.valorconcepto4transast}" size="6" maxlength="6">
+                                  <p:ajax event="blur" update="tf1 tf2 tf3 tf4 tf5" listener="#{invoicePedidoMB.getPrecioCarga3}" />
+                                  </p:inputText>
+                              </td>
+                           </tr>  			    
+    			    </table>
+    			
+    			</p:column>
+    		</p:row>
+    		
+    		<p:row>
+    			<p:column style="text-align:left">
+    			    <table>
+                           <tr>
+                              <td>
+    			                  Concepto:
+    			              </td>
+                              <td>
+    			                  <p:inputText id="concepadd" value="#{invoicePedidoMB.concepadd}" size="40" maxlength="40"/>
+    			              </td>    
+    			           </tr>  			    
+    			    </table> 
+    			</p:column>          
+    			<p:column style="text-align:right">
+    			    <table>
+                           <tr>
+    			               <td>
+    			                  Valor Cliente:
+    			              </td>
+                              <td>
+    			                  <p:inputText id="valorconcepadd" value="#{invoicePedidoMB.valorconcepadd}" size="6" maxlength="6">
+    			                     <p:ajax event="blur" update="tf1 tf2 tf3 tf4 tf5" listener="#{invoicePedidoMB.getPrecioCarga3}" />
+                                  </p:inputText>
+    			              </td>
+    			              <td>
+    			                  Valor Astoria:
+    			              </td>
+                              <td>
+    			                  <p:inputText id="valorconcepaddast" value="#{invoicePedidoMB.valorconcepaddast}" size="6" maxlength="6">
+    			                     <p:ajax event="blur" update="tf1 tf2 tf3 tf4 tf5" listener="#{invoicePedidoMB.getPrecioCarga3}" />
+                                  </p:inputText>
+    			              </td>    
+    			           </tr>  			    
+    			    </table> 
+    			
+    			    
+    			    
+    			
+    			</p:column>
+    		</p:row>
+    		
+    		
+    			<p:row>
+    			<p:column style="text-align:left">
+    			     <table>
+                           <tr>
+                              <td>
+    			                  Concepto:
+    			              </td>
+                              <td>
+    			                  <p:inputText id="concepadd2" value="#{invoicePedidoMB.concepadd2}" size="40" maxlength="40"/>
+    			              </td>    
+    			           </tr>  			    
+    			    </table>
+    			</p:column>
+    			
+    			<p:column style="text-align:right">
+    			
+    			     <table>
+                           <tr>
+    			              <td>
+    			                  Valor Cliente:
+    			              </td>
+                              <td>
+    			                 <p:inputText id="valorconcepadd2" value="#{invoicePedidoMB.valorconcepadd2}" size="6" maxlength="6">
+    			                 	<p:ajax event="blur" update="tf1 tf2 tf3 tf4 tf5" listener="#{invoicePedidoMB.getPrecioCarga3}" />
+                                  </p:inputText>
+    			              </td> 
+    			              <td>
+    			                  Valor Astoria:
+    			              </td>
+                              <td>
+    			                 <p:inputText id="valorconcepadd2ast" value="#{invoicePedidoMB.valorconcepadd2ast}" size="6" maxlength="6">
+    			                    <p:ajax event="blur" update="tf1 tf2 tf3 tf4 tf5" listener="#{invoicePedidoMB.getPrecioCarga3}" />
+                                  </p:inputText>
+    			              </td>   
+    			           </tr>  			    
+    			    </table>
+    			    
+    			
+    			</p:column>
+    		</p:row>
+    		<p:row>
+    			<p:column style="text-align:left">
+    			
+    			 <table>
+                           <tr>
+                              <td>
+    			                  Concepto:
+    			              </td>
+                              <td>
+    			                  <p:inputText id="concepadd3" value="#{invoicePedidoMB.concepadd3}" size="40" maxlength="40"/>
+    			              </td>    
+    			           </tr>  			    
+    			    </table>
+    			</p:column>
+    			<p:column style="text-align:right">
+    			
+    			    
+    			    <table>
+                           <tr>
+    			              <td>
+    			                  Valor Cliente:
+    			              </td>
+                              <td>
+    			                 <p:inputText id="valorconcepadd3" value="#{invoicePedidoMB.valorconcepadd3}" size="6" maxlength="6">
+    			                 
+    			                 	<p:ajax event="blur" update="tf1 tf2 tf3 tf4 tf5" listener="#{invoicePedidoMB.getPrecioCarga3}" />
+                                  </p:inputText>
+    			              </td>  
+    			              <td>
+    			                  Valor Astoria:
+    			              </td>
+                              <td>
+    			                 <p:inputText id="valorconcepadd3ast" value="#{invoicePedidoMB.valorconcepadd3ast}" size="6" maxlength="6">
+    			                     <p:ajax event="blur" update="tf1 tf2 tf3 tf4 tf5" listener="#{invoicePedidoMB.getPrecioCarga3}" />
+                                  </p:inputText>
+    			                 
+    			              </td>  
+    			           </tr>  			    
+    			    </table>
+    			
+    			</p:column>
+    		</p:row>
+    		
+    		
+    		
+    		
+    		
+    		
+    		<!--  fin costos adicionales y variaciones en tarifas -->
+    		
+    		<p:row>
+    			<p:column style="text-align:left">COST OF TRANSPORT (C):</p:column>
+    			<p:column style="text-align:right"><h:outputLabel id="tf1" value="#{uMB.format(invoicePedidoMB.preciototaltransporte)}"/></p:column>
+    		</p:row>
+    		<p:row>
+    			<p:column style="text-align:left">COST OF PRECOOLING (C):</p:column>
+    			<p:column style="text-align:right"><h:outputLabel id="tf6" value="#{uMB.format(invoicePedidoMB.preciototalpreculinclie)}"/></p:column>
+    		</p:row>
+    		<p:row>
+    			<p:column style="text-align:left">TOTAL (C):</p:column>
+    			<p:column style="text-align:right"><h:outputLabel id="tf2" value="#{uMB.format(invoicePedidoMB.preciototalcompleto)}"/></p:column>
+    		</p:row>
+    		<p:row>
+    			<p:column style="text-align:left">COST OF TRANSPORT (AST):</p:column>
+    			<p:column style="text-align:right"><h:outputLabel id="tf3" value="#{uMB.format(invoicePedidoMB.preciototaltransporteast)}"/></p:column>
+    		</p:row>
+    		<p:row>
+    			<p:column style="text-align:left">COST OF PRECOOLING (AST):</p:column>
+    			<p:column style="text-align:right"><h:outputLabel id="tf7" value="#{uMB.format(invoicePedidoMB.preciototalpreculinast)}"/></p:column>
+    		</p:row>
+    		<p:row>
+    			<p:column style="text-align:left">TOTAL (AST):</p:column>
+    			<p:column style="text-align:right"><h:outputLabel id="tf4" value="#{uMB.format(invoicePedidoMB.preciototalcompletoast)}"/></p:column>
+    		</p:row>
+    		
+    		<p:row>
+    			<p:column style="text-align:left">PROFIT (AST):</p:column>
+    			<p:column style="text-align:right"><h:outputLabel id="tf5" value="#{uMB.format(invoicePedidoMB.preciototalcompleto - invoicePedidoMB.preciototalcompletoast)}"/></p:column>
+    		</p:row>
+</p:panelGrid>
+    
+    
+    
+    		
+    <p:panelGrid style="width:100%">
+    		<f:facet name="header">
+    		<p:row>
+    				<p:column colspan="2">
+    				    <h:outputLabel value="#{msg['label.infobancaria']}:"/>
+    				</p:column>
+    			    </p:row>
+    		        <p:row>
+    				<p:column colspan="2">
+    				</p:column>
+    			    </p:row>
+        			<p:row>
+    				<p:column>
+    				  <h:outputLabel value="#{msg['label.ib']}:"/>
+    				</p:column>
+    				<p:column>
+    				  <h:outputLabel value="#{invoicePedidoMB.ib}"/>
+    				</p:column>  
+    				
+    		       </p:row>
+    		</f:facet>
+    		<p:row>
+    				<p:column>
+    				  <h:outputLabel value="#{msg['label.address']}"/>
+    				</p:column>  
+    				<p:column>	
+    					<h:outputLabel id="ibaddress" value="#{invoicePedidoMB.ibaddress}"/>
+    				</p:column>  
+    		</p:row>
+    		<p:row>
+    				<p:column>
+    				  <h:outputLabel value="#{msg['label.swift']}"/>
+    				</p:column>  
+    				<p:column>	
+    					<h:outputLabel id="ibswift" value="#{invoicePedidoMB.ibswift}"/>
+    				</p:column>  
+    		</p:row>
+    		<p:row>
+    				<p:column>
+    				  <h:outputLabel value="#{msg['label.account']}"/>
+    				</p:column>  
+    				<p:column>	
+    					<h:outputLabel id="ibaccount" value="#{invoicePedidoMB.ibaccount}"/>
+    				</p:column>  
+    		</p:row>
+    		
+    		
+    		</p:panelGrid>
+    		
+    		<p:panelGrid style="width:100%">
+    		<f:facet name="header">
+        			<p:row>
+    				<p:column>
+    				  <h:outputLabel value="#{msg['label.bb']}:"/>
+    				</p:column>
+    				<p:column>
+    				  <h:outputLabel value="#{invoicePedidoMB.bb}"/>
+    				</p:column>  
+    				
+    		       </p:row>
+    		</f:facet>
+    		<p:row>
+    				<p:column>
+    				  <h:outputLabel value="#{msg['label.swift']}"/>
+    				</p:column>  
+    				<p:column>	
+    					<h:outputLabel id="bbswift" value="#{invoicePedidoMB.bbswift}"/>
+    				</p:column>  
+    		</p:row>
+    		<p:row>
+    				<p:column>
+    				  <h:outputLabel value="#{msg['label.address']}"/>
+    				</p:column>  
+    				<p:column>	
+    					<h:outputLabel id="bbaddress" value="#{invoicePedidoMB.bbaddress}"/>
+    				</p:column>  
+    		</p:row>
+    		</p:panelGrid>	
+    		
+    		    		<p:panelGrid style="width:100%">
+    		<f:facet name="header">
+        			<p:row>
+    				<p:column>
+    				  <h:outputLabel value="#{msg['label.fb']}:"/>
+    				</p:column>
+    				<p:column>
+    				  <h:outputLabel value="#{invoicePedidoMB.fb}"/>
+    				</p:column>  
+    				
+    		       </p:row>
+    		</f:facet>
+    		<p:row>
+    				<p:column>
+    				  <h:outputLabel value="#{msg['label.savingsaccount']}"/>
+    				</p:column>  
+    				<p:column>	
+    					<h:outputLabel id="fbaccouunt" value="#{invoicePedidoMB.fbaccount}"/>
+    				</p:column>  
+    		</p:row>
+    		<p:row>
+    				<p:column>
+    				  <h:outputLabel value="#{msg['label.address']}"/>
+    				</p:column>  
+    				<p:column>	
+    					<h:outputLabel id="fbaddress" value="#{invoicePedidoMB.fbaddress}"/>
+    				</p:column>  
+    		</p:row>
+    		</p:panelGrid>	
+    </h:panelGrid>			
+    <div align="center">
+            <table><tr>
+            <td>
+                 <p:commandButton id="aceptar" value="#{msg['label.aceptar']}" action="#{invoicePedidoMB.crearPedido}" ajax="false"/>
+            </td>
+            <td>
+                 <p:commandButton id="facturar" value="#{msg['label.facturar']}" action="#{invoicePedidoMB.facturarPedido}" ajax="false"/>
+            </td>
+            
+            <td>
+                 <p:commandButton id="imprimir" icon="ui-icon-print"  value = "PDF" actionListener="#{invoicePedidoMB.imprimir('P')}" onclick="form.target='_blank'" ajax="false"/>
+            </td>
+             <td>
+                 <p:commandButton id="imprimir2" icon="ui-icon-print"  value = "EXCEL" actionListener="#{invoicePedidoMB.imprimir('E')}" onclick="form.target='_blank'" ajax="false"/>
+            </td>
+           
+            </tr></table>
+    		
+     </div>
+   </p:panel>
+    		
+	
+	</p:tab>
+    </p:wizard>
+    
+    
+        <p:dialog header="#{msg['label.producto']}" widgetVar="dialogo" modal="false" showEffect="blind" hideEffect="explode" resizable="false">
+        <p:outputPanel id="detalle" style="width:900px;height:400px;text-align:left;">
+            <p:dataTable id="eventsDT" var="pro" value="#{invoicePedidoMB.productos2}"  selectionMode="single" selection="#{invoicePedidoMB.selectedProducto}" rowKey="#{pro.codigo}" filteredValue="#{invoicePedidoMB.productos2filtrado}">
+       <p:ajax event="rowSelect" listener="#{invoicePedidoMB.onRowSelect}" update="formcrear:datosgenerales"/>
+        <p:ajax event="rowUnselect" listener="#{invoicePedidoMB.onRowUnselect}"/>
+         
+        <p:column headerText="Codigo" >
+            <h:outputText value="#{pro.codigo}" />
+        </p:column>
+        <p:column headerText="Tipo Flor" >
+            <h:outputText value="#{pro.nombrePadre}"/>
+        </p:column>
+        <p:column headerText="Variedad"  filterBy="#{pro.nombreProducto}" filterMatchMode="startsWith" >
+            <h:outputText value="#{pro.nombreProducto}" />
+        </p:column>
+        <p:column headerText="Grado" sortBy="#{pro.nombregrado}">
+            <h:outputText value="#{pro.nombregrado}"/>
+        </p:column>
+    </p:dataTable>
+        </p:outputPanel>
+    </p:dialog>
+    </h:form>
+						<!-- fin del form interno-->
+            </div>
+        </div>
+        <div id="bottom">
+            <ui:insert name="bottom">
+              <ui:include src="../main/templates/footer.xhtml" />
+            </ui:insert>
+        </div>
+ </h:body> 
+  <br/>     
+</html>
+
+

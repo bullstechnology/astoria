@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+    
+       <style type="text/css">
+    				.imgeditar {
+       							 background-image:url("#{resource['images/editar.jpg']}") !important;
+       							 width: 40px;
+								 height: 40px;
+    					  }
+    			    .imgeliminar {
+       							 background-image:url("#{resource['images/eliminar.jpg']}") !important;
+    					  }		
+    				 .imgesperar {
+       							 background-image:url("#{resource['images/ajax-loader.gif']}") !important;
+    					  }		 
+    					  
+    			     .ui-panelgrid td, .ui-panelgrid tr
+							{
+    							border-style: none !important
+							}  
+							
+						.centrar
+
+	{
+
+		position: absolute;
+
+		top:50%;
+
+		left:50%;
+
+		width:400px;
+
+		margin-left:-200px;
+
+
+		height:300px;
+
+
+
+		margin-top:-150px;
+
+		border:0px solid #808080;
+
+		padding:5px;
+
+	}	
+	
+	.panelGridCenter {
+    margin: 0 auto;
+}	 
+			</style>
+			<link rel="stylesheet" href="#{resource['template/templates.css']}" type="text/css" />
+    </h:head>
+<h:body>
+    <div id="jflanguageselection" align="right" 	style="margin-right:45px; margin-top:45px;">
+    <div class="rawimages">
+       <span>
+      <p:commandLink
+    			update="loginFormId"
+    			actionListener="#{idiomaMB.putIngles}">
+    			<h:graphicImage value="#{resource['images/en.gif']}" title="English (United Kingdom)"/>
+		</p:commandLink>
+		</span>
+		<span>
+		<p:commandLink
+    			update="loginFormId"
+    			actionListener="#{idiomaMB.putRuso}">
+    			<h:graphicImage value="#{resource['images/ru.gif']}" title="Russian (CIS)"/>
+		</p:commandLink>
+		</span>
+		<span>
+		<p:commandLink
+    			update="loginFormId"
+    			actionListener="#{idiomaMB.putEspanol}">
+    			<h:graphicImage value="#{resource['images/es.gif']}" title="Español"/>
+		</p:commandLink>
+		</span>
+       </div>
+       </div>
+
+
+        <div class='centrar'>
+            <h:form  id="loginFormId" prependId="false">
+            <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+            <p:panelGrid styleClass="panelGridCenter">
+            
+    <f:facet name="header">
+        <p:row>
+            <p:column colspan="2"><h:outputText value="#{msg['label.bienvenida']}" /></p:column>
+        </p:row>
+        <p:row>
+            <p:column colspan="2"><p:graphicImage name="/images/logo.jpg" /></p:column>
+        </p:row>
+        <p:row>
+            <p:column colspan="2"><div align="center"><h:outputText value="#{msg['label.compania']}" /></div></p:column>
+    </p:row>
+    </f:facet>
+    
+    
+    
+    <p:row>
+        <p:column colspan="2" styleClass="ui-widget-header">
+            <p:spacer height="0"/>
+        </p:column>
+    </p:row>
+    <p:row>
+ 
+    	<p:column><p:outputLabel id="outLblUserNameId" for="userName" name="outLblUserNameNm" value="#{msg['label.usuario']}"/></p:column>
+    	<p:column><p:inputText id="userName" value="#{loginMgmtBean.userName}" ></p:inputText></p:column>
+    </p:row>
+    
+    <p:row>
+   		 <p:column><p:outputLabel id="outLblPasswordId" for="password" name="outLblPasswordNm" value="#{msg['label.password']}" /></p:column>
+   		 <p:column><p:password  id="password" value="#{loginMgmtBean.password}" name="inTxtPasswordNm"/></p:column>
+    </p:row>
+    
+    <p:row>
+   
+    	<p:column colspan="2">
+    	   <div align ="center">
+    			<p:commandButton id="btnLoginId" value="#{msg['label.ingresar']}" action="#{loginMgmtBean.login}" ajax="false"></p:commandButton>
+    	   </div>	
+    	</p:column>
+    
+    </p:row>
+</p:panelGrid>
+            
+            
+            
+                    
+            </h:form>
+        </div>
+
+    </h:body>
+    </html>
+
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+
+
+    
+  

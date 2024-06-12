@@ -1,0 +1,195 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui">
+        
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+		<title>SISCOMFLOR</title>
+        
+     <h:head>
+
+       <!--  <h:outputStylesheet library="css" name="styles.css" /> -->
+        <h:outputStylesheet name="webjars/primeflex/2.0.0/primeflex.css" />
+
+    </h:head>
+    
+    <style type="text/css">
+    .box,
+    .sample-layout > div {
+        background-color: #cce4f7;
+        text-align: center;
+        padding-top: 1em;
+        padding-bottom: 1em;
+        border-radius: 4px;
+        
+    }
+ 
+    .box-stretched {
+        height: 100%;
+    }
+ 
+    .sample-layout {
+        margin: 0;
+    }
+ 
+    .sample-layout > div {
+        border: 1px solid #ffffff;
+    }
+ 
+    .vertical-container {
+        margin: 0;
+        height: 200px;
+        background: #efefef;
+        border-radius: 4px;
+    }
+ 
+    .nested-grid .p-col-4 {
+        padding-bottom: 1em;
+    }
+    
+   .p-grid {
+  width: 100%;
+  height:100%;
+  border: 1px solid black;
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  padding: 10px;
+}
+.container {
+  background: red;
+  height: 100%;
+}
+#top{
+      height:10%;
+      width: 100%;
+      background-color: gray;
+    }
+#left{
+      height:85%;
+      width: 100%;
+
+    }
+#centro{
+      height:85%;
+      width: 100%;
+      overflow-y: scroll;
+    }
+#bottom{
+
+      width: 100%;
+      background-color:#FFFFFF;
+      bottom: 0;
+      position:fixed;
+    }
+    html, body{
+      height:100%;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+</style>
+    
+    
+
+    <h:body style="background-color:#FFFFFF;">
+
+        <div id="header">
+
+            <ui:include src="../main/templates/header.xhtml" />
+
+        </div>
+        
+        <div id='centro'>
+            <div id="left" style='float: left; width: 15%'>
+                <ui:include src="../main/templates/menu.xhtml" />
+            </div>
+            <div id="content" class="left_content" style='float: right; width: 85%'>
+                        <!-- inicio del form interno -->
+						 <h:form id="formcrear">
+       
+       
+        <p:panelGrid style="margin-top:20px">
+    		<f:facet name="header">
+        			<p:row>
+            			<p:column colspan="4">#{msg['titulo.crearcolor']}</p:column>
+        			</p:row>
+           </f:facet>
+ 
+    		<p:row>
+        			<p:column><h:outputLabel value="#{msg['label.color']} : "/></p:column>
+        			<p:column ><p:inputText id="tipo" value="#{colorMB.tipo}" readnonly="#{!colorMB.getPermiso(151,'C')}"/></p:column>
+        			<p:column><h:outputLabel for="desc" value="#{msg['label.descripcion']} : "/></p:column>
+        			<p:column ><p:inputTextarea rows="5" cols="50" id="desc" value="#{colorMB.descripcion}" readnonly="#{!colorMB.getPermiso(151,'C')}"/></p:column>
+        			
+        			
+    		</p:row>
+    		<p:row>
+        			<p:column></p:column>
+        			<p:column></p:column>
+        			<p:column></p:column>
+        			<p:column ></p:column>
+    		</p:row>
+    		
+    		
+    		<p:row>
+        			<p:column colspan="2"><p:commandButton id="addUser" value="#{msg['label.aceptar']}" action="#{colorMB.crearColor}" ajax="false" update="formcrear" rendered="#{colorMB.getPermiso(151,'C')}"/></p:column>
+        			<p:column colspan="2"><p:commandButton id="reset" value="#{msg['label.cancelar']}" action="#{colorMB.reset}" ajax="false" rendered="#{colorMB.getPermiso(151,'C')}">
+        			   
+        			   </p:commandButton>
+        			</p:column>
+    		</p:row>
+    
+</p:panelGrid>
+
+<p:dataTable var="dominio" value="#{colorMB.tiposColor}" id="tablacolores">
+    		<p:column headerText="#{msg['label.color']}">
+        		<h:outputText value="#{dominio.nomcorto}" />
+     		</p:column>
+ 
+    		<p:column headerText="#{msg['label.descripcion']}">
+        		<h:outputText value="#{dominio.descripcion}" />
+    		</p:column>
+    		<p:column headerText="#{msg['label.editar']}" exportable="false" rendered="#{colorMB.getPermiso(151,'C')}">
+					<p:commandButton icon="ui-icon ui-icon-pencil" action="#{colorMB.editar(dominio)}"  ajax="false" value="Editar">
+					</p:commandButton>
+    		</p:column>
+ 
+    		
+    		
+	</p:dataTable>
+	<div align ="center">
+	<table>
+	<tr>			
+		<td>			
+					<p:commandButton value ="EXCEL" ajax ="false">
+                    <p:dataExporter type="xls" target="tablacolores" fileName="listaexcel" pageOnly="false"/>
+                    </p:commandButton>
+        </td>
+        <td>            
+                    <p:commandButton value ="PDF" ajax ="false">
+                    <p:dataExporter type="pdf" target="tablacolores" fileName="listapdf" pageOnly="false"/>
+                    </p:commandButton>
+         </td>
+     </tr>      
+     </table>  
+     </div>   
+        </h:form>
+						<!-- fin del form interno-->
+            </div>
+        </div>
+        <div id="bottom">
+            <ui:insert name="bottom">
+              <ui:include src="../main/templates/footer.xhtml" />
+            </ui:insert>
+        </div>
+ </h:body> 
+  <br/>     
+</html>
+
+
+
+

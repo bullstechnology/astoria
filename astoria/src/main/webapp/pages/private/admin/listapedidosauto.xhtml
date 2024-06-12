@@ -1,0 +1,218 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui">
+        
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+		<title>SISCOMFLOR</title>
+        
+     <h:head>
+
+       <!--  <h:outputStylesheet library="css" name="styles.css" /> -->
+        <h:outputStylesheet name="webjars/primeflex/2.0.0/primeflex.css" />
+
+    </h:head>
+    
+    <style type="text/css">
+    .box,
+    .sample-layout > div {
+        background-color: #cce4f7;
+        text-align: center;
+        padding-top: 1em;
+        padding-bottom: 1em;
+        border-radius: 4px;
+        
+    }
+ 
+    .box-stretched {
+        height: 100%;
+    }
+ 
+    .sample-layout {
+        margin: 0;
+    }
+ 
+    .sample-layout > div {
+        border: 1px solid #ffffff;
+    }
+ 
+    .vertical-container {
+        margin: 0;
+        height: 200px;
+        background: #efefef;
+        border-radius: 4px;
+    }
+ 
+    .nested-grid .p-col-4 {
+        padding-bottom: 1em;
+    }
+    
+   .p-grid {
+  width: 100%;
+  height:100%;
+  border: 1px solid black;
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  padding: 10px;
+}
+.container {
+  background: red;
+  height: 100%;
+}
+#top{
+      height:10%;
+      width: 100%;
+      background-color: gray;
+    }
+#left{
+      height:85%;
+      width: 100%;
+
+    }
+#centro{
+      height:85%;
+      width: 100%;
+      overflow-y: scroll;
+    }
+#bottom{
+
+      width: 100%;
+      background-color:#FFFFFF;
+      bottom: 0;
+      position:fixed;
+    }
+    html, body{
+      height:100%;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+</style>
+    
+    
+
+    <h:body style="background-color:#FFFFFF;">
+
+        <div id="header">
+
+            <ui:include src="../main/templates/header.xhtml" />
+
+        </div>
+        
+        <div id='centro'>
+            <div id="left" style='float: left; width: 15%'>
+                <ui:include src="../main/templates/menu.xhtml" />
+            </div>
+            <div id="content" class="left_content" style='float: right; width: 85%'>
+                        <!-- inicio del form interno -->
+						 <h:form id="form">
+        <p:panel header="#{msg['titulo.formulario.buscarPedidoAutorizar']}">
+    <h:panelGrid style="margin-top:20px" columns="4">
+
+
+        			<h:outputLabel for="fechainicial" value="#{msg['label.fechainicial']} : "/>
+        			
+        			           <p:calendar id="fechainicial" value="#{buscarPedidoAutoMB.fechainicial}" pattern="yyyy-MM-dd" mask="true"/>
+        			
+        			<h:outputLabel for="fechafinal" value="#{msg['label.fechafinal']} : "/>
+        			
+        			           <p:calendar id="fechafinal" value="#{buscarPedidoAutoMB.fechafinal}" pattern="yyyy-MM-dd" mask="true"/>
+        			
+        			
+
+
+        			<h:outputLabel for="cliente" value="#{msg['label.cliente']} : "/>
+        			
+        			  <p:selectOneMenu id="cliente" value="#{buscarPedidoAutoMB.cliente}" >
+            						<f:selectItem itemLabel="#{msg['label.seleccioneopcion']}" itemValue="" />
+            						<f:selectItems value="#{buscarPedidoAutoMB.clientesSelect}" />
+       				  </p:selectOneMenu>
+        			
+        			
+ 
+   
+        			<h:outputLabel for="estado" value="#{msg['label.estado']} : "/>
+        			 <p:selectOneMenu id="estado" value="#{buscarPedidoAutoMB.estado}" >
+            						<f:selectItem itemLabel="#{msg['label.seleccioneopcion']}" itemValue="" />
+            						<f:selectItem itemLabel="Registrado" itemValue="R" />
+            						<f:selectItem itemLabel="Conciliado" itemValue="C" />
+       				  </p:selectOneMenu>
+        			
+                       <h:outputLabel value="#{msg['label.pedido']} : "/>
+                  <p:inputText id="idPedido" value="#{buscarPedidoAutoMB.idPedido}"  size="4"></p:inputText>
+        			<h:outputLabel value=""/>
+        			<h:outputLabel value=""/>
+   
+        			
+        			<div align="center">
+        				<p:commandButton id="buscarPedidoAutoMB" value="#{msg['label.buscar']}" action="#{buscarPedidoAutoMB.buscarAutorizar}" ajax="false" update="form tablasalida"/>
+        			</div>	
+        			
+     
+       
+       
+       
+ 
+    </h:panelGrid>
+    </p:panel>
+    
+     <p:dataTable id="tablasalida" var="pedido" value="#{buscarPedidoAutoMB.listaPedidosSalida}" rows="10"
+                         paginator="true"
+                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15"  style="width: 1000px" sortMode="multiple">
+     
+            <p:column headerText="#{msg['label.numpedido']}" sortBy="#{pedido.idpedido}">
+        		<h:outputText value="#{pedido.idpedido}" />
+     		</p:column>
+            
+    		<p:column headerText="#{msg['label.pais']}">
+        		<h:outputText value="#{pedido.nombrepais}" />
+     		</p:column>
+ 
+    		<p:column headerText="#{msg['label.ciudad']}">
+        		<h:outputText value="#{pedido.nombreciudad}" />
+    		</p:column>
+ 
+    		<p:column headerText="#{msg['label.cliente']}">
+       			 <h:outputText value="#{pedido.nombrecliente}" />
+    		</p:column>
+ 
+    		<p:column headerText="#{msg['label.fechapedido']}">
+        		<h:outputText value="#{pedido.fechapedido}" />
+    		</p:column>
+    		<p:column headerText="#{msg['label.fechadespacho']}">
+        		<h:outputText value="#{pedido.fechadespacho}" />
+    		</p:column>
+    		<p:column headerText="#{msg['label.programado']}">
+        		<p:selectBooleanCheckbox value="#{pedido.programado}" disabled="true"/>
+    		</p:column>
+    		<p:column headerText="#{msg['label.accion']}" rendered="#{buscarPedidoAutoMB.getPermiso(302,'U')}">
+					<p:commandButton icon="ui-icon ui-icon-pencil" actionListener="#{buscarPedidoAutoMB.autorizar(pedido)}" ajax="true" value="#{msg['label.autorizar']}" update="tablasalida">
+					</p:commandButton>
+					
+					<p:commandButton icon="ui-icon ui-icon-pencil" actionListener="#{buscarPedidoAutoMB.cancelar(pedido)}" ajax="true" value="#{msg['label.cancelar']}" update="tablasalida">
+					</p:commandButton>
+					
+					
+    		</p:column>
+
+    		
+	</p:dataTable>
+ 	
+    </h:form>
+						<!-- fin del form interno-->
+            </div>
+        </div>
+        <div id="bottom">
+            <ui:insert name="bottom">
+              <ui:include src="../main/templates/footer.xhtml" />
+            </ui:insert>
+        </div>
+ </h:body> 
+  <br/>     
+</html>
+
+

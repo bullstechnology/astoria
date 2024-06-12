@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config
+    xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
+    version="2.2">
+    
+    <application>
+    <el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
+    <locale-config>
+			<default-locale>es</default-locale>
+		</locale-config>
+
+		<resource-bundle>
+			<base-name>messages</base-name>
+			<var>msg</var>
+		</resource-bundle>
+		
+    </application>
+    
+    <!-- navigation-rule for login.xhtml -->
+    <navigation-rule>
+        <from-view-id>/pages/public/login.xhtml</from-view-id>
+        <!-- navigation-case for method login() -->
+        <navigation-case>
+            <from-action>#{loginMgmtBean.login}</from-action>
+            <from-outcome>correct1</from-outcome>
+            <to-view-id>/pages/private/list.xhtml</to-view-id>
+        </navigation-case>
+         <navigation-case>
+            <from-action>#{loginMgmtBean.login}</from-action>
+            <from-outcome>correct</from-outcome>
+            <to-view-id>/pages/private/main/index.html</to-view-id>
+        </navigation-case>
+        <!-- navigation-case for method login() -->
+        <navigation-case>
+            <from-action>#{loginMgmtBean.login}</from-action>
+            <from-outcome>incorrect</from-outcome>
+            <to-view-id>/pages/public/login.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+  
+    <!-- navigation-rule for list.xhtml -->
+    <navigation-rule>
+        <from-view-id>/pages/private/list.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-action>#{customerMB.addCustomer}</from-action>
+               <from-outcome>success</from-outcome>
+               <to-view-id>/pages/private/list.xhtml</to-view-id>
+        </navigation-case>
+        <!-- navigation cases for method updateCustomer(customer) -->
+        <navigation-case>
+               <from-action>#{customerMB.updateCustomer(customer)}</from-action>
+               <from-outcome>success</from-outcome>
+               <to-view-id>/pages/private/list.xhtml</to-view-id>
+         </navigation-case>
+         <navigation-case>
+              <from-action>#{customerMB.updateCustomer(customer)}</from-action>
+               <from-outcome>error</from-outcome>
+               <to-view-id>/pages/public/error.xhtml</to-view-id>
+         </navigation-case>
+         <!-- navigation-cases for method deleteCustomer(customer) -->    
+         <navigation-case>
+               <from-action>#{customerMB.deleteCustomer(customer)}</from-action>
+               <from-outcome>success</from-outcome>
+               <to-view-id>/pages/private/list.xhtml</to-view-id>
+         </navigation-case>
+         <navigation-case>
+              <from-action>#{customerMB.deleteCustomer(customer)}</from-action>
+               <from-outcome>error</from-outcome>
+               <to-view-id>/pages/public/error.xhtml</to-view-id>
+         </navigation-case>
+         <!-- navigation case for method logout() -->
+         <navigation-case>
+              <from-action>#{loginMgmtBean.logout}</from-action>
+              <from-outcome>loggedout</from-outcome>
+              <to-view-id>/pages/public/login.xhtml</to-view-id>
+              <redirect></redirect>
+        </navigation-case>
+    </navigation-rule>
+    
+    
+    <!-- inicio nuevo -->
+    
+       <navigation-rule>
+        <from-view-id>/pages/private/admin/buscarusuario.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>editarusuario</from-outcome>
+               <to-view-id>/pages/private/admin/editarusuario.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>/pages/private/admin/editarusuario.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>buscarusuario</from-outcome>
+               <to-view-id>/pages/private/admin/buscarusuario.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/pages/private/admin/creartipoflor.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>editartipoflor</from-outcome>
+               <to-view-id>/pages/private/admin/editartipoflor.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/pages/private/admin/creargrado.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>editartipogrado</from-outcome>
+               <to-view-id>/pages/private/admin/editargrado.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+     <navigation-rule>
+        <from-view-id>/pages/private/admin/crearcolor.xhtml</from-view-id>
+        <navigation-case>
+               <from-outcome>editarcolor</from-outcome>
+               <to-view-id>/pages/private/admin/editarcolor.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/pages/private/admin/crearvariedad.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>editarvariedad</from-outcome>
+               <to-view-id>/pages/private/admin/editarvariedad.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/pages/private/admin/creartruck.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>editartruck</from-outcome>
+               <to-view-id>/pages/private/admin/editartruck.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+     <navigation-rule>
+        <from-view-id>/pages/private/admin/crearhandler.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>editarhandler</from-outcome>
+               <to-view-id>/pages/private/admin/editarhandler.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/pages/private/admin/crearpais.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>editarpais</from-outcome>
+               <to-view-id>/pages/private/admin/editarpais.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+     <navigation-rule>
+        <from-view-id>/pages/private/admin/crearciudad.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>editarciudad</from-outcome>
+               <to-view-id>/pages/private/admin/editarciudad.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/pages/private/admin/crearplantacion.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>listaplantaciones</from-outcome>
+               <to-view-id>/pages/private/admin/listaplantaciones.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/pages/private/admin/listaplantaciones.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>editarplantacion</from-outcome>
+               <to-view-id>/pages/private/admin/editarplantacion.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+     <navigation-rule>
+        <from-view-id>/pages/private/admin/editarplantacion.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>listaplantaciones</from-outcome>
+               <to-view-id>/pages/private/admin/listaplantaciones.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+     <navigation-rule>
+        <from-view-id>/pages/private/admin/crearcliente.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>listaclientes</from-outcome>
+               <to-view-id>/pages/private/admin/listaclientes.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/pages/private/admin/editarcliente.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>listaclientes</from-outcome>
+               <to-view-id>/pages/private/admin/listaclientes.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/pages/private/admin/listaclientes.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>editarcliente</from-outcome>
+               <to-view-id>/pages/private/admin/editarcliente.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/pages/private/admin/crearagenciacarga.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>listaagencias</from-outcome>
+               <to-view-id>/pages/private/admin/listaagenciascarga.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/pages/private/admin/listaagenciascarga.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>editaragencia</from-outcome>
+               <to-view-id>/pages/private/admin/editaragenciacarga.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+     <navigation-rule>
+        <from-view-id>/pages/private/admin/editaragenciacarga.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>listaagencias</from-outcome>
+               <to-view-id>/pages/private/admin/listaagenciascarga.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>/pages/private/admin/crearaerolinea.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>listaaerolineas</from-outcome>
+               <to-view-id>/pages/private/admin/listaaerolineas.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>/pages/private/admin/listaaerolineas.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>editaraerolinea</from-outcome>
+               <to-view-id>/pages/private/admin/editaraerolinea.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+     <navigation-rule>
+        <from-view-id>/pages/private/admin/editaraerolinea.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>listaaerolineas</from-outcome>
+               <to-view-id>/pages/private/admin/listaaerolineas.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/pages/private/admin/plantacionlistas.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>editarlista</from-outcome>
+               <to-view-id>/pages/private/admin/editarlista.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/pages/private/admin/plantacionlistas.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>editarlistaprecios</from-outcome>
+               <to-view-id>/pages/private/admin/editarlistaprecios.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/pages/private/admin/editarlista.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>plantacionlistas</from-outcome>
+               <to-view-id>/pages/private/admin/plantacionlistas.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/pages/private/admin/editartipoflor.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>creartipoflor</from-outcome>
+               <to-view-id>/pages/private/admin/creartipoflor.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/pages/private/admin/editarvariedad.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>crearvariedad</from-outcome>
+               <to-view-id>/pages/private/admin/crearvariedad.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/pages/private/admin/listapedidos.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>editarpedido</from-outcome>
+               <to-view-id>/pages/private/admin/editarpedido.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/pages/private/admin/listaordenes.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>verplantilla</from-outcome>
+               <to-view-id>/pages/private/admin/verplantilla.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/pages/private/admin/listaordenes.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>editarplantilla</from-outcome>
+               <to-view-id>/pages/private/admin/editarplantilla.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>/pages/private/admin/listapedidos.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>editarpedido</from-outcome>
+               <to-view-id>/pages/private/admin/editarpedido.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/pages/private/admin/crearpedido.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>listapedidos</from-outcome>
+               <to-view-id>/pages/private/admin/listapedidos.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/pages/private/admin/editarrpedido.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>listapedidos</from-outcome>
+               <to-view-id>/pages/private/admin/listapedidos.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/pages/private/admin/listapedidos.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>conciliarpedido</from-outcome>
+               <to-view-id>/pages/private/admin/confirmarpedido.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/pages/private/admin/listapedidosprog.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>conciliarpedido</from-outcome>
+               <to-view-id>/pages/private/admin/confirmarpedido.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/pages/private/admin/listapedidosdesp.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>facturarpedido</from-outcome>
+               <to-view-id>/pages/private/admin/facturarpedido.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+     <navigation-rule>
+        <from-view-id>/pages/private/admin/listapedidos.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>verfactura</from-outcome>
+               <to-view-id>/pages/private/admin/verfactura.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+     <navigation-rule>
+        <from-view-id>/pages/private/admin/buscarnotadc.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>editarnota</from-outcome>
+               <to-view-id>/pages/private/admin/editarnotadc.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/pages/private/admin/editarnotadc.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>buscarnota</from-outcome>
+               <to-view-id>/pages/private/admin/buscarnotadc.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/pages/private/admin/crearfranja.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>editarfranja</from-outcome>
+               <to-view-id>/pages/private/admin/editarfranja.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/pages/private/admin/crearproveedor.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>editarproveedor</from-outcome>
+               <to-view-id>/pages/private/admin/editarproveedor.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/pages/public/prelogin.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>login</from-outcome>
+               <to-view-id>/pages/public/login.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/pages/public/datoscot.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>cotizar</from-outcome>
+               <to-view-id>/pages/public/cotizacion.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>/pages/private/admin/editarusuario.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>success</from-outcome>
+               <to-view-id>/pages/private/admin/buscarusuario.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/pages/private/admin/listapedidos.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>editarencabezado</from-outcome>
+               <to-view-id>/pages/private/admin/editarencabezadopedido.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/pages/private/admin/listacotizaciones.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>vercotizacion</from-outcome>
+               <to-view-id>/pages/private/admin/vercotizacion.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/pages/private/admin/listacotizacionesrev.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>vercotizacionrev</from-outcome>
+               <to-view-id>/pages/private/admin/vercotizacionrev.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+     <navigation-rule>
+        <from-view-id>/pages/private/*</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+               <from-outcome>logout</from-outcome>
+               <to-view-id>/pages/public/login.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    
+    
+    
+    <!-- fin nuevo -->
+    <render-kit>
+    <renderer>
+        <component-family>org.primefaces.component</component-family>
+        <renderer-type>org.primefaces.component.FileUploadRenderer</renderer-type>
+        <renderer-class>com.bulls.astoria.utils.FileUploadRenderer</renderer-class>
+    </renderer>
+</render-kit>
+</faces-config>

@@ -1,0 +1,396 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui">
+        
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+		<title>SISCOMFLOR</title>
+        
+     <h:head>
+
+       <!--  <h:outputStylesheet library="css" name="styles.css" /> -->
+        <h:outputStylesheet name="webjars/primeflex/2.0.0/primeflex.css" />
+
+    </h:head>
+    
+    <style type="text/css">
+    .box,
+    .sample-layout > div {
+        background-color: #cce4f7;
+        text-align: center;
+        padding-top: 1em;
+        padding-bottom: 1em;
+        border-radius: 4px;
+        
+    }
+ 
+    .box-stretched {
+        height: 100%;
+    }
+ 
+    .sample-layout {
+        margin: 0;
+    }
+ 
+    .sample-layout > div {
+        border: 1px solid #ffffff;
+    }
+ 
+    .vertical-container {
+        margin: 0;
+        height: 200px;
+        background: #efefef;
+        border-radius: 4px;
+    }
+ 
+    .nested-grid .p-col-4 {
+        padding-bottom: 1em;
+    }
+    
+   .p-grid {
+  width: 100%;
+  height:100%;
+  border: 1px solid black;
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  padding: 10px;
+}
+.container {
+  background: red;
+  height: 100%;
+}
+#top{
+      height:10%;
+      width: 100%;
+      background-color: gray;
+    }
+#left{
+      height:85%;
+      width: 100%;
+
+    }
+#centro{
+      height:85%;
+      width: 100%;
+      overflow-y: scroll;
+    }
+#bottom{
+
+      width: 100%;
+      background-color:#FFFFFF;
+      bottom: 0;
+      position:fixed;
+    }
+    html, body{
+      height:100%;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+</style>
+    
+    
+
+    <h:body style="background-color:#FFFFFF;">
+
+        <div id="header">
+
+            <ui:include src="../main/templates/header.xhtml" />
+
+        </div>
+        
+        <div id='centro'>
+            <div id="left" style='float: left; width: 15%'>
+                <ui:include src="../main/templates/menu.xhtml" />
+            </div>
+            <div id="content" class="left_content" style='float: right; width: 85%'>
+                        <!-- inicio del form interno -->
+						<h:form id="form">
+        
+        <p:panelGrid style="margin-top:20px" id="panelgeneral">
+           
+       <p:row><p:column> 
+        
+        
+            <p:tabView id="tabgeneral">
+        <p:tab title="#{msg['label.datosgenerales']}">
+            <p:panelGrid>
+               
+            <p:row>
+     		        <p:column><h:outputLabel for="proveedor" value="#{msg['label.proveedor']} : "/></p:column>
+        			<p:column colspan="3">
+        			      <p:selectOneMenu value="#{plantacionMB.idproveedor}" id="proveedor" >
+        							<f:selectItem itemValue="" itemLabel="#{msg['label.seleccioneopcion']} "/>
+        							<f:selectItems value="#{plantacionMB.proveedores}" var="prov" itemLabel="#{prov.nombre}" itemValue="#{prov.idproveedor}" /> 
+    					  </p:selectOneMenu>
+        			</p:column>
+     		</p:row> 
+    		<p:row>
+        			<p:column><h:outputLabel for="codigo" value="#{msg['label.codigo']} : "/></p:column>
+        			<p:column ><p:inputText id="codigo" value="#{plantacionMB.codigo}" ></p:inputText></p:column>
+        			<p:column><h:outputLabel for="nit" value="#{msg['label.nit']} : " /></p:column>
+        			<p:column ><p:inputText id="nit" value="#{plantacionMB.nit}" ></p:inputText></p:column>
+    		</p:row>
+    		
+     		<p:row>
+     		        <p:column><h:outputLabel for="nombre" value="#{msg['label.nombre']} : "/></p:column>
+        			<p:column colspan="3"><p:inputText id="nombre" value="#{plantacionMB.nombre}"  size="50"></p:inputText></p:column>
+     		</p:row>
+     		
+     		<p:row>
+     		
+     		       <p:column><h:outputLabel for="pais" value="#{msg['label.pais']} : "/></p:column>
+        			<p:column >
+        			           <p:selectOneMenu value="#{plantacionMB.pais}" id="pais" >
+        							<f:selectItem itemValue="" itemLabel="#{msg['label.seleccioneopcion']} "/> 
+        							<f:selectItems value="#{plantacionMB.listaPaisesDom}" />
+        							<p:ajax listener="#{plantacionMB.getCiudadesPais}" update="ciudad"/>
+    						   </p:selectOneMenu>
+        			</p:column>
+        			<p:column><h:outputLabel for="ciudad" value="#{msg['label.ciudad']} : " /></p:column>
+        			<p:column>
+        			          <p:selectOneMenu value="#{plantacionMB.ciudad}" id="ciudad" >
+        							<f:selectItem itemValue="" itemLabel="#{msg['label.seleccioneopcion']} "/> 
+        							<f:selectItems value="#{plantacionMB.listaCiudadesDom}" />
+    						   </p:selectOneMenu>
+        			</p:column>
+        			
+    		</p:row>
+    		
+    		<p:row>
+    		      <p:column><h:outputLabel for="direccion" value="#{msg['label.direccion']} : "/></p:column>
+        		  <p:column colspan="3"><p:inputText id="direccion" value="#{plantacionMB.direccion}"  size="50"></p:inputText></p:column>
+    		</p:row>
+    		
+    		<p:row>
+    		      <p:column><h:outputLabel for="cantidadfull" value="#{msg['label.cantidadxfull']} : "/></p:column>
+        		  <p:column colspan="3"><p:inputText id="cantidadfull" value="#{plantacionMB.cantidadxfull}"  maxlength="500" size="10"></p:inputText></p:column>
+    		</p:row>
+    		
+    		<p:row>
+        			<p:column><h:outputLabel for="observaciones" value="#{msg['label.observaciones']} : "/></p:column>
+        			<p:column colspan="3"><p:inputTextarea id="observaciones" value="#{plantacionMB.observaciones}"  rows="5" cols="50" maxlength="500" autoResize="false" /></p:column>
+     		</p:row>
+
+    
+            </p:panelGrid>
+        </p:tab>
+        <p:tab title="#{msg['label.contactos']}">
+            <p:panelGrid>
+               
+    		
+    		<p:row>
+        			<p:column><h:outputLabel for="tel1" value="#{msg['label.telefonouno']} : "/></p:column>
+        			<p:column ><p:inputText id="tel1" value="#{plantacionMB.tel1}" ></p:inputText></p:column>
+        			<p:column><h:outputLabel for="tel2" value="#{msg['label.telefonodos']} : " /></p:column>
+        			<p:column ><p:inputText id="tel2" value="#{plantacionMB.tel2}" ></p:inputText></p:column>
+        			
+    		</p:row>
+    		
+    		<p:row>
+    		        <p:column><h:outputLabel for="fax" value="#{msg['label.fax']} : "/></p:column>
+        			<p:column ><p:inputText id="fax" value="#{plantacionMB.fax}" ></p:inputText></p:column>
+        			<p:column><h:outputLabel for="cel1" value="#{msg['label.celularuno']} : "/></p:column>
+        			<p:column ><p:inputText id="cel1" value="#{plantacionMB.cel1}" ></p:inputText></p:column>
+        	</p:row>	
+        	<p:row>	
+        			<p:column><h:outputLabel for="cel2" value="#{msg['label.celulardos']} : " /></p:column>
+        			<p:column ><p:inputText id="cel2" value="#{plantacionMB.cel2}" ></p:inputText></p:column>
+        			<p:column><h:outputLabel for="web" value="#{msg['label.web']} : "/></p:column>
+        			<p:column ><p:inputText id="web" value="#{plantacionMB.web}" ></p:inputText></p:column>
+    		</p:row>
+    		
+    		<p:row>
+        			<p:column><h:outputLabel for="correo1" value="#{msg['label.emailuno']} : "/></p:column>
+        			<p:column><p:inputText id="correo1" value="#{plantacionMB.correo1}" ></p:inputText></p:column>
+        			<p:column><h:outputLabel for="correo2" value="#{msg['label.emaildos']} : " /></p:column>
+        			<p:column><p:inputText id="correo2" value="#{plantacionMB.correo2}" ></p:inputText></p:column>
+    		</p:row>
+    		
+    		<p:row>
+        			<p:column><h:outputLabel for="ctoven" value="#{msg['label.contactoven']} : "/></p:column>
+        			<p:column colspan="3"><p:inputText id="ctoven" value="#{plantacionMB.contactoven}" size="65"></p:inputText></p:column>
+        	</p:row>
+        	<p:row>		
+        			<p:column><h:outputLabel for="ctoprop" value="#{msg['label.contactoprop']} : " /></p:column>
+        			<p:column colspan="3"><p:inputText id="ctoprop" value="#{plantacionMB.contactoprop}" size="65"></p:inputText></p:column>
+        			
+    		</p:row>
+    		
+    		<p:row>
+    		        <p:column><h:outputLabel for="ctoinvoice" value="#{msg['label.contactoinvoice']} : "/></p:column>
+        			<p:column colspan="3"><p:inputText id="ctoinvoice" value="#{plantacionMB.contactoinvoice}" size="65"></p:inputText></p:column>
+        	</p:row>
+        	<p:row>		
+        			<p:column><h:outputLabel for="skype1" value="#{msg['label.skypeven']} : "/></p:column>
+        			<p:column ><p:inputText id="skype1" value="#{plantacionMB.skypeven}" ></p:inputText></p:column>
+        			<p:column><h:outputLabel for="skype2" value="#{msg['label.skypeprop']} : " /></p:column>
+        			<p:column ><p:inputText id="skype2" value="#{plantacionMB.skypeprop}" ></p:inputText></p:column>
+        	</p:row>
+    		
+    		<p:row>		
+        			<p:column><h:outputLabel for="skype3" value="#{msg['label.skypealterno']} : "/></p:column>
+        			<p:column colspan="3"><p:inputText id="skype3" value="#{plantacionMB.skypealterno}" ></p:inputText></p:column>
+    		</p:row>
+    		
+    		
+    	</p:panelGrid>	
+        </p:tab>
+        <p:tab title="#{msg['label.balance']}">
+             <p:panelGrid>
+               
+    		
+    		<p:row>
+        			<p:column><h:outputLabel for="cupo" value="#{msg['label.cupo']} : "/></p:column>
+        			<p:column ><p:inputText id="cupo" value="#{plantacionMB.cupo}" ></p:inputText></p:column>
+        			<p:column><h:outputLabel for="desc" value="#{msg['label.descripcion']} : " /></p:column>
+        			<p:column ><p:inputTextarea id="desc" value="#{plantacionMB.desccupo}"  rows="5" cols="50" maxlength="500" autoResize="false" /></p:column>
+        			
+    		</p:row>
+    		
+    		
+    		
+    	</p:panelGrid>	
+        </p:tab>
+        <p:tab title="#{msg['label.productos']}" id="tabproductos">
+             
+    	    <h:panelGroup id="panel2">
+        	<p:panelGrid style="margin-top:20px">
+    				
+           
+           
+           
+                    <p:row>
+           			
+        			
+        			<p:column><h:outputLabel value="#{msg['label.tipoflor']}:"/></p:column>
+        			<p:column><p:selectOneMenu value="#{plantacionMB.padre}" id="padre">
+        							<f:selectItem itemValue="" itemLabel="#{msg['label.seleccioneopcion']}"/> 
+        							<f:selectItems value="#{plantacionMB.listaTiposFlor}" />
+        							<p:ajax listener="#{plantacionMB.getVariedades}" update="variedad"/>
+    						   </p:selectOneMenu>  
+    				</p:column>
+        			<p:column >		   
+    						   <p:selectOneMenu value="#{plantacionMB.variedad}" id="variedad"   effect="fade" filter="true" filterMatchMode="startsWith">
+        							<f:selectItem itemValue="" itemLabel="#{msg['label.seleccioneopcion']}"/> 
+        							<f:selectItems value="#{plantacionMB.listaVariedades}" />
+    						   </p:selectOneMenu>
+    						   
+    			    </p:column>
+        			<p:column >
+        			<p:commandButton icon="ui-icon ui-icon-circle-check" action="#{plantacionMB.getProductos3}"  oncomplete="PF('dialogo').show()" ajax="true"  value="Aceptar" update="form:eventsDT listaProductosFinal">
+					</p:commandButton>
+   
+    			   </p:column>
+    			      		   
+     		        </p:row>
+     		        
+     	
+ 
+    		
+    		<p:row>
+        			<p:column></p:column>
+        			<p:column></p:column>
+        			<p:column></p:column>
+        			<p:column ></p:column>
+    		</p:row>
+    		
+    		
+    		
+    		
+    
+</p:panelGrid>
+<p:dataTable var="producto" value="#{plantacionMB.listaProductos}" id="listaProductosFinal" rows="200"
+                         paginator="true"
+                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="200,250,300" sortMode="multiple">
+
+            <p:column headerText="#{msg['label.flor']}" filterBy="#{producto.nombrePadre}" filterMatchMode="startsWith" sortBy="#{producto.nombrePadre}">
+        		<h:outputText value="#{producto.nombrePadre}" />
+     		</p:column>
+    		<p:column headerText="#{msg['label.variedad']}" filterBy="#{producto.nombreProducto}" filterMatchMode="startsWith" sortBy="#{producto.nombreProducto}">
+        		<h:outputText value="#{producto.nombreProducto}" />
+     		</p:column>
+     		<p:column headerText="#{msg['label.grado']}">
+        		<h:outputText value="#{producto.nombregrado}" />
+     		</p:column>
+     		
+     		
+     		<p:column headerText="#{msg['label.recomendado']}">
+        		<h:outputText value="#{producto.recomendado}" />
+     		</p:column>
+ 
+    		
+    		<p:column headerText="#{msg['label.borrar']}">
+					<p:commandButton icon="ui-icon ui-icon-trash" action="#{plantacionMB.eliminar(producto)}"  ajax="true"  value="Eliminar" update="listaProductosFinal">
+					</p:commandButton>
+    		</p:column>
+ 
+    		    		
+	</p:dataTable>
+
+</h:panelGroup>
+    	
+        </p:tab>
+        
+    </p:tabView>
+    
+    
+    </p:column>
+    </p:row>
+    <f:facet name="footer">
+        <p:row>
+            <p:column >
+            <div align="center">
+         
+     
+                <p:commandButton icon="ui-icon-disk" value="#{msg['label.aceptar']}" action="#{plantacionMB.aceptar}" ajax="false"/>
+             </div>
+            </p:column>
+        </p:row>
+        
+    </f:facet>
+    </p:panelGrid>
+    
+    <p:dialog header="#{msg['label.producto']}" widgetVar="dialogo" modal="false" showEffect="blind" hideEffect="explode" resizable="false">
+        <p:outputPanel id="detalle" style="width:900px;height:400px;text-align:left;">
+            <p:dataTable id="eventsDT" var="pro" value="#{plantacionMB.productos2}"  selectionMode="single" selection="#{plantacionMB.selectedProducto}" rowKey="#{pro.codigo}" filteredValue="#{plantacionMB.productos2filtrado}">
+       <p:ajax event="rowSelect" listener="#{plantacionMB.onRowSelect}" update="form:tabgeneral:listaProductosFinal"/>
+        <p:ajax event="rowUnselect" listener="#{plantacionMB.onRowUnselect}"/>
+         
+
+        <p:column headerText="Codigo" >
+            <h:outputText value="#{pro.codigo}" />
+        </p:column>
+        <p:column headerText="Tipo Flor" >
+            <h:outputText value="#{pro.nombrePadre}"/>
+        </p:column>
+        <p:column headerText="Variedad">
+            <h:outputText value="#{pro.nombreProducto}" />
+        </p:column>
+        <p:column headerText="Grado" >
+            <h:outputText value="#{pro.nombregrado}"/>
+        </p:column>
+    </p:dataTable>
+        </p:outputPanel>
+    </p:dialog>
+    
+    	
+        </h:form>
+						<!-- fin del form interno-->
+            </div>
+        </div>
+        <div id="bottom">
+            <ui:insert name="bottom">
+              <ui:include src="../main/templates/footer.xhtml" />
+            </ui:insert>
+        </div>
+ </h:body> 
+  <br/>     
+</html>
+
+
+

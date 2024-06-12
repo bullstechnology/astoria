@@ -1,0 +1,637 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui">
+        
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+		<title>SISCOMFLOR</title>
+        
+     <h:head>
+
+       <!--  <h:outputStylesheet library="css" name="styles.css" /> -->
+        <h:outputStylesheet name="webjars/primeflex/2.0.0/primeflex.css" />
+
+    </h:head>
+    
+    <style type="text/css">
+    .box,
+    .sample-layout > div {
+        background-color: #cce4f7;
+        text-align: center;
+        padding-top: 1em;
+        padding-bottom: 1em;
+        border-radius: 4px;
+        
+    }
+ 
+    .box-stretched {
+        height: 100%;
+    }
+ 
+    .sample-layout {
+        margin: 0;
+    }
+ 
+    .sample-layout > div {
+        border: 1px solid #ffffff;
+    }
+ 
+    .vertical-container {
+        margin: 0;
+        height: 200px;
+        background: #efefef;
+        border-radius: 4px;
+    }
+ 
+    .nested-grid .p-col-4 {
+        padding-bottom: 1em;
+    }
+    
+   .p-grid {
+  width: 100%;
+  height:100%;
+  border: 1px solid black;
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  padding: 10px;
+}
+.container {
+  background: red;
+  height: 100%;
+}
+#top{
+      height:10%;
+      width: 100%;
+      background-color: gray;
+    }
+#left{
+      height:85%;
+      width: 100%;
+
+    }
+#centro{
+      height:85%;
+      width: 100%;
+      overflow-y: scroll;
+    }
+#bottom{
+
+      width: 100%;
+      background-color:#FFFFFF;
+      bottom: 0;
+      position:fixed;
+    }
+    html, body{
+      height:100%;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+</style>
+    
+    
+
+    <h:body style="background-color:#FFFFFF;">
+
+        <div id="header">
+
+            <ui:include src="../main/templates/header.xhtml" />
+
+        </div>
+        
+        <div id='centro'>
+            <div id="left" style='float: left; width: 15%'>
+                <ui:include src="../main/templates/menu.xhtml" />
+            </div>
+            <div id="content" class="left_content" style='float: right; width: 85%'>
+                        <!-- inicio del form interno -->
+						 <h:form id="form">
+        
+        <p:panelGrid style="margin-top:20px">
+         <f:facet name="header">
+        <p:row>
+            <p:column >
+                       <h:outputLabel value="#{msg['titulo.crearagencia']} Nva version 15 enero" />
+            </p:column>
+        </p:row>
+        
+    </f:facet>
+           
+       <p:row><p:column> 
+        
+        
+            <p:tabView>
+        <p:tab title="#{msg['label.datosgenerales']}">
+            <p:panelGrid>
+               
+ 
+    		<p:row>
+        			<p:column><h:outputLabel for="codigo" value="#{msg['label.codigo']} : "/></p:column>
+        			<p:column colsapn="3"><p:inputText id="codigo" value="#{cargaMB.codigo}" required="true"></p:inputText></p:column>
+        	</p:row>
+    		
+     		<p:row>	
+     		        <p:column><h:outputLabel for="nit" value="#{msg['label.tipodocumento']} : " /></p:column>
+        			<p:column >        			
+        			<p:selectOneMenu value="#{cargaMB.tipoident}" id="tipodoc" required="true">
+        							<f:selectItem itemValue="" itemLabel="#{msg['label.seleccioneopcion']} "/> 
+        							<f:selectItems value="#{cargaMB.listaTipodocumentoDom}" />
+    						   </p:selectOneMenu> 
+        			
+        			
+        			</p:column>	
+        			<p:column><h:outputLabel for="numdoc" value="#{msg['label.numerodocumento']} : " /></p:column>
+        			<p:column ><p:inputText id="numdoc" value="#{cargaMB.numident}" required="true"></p:inputText></p:column>
+    		</p:row>
+    		
+     		<p:row>
+     		        <p:column><h:outputLabel for="nombre" value="#{msg['label.nombre']} : "/></p:column>
+        			<p:column colspan="3"><p:inputText id="nombre" value="#{cargaMB.nombre}"  size="50" required="true"></p:inputText></p:column>
+     		</p:row>
+     		
+     		<p:row>
+     		
+     		       <p:column><h:outputLabel for="pais" value="#{msg['label.pais']} :"/></p:column>
+        			<p:column >
+        			           <p:selectOneMenu value="#{cargaMB.pais}" id="pais" required="true">
+        							<f:selectItem itemValue="" itemLabel="#{msg['label.seleccioneopcion']} "/> 
+        							<f:selectItems value="#{cargaMB.listaPaisesDom}" />
+        							<p:ajax listener="#{cargaMB.getCiudadesPais}" update="ciudad"/>
+    						   </p:selectOneMenu>
+        			</p:column>
+        			<p:column><h:outputLabel for="ciudad" value="#{msg['label.ciudad']} : " /></p:column>
+        			<p:column>
+        			          <p:selectOneMenu value="#{cargaMB.ciudad}" id="ciudad" required="true">
+        							<f:selectItem itemValue="" itemLabel="#{msg['label.seleccioneopcion']} "/> 
+        							<f:selectItems value="#{cargaMB.listaCiudadesDom}" />
+    						   </p:selectOneMenu>
+        			</p:column>
+        			
+    		</p:row>
+    		
+    		<p:row>
+    		      <p:column><h:outputLabel for="direccion" value="#{msg['label.direccion']} : "/></p:column>
+        		  <p:column colspan="3"><p:inputText id="direccion" value="#{cargaMB.direccion}"  size="50"></p:inputText></p:column>
+    		</p:row>
+    		
+    		<p:row>
+        			<p:column><h:outputLabel for="infobancaria" value="#{msg['label.infobancaria']} : "/></p:column>
+        			<p:column colspan="3"><p:inputTextarea id="infobancaria" value="#{cargaMB.infobancaria}"  rows="5" cols="50" maxlength="500" autoResize="false" /></p:column>
+     		</p:row>
+
+    		<p:row>
+        			<p:column><h:outputLabel for="observaciones" value="#{msg['label.observaciones']} : "/></p:column>
+        			<p:column colspan="3"><p:inputTextarea id="observaciones" value="#{cargaMB.observaciones}"  rows="5" cols="50" maxlength="500" autoResize="false" /></p:column>
+     		</p:row>
+
+    
+            </p:panelGrid>
+        </p:tab>
+        <p:tab title="#{msg['label.contactos']}">
+            <p:panelGrid>
+               
+    		
+    		<p:row>
+        			<p:column><h:outputLabel for="tel1" value="#{msg['label.telefonouno']} : "/></p:column>
+        			<p:column ><p:inputText id="tel1" value="#{cargaMB.tel1}" ></p:inputText></p:column>
+        			<p:column><h:outputLabel for="tel2" value="#{msg['label.telefonodos']} : " /></p:column>
+        			<p:column ><p:inputText id="tel2" value="#{cargaMB.tel2}" ></p:inputText></p:column>
+        			
+    		</p:row>
+    		
+    		<p:row>
+    		        <p:column><h:outputLabel for="fax" value="#{msg['label.fax']} : "/></p:column>
+        			<p:column ><p:inputText id="fax" value="#{cargaMB.fax}" ></p:inputText></p:column>
+        			<p:column><h:outputLabel for="cel1" value="#{msg['label.celularuno']} : "/></p:column>
+        			<p:column ><p:inputText id="cel1" value="#{cargaMB.cel1}" ></p:inputText></p:column>
+        	</p:row>	
+        	<p:row>	
+        			<p:column><h:outputLabel for="cel2" value="#{msg['label.celulardos']} : " /></p:column>
+        			<p:column ><p:inputText id="cel2" value="#{cargaMB.cel2}" ></p:inputText></p:column>
+        			<p:column><h:outputLabel for="web" value="#{msg['label.web']} : "/></p:column>
+        			<p:column ><p:inputText id="web" value="#{cargaMB.web}" ></p:inputText></p:column>
+    		</p:row>
+    		
+    		<p:row>
+        			<p:column><h:outputLabel for="correo1" value="#{msg['label.emailuno']} : "/></p:column>
+        			<p:column><p:inputText id="correo1" value="#{cargaMB.correo1}" ></p:inputText></p:column>
+        			<p:column><h:outputLabel for="correo2" value="#{msg['label.emaildos']} : " /></p:column>
+        			<p:column><p:inputText id="correo2" value="#{cargaMB.correo2}" ></p:inputText></p:column>
+    		</p:row>
+    		
+    		<p:row>
+        			<p:column><h:outputLabel for="ctoven" value="#{msg['label.contacto1']} : "/></p:column>
+        			<p:column colspan="3"><p:inputText id="ctoven" value="#{cargaMB.contacto1}" size="65"></p:inputText></p:column>
+        	</p:row>
+        	<p:row>		
+        			<p:column><h:outputLabel for="ctoprop" value="#{msg['label.contacto2']} : " /></p:column>
+        			<p:column colspan="3"><p:inputText id="ctoprop" value="#{cargaMB.contacto2}" size="65"></p:inputText></p:column>
+        			
+    		</p:row>
+    		
+
+        	<p:row>		
+        			<p:column><h:outputLabel for="skype1" value="#{msg['label.skype1']} : "/></p:column>
+        			<p:column ><p:inputText id="skype1" value="#{cargaMB.skype1}" ></p:inputText></p:column>
+        			<p:column><h:outputLabel for="skype2" value="#{msg['label.skype2']} : " /></p:column>
+        			<p:column ><p:inputText id="skype2" value="#{cargaMB.skype2}" ></p:inputText></p:column>
+        	</p:row>
+
+    		
+    		
+    	</p:panelGrid>	
+        </p:tab>
+        <p:tab title="#{msg['label.balance']}">
+             <p:panelGrid>
+               
+    		
+    		<p:row>
+        			<p:column><h:outputLabel for="cupo" value="#{msg['label.cupo']} : "/></p:column>
+        			<p:column ><p:inputText id="cupo" value="#{cargaMB.cupo}" ></p:inputText></p:column>
+        			<p:column><h:outputLabel for="desc" value="#{msg['label.descripcion']} : " /></p:column>
+        			<p:column ><p:inputTextarea id="desc" value="#{cargaMB.desccupo}"  rows="5" cols="50" maxlength="500" autoResize="false" /></p:column>
+        			
+    		</p:row>
+    		
+
+    		
+    	</p:panelGrid>	
+        </p:tab>
+        
+        <p:tab title="#{msg['label.destinos']}">
+            <p:panelGrid>
+            
+            <p:row>
+     		
+     		       <p:column><h:outputLabel  value="#{msg['label.destino']} : "/></p:column>
+        			<p:column >
+        			           <p:selectOneMenu value="#{cargaMB.destino}" id="iddestino" >
+        							<f:selectItem itemValue="" itemLabel="#{msg['label.seleccioneopcion']} "/> 
+        							<f:selectItems value="#{cargaMB.listaDestinos}"  var="destino" itemLabel="#{destino.nombreorigen} #{destino.nombreciudad} - #{destino.nombrefinal} #{destino.nombreciudadfinal}" itemValue="#{destino.id}"/>
+    						   </p:selectOneMenu>
+        			</p:column>
+        			 <p:column><h:outputLabel  value="#{msg['label.aerolinea']} : "/></p:column>
+        			<p:column >
+        			           <p:selectOneMenu value="#{cargaMB.aerolinea}" id="idaerolinea" >
+        							<f:selectItem itemValue="" itemLabel="#{msg['label.seleccioneopcion']}"/> 
+        							<f:selectItems value="#{cargaMB.listaerolineas}" var="aerolinea" itemLabel="#{aerolinea.nombre}" itemValue="#{aerolinea.id}"/>
+  						   </p:selectOneMenu>
+        			</p:column>
+        </p:row>
+        
+        <p:row>
+        			<p:column><h:outputLabel value="#{msg['label.diassalida']} : "/></p:column>
+        			<p:column colspan="3">
+        			  <p:panelGrid colums="14">
+        			     <p:row>
+        			           <p:column><h:outputLabel value="#{msg['label.lunes']} : "/></p:column>
+        			           <p:column><p:selectBooleanCheckbox id="lunes" value="#{cargaMB.lunes}" /></p:column>
+        			           <p:column><h:outputLabel value="#{msg['label.martes']} : "/></p:column>
+        			           <p:column><p:selectBooleanCheckbox id="martes" value="#{cargaMB.martes}" /></p:column>
+        			           <p:column><h:outputLabel value="#{msg['label.miercoles']} : "/></p:column>
+        			           <p:column><p:selectBooleanCheckbox id="miercoles" value="#{cargaMB.miercoles}" /></p:column>
+        			           <p:column><h:outputLabel value="#{msg['label.jueves']} : "/></p:column>
+        			           <p:column><p:selectBooleanCheckbox id="jueves" value="#{cargaMB.jueves}" /></p:column>
+        			           <p:column><h:outputLabel value="#{msg['label.viernes']} : "/></p:column>
+        			           <p:column><p:selectBooleanCheckbox id="viernes" value="#{cargaMB.viernes}" /></p:column>
+        			           <p:column><h:outputLabel value="#{msg['label.sabado']} : "/></p:column>
+        			           <p:column><p:selectBooleanCheckbox id="sabado" value="#{cargaMB.sabado}" /></p:column>
+        			           <p:column><h:outputLabel value="#{msg['label.domingo']} : "/></p:column>
+        			           <p:column><p:selectBooleanCheckbox id="domingo" value="#{cargaMB.domingo}" /></p:column>
+        			     </p:row>
+        			  </p:panelGrid>
+        			</p:column>
+     		</p:row>	
+        
+          		               
+    		<p:row>
+    		        <p:column><h:outputLabel for="desde" value="#{msg['label.rangodesde']} : "/></p:column>
+        			<p:column ><p:inputText id="desde" value="#{cargaMB.rangoinicial}" ></p:inputText><h:outputLabel value="#{msg['label.kilogramos']}"/></p:column>
+        			<p:column><h:outputLabel for="hasta" value="#{msg['label.rangohasta']} : "/></p:column>
+        			<p:column ><p:inputText id="hasta" value="#{cargaMB.rangofinal}" ></p:inputText><h:outputLabel value="#{msg['label.kilogramos']}"/></p:column>
+        	</p:row>
+        	<p:row>
+        			<p:column><h:outputLabel for="tarifacliente" value="#{msg['label.tarifacliente']} : "/></p:column>
+        			<p:column ><p:inputText id="tarifacliente" value="#{cargaMB.tarifacliente}" ></p:inputText></p:column>
+        			<p:column><h:outputLabel for="tarifaastoria" value="#{msg['label.tarifaastoria']} : " /></p:column>
+        			<p:column ><p:inputText id="tarifaastoria" value="#{cargaMB.tarifaastoria}" ></p:inputText></p:column>
+        			
+    		</p:row>
+        	<p:row>
+    		        <p:column><h:outputLabel for="desde2" value="#{msg['label.rangodesde']} : "/></p:column>
+        			<p:column ><p:inputText id="desde2" value="#{cargaMB.rangoinicial2}" ></p:inputText><h:outputLabel value="#{msg['label.kilogramos']}"/></p:column>
+        			<p:column><h:outputLabel for="hasta2" value="#{msg['label.rangohasta']} : "/></p:column>
+        			<p:column ><p:inputText id="hasta2" value="#{cargaMB.rangofinal2}" ></p:inputText><h:outputLabel value="#{msg['label.kilogramos']}"/></p:column>
+        	</p:row>
+        	<p:row>
+        			<p:column><h:outputLabel for="tarifacliente2" value="#{msg['label.tarifacliente']} : "/></p:column>
+        			<p:column ><p:inputText id="tarifacliente2" value="#{cargaMB.tarifacliente2}" ></p:inputText></p:column>
+        			<p:column><h:outputLabel for="tarifaastoria2" value="#{msg['label.tarifaastoria']} : " /></p:column>
+        			<p:column ><p:inputText id="tarifaastoria2" value="#{cargaMB.tarifaastoria2}" ></p:inputText></p:column>
+        			
+    		</p:row>
+        	<p:row>
+    		        <p:column><h:outputLabel for="desde3" value="#{msg['label.rangodesde']} : "/></p:column>
+        			<p:column ><p:inputText id="desde3" value="#{cargaMB.rangoinicial3}" ></p:inputText><h:outputLabel value="#{msg['label.kilogramos']}"/></p:column>
+        			<p:column><h:outputLabel for="hasta3" value="#{msg['label.rangohasta']} : "/></p:column>
+        			<p:column ><p:inputText id="hasta3" value="#{cargaMB.rangofinal3}" ></p:inputText><h:outputLabel value="#{msg['label.kilogramos']}"/></p:column>
+        	</p:row>
+    		<p:row>
+        			<p:column><h:outputLabel for="tarifacliente3" value="#{msg['label.tarifacliente']} : "/></p:column>
+        			<p:column ><p:inputText id="tarifacliente3" value="#{cargaMB.tarifacliente3}" ></p:inputText></p:column>
+        			<p:column><h:outputLabel for="tarifaastoria3" value="#{msg['label.tarifaastoria']} : " /></p:column>
+        			<p:column ><p:inputText id="tarifaastoria3" value="#{cargaMB.tarifaastoria3}" ></p:inputText></p:column>
+        			
+    		</p:row>
+    		<p:row>
+        			<p:column><h:outputLabel for="otro1" value="#{msg['label.concepto']} : "/></p:column>
+        			<p:column ><p:inputText id="otro1" value="#{cargaMB.concepto1}" ></p:inputText></p:column>
+        			<p:column colspan="2">
+        			         <table><tr>
+        			           <td><h:outputLabel for="otro2" value="#{msg['label.valorcliente']} : " /></td>
+        			           <td><p:inputText id="otro2" value="#{cargaMB.valor1}" ></p:inputText></td>
+        			           <td><h:outputLabel for="otro22" value="#{msg['label.valorastoria']} : " /></td>
+        			           <td><p:inputText id="otro22" value="#{cargaMB.valorast1}" ></p:inputText></td>
+        			         </tr></table>
+        			</p:column>
+    		</p:row>
+    		<p:row>
+        			<p:column><h:outputLabel for="otro3" value="#{msg['label.concepto']} : "/></p:column>
+        			<p:column ><p:inputText id="otro3" value="#{cargaMB.concepto2}" ></p:inputText></p:column>
+        			<p:column colspan="2">
+        			         <table><tr>
+        			           <td><h:outputLabel for="otro4" value="#{msg['label.valorcliente']} : " /></td>
+        			           <td><p:inputText id="otro4" value="#{cargaMB.valor2}" ></p:inputText></td>
+        			           <td><h:outputLabel for="otro44" value="#{msg['label.valorastoria']} : " /></td>
+        			           <td><p:inputText id="otro44" value="#{cargaMB.valorast2}" ></p:inputText></td>
+        			         </tr></table>
+        			</p:column>
+    		</p:row>
+    		<p:row>
+        			<p:column><h:outputLabel for="otro5" value="#{msg['label.concepto']} : "/></p:column>
+        			<p:column ><p:inputText id="otro5" value="#{cargaMB.concepto3}" ></p:inputText></p:column>
+        			<p:column colspan="2">
+        			         <table><tr>
+        			           <td><h:outputLabel for="otro6" value="#{msg['label.valorcliente']} : " /></td>
+        			           <td><p:inputText id="otro6" value="#{cargaMB.valor3}" ></p:inputText></td>
+        			           <td><h:outputLabel for="otro66" value="#{msg['label.valorastoria']} : " /></td>
+        			           <td><p:inputText id="otro66" value="#{cargaMB.valorast3}" ></p:inputText></td>
+        			         </tr></table>
+        			</p:column>
+    		</p:row>
+    		<p:row>
+        			<p:column><h:outputLabel for="otro7" value="#{msg['label.concepto']} : "/></p:column>
+        			<p:column ><p:inputText id="otro7" value="#{cargaMB.concepto4}" ></p:inputText></p:column>
+        			<p:column colspan="2">
+        			         <table><tr>
+        			           <td><h:outputLabel for="otro8" value="#{msg['label.valorcliente']} : " /></td>
+        			           <td><p:inputText id="otro8" value="#{cargaMB.valor4}" ></p:inputText></td>
+        			           <td><h:outputLabel for="otro88" value="#{msg['label.valorastoria']} : " /></td>
+        			           <td><p:inputText id="otro88" value="#{cargaMB.valorast4}" ></p:inputText></td>
+        			         </tr></table>
+        			</p:column>
+    		</p:row>
+    		
+    		<p:row>
+        			<p:column><h:outputLabel for="observacionesdestino" value="#{msg['label.observaciones']} : "/></p:column>
+        			<p:column colspan="3"><p:inputTextarea id="observacionesdestino" value="#{cargaMB.observacionesdestino}"  rows="5" cols="70" maxlength="700" autoResize="false" /></p:column>
+        	</p:row>
+    		    			
+        	<p:row>
+        			<p:column colspan="4" >
+        			<div align="center">
+        			    				<p:commandButton id="addDestino" value="#{msg['label.aceptar']}" action="#{cargaMB.subir}"   update="listaDestinostmp"/>
+        			
+        			</div>
+        			</p:column>
+    		</p:row>
+    		
+    		
+    	</p:panelGrid>	
+    	<p:dataTable var="destino" value="#{cargaMB.listaDestinostmp}" id="listaDestinostmp">
+    	    
+    	    <p:column headerText="#{msg['label.aerolinea']}">
+        		<h:outputText value="#{destino.nombreaerolinea}" />
+     		</p:column>
+    		<p:column headerText="#{msg['label.paisorigen']}">
+        		<h:outputText value="#{destino.nombreorigen}" />
+     		</p:column>
+     		<p:column headerText="#{msg['label.ciudadorigen']}">
+        		<h:outputText value="#{destino.nombreciudad}" />
+     		</p:column>
+     		<p:column headerText="#{msg['label.paisdestino']}">
+        		<h:outputText value="#{destino.nombrefinal}" />
+     		</p:column>
+     		<p:column headerText="#{msg['label.ciudaddestino']}">
+        		<h:outputText value="#{destino.nombreciudadfinal}" />
+     		</p:column>
+     		<p:column headerText="#{msg['label.rangodesde']}  - #{msg['label.kilogramos']}">
+        		<h:outputText value="#{destino.rangoinicial}" />
+     		</p:column>
+     		<p:column headerText="#{msg['label.rangohasta']} - #{msg['label.kilogramos']}">
+        		<h:outputText value="#{destino.rangofinal}" />
+     		</p:column>
+     		<p:column headerText="#{msg['label.tarifacliente']}">
+        		<h:outputText value="#{destino.tarifacliente}" />
+     		</p:column>
+     		<p:column headerText="#{msg['label.tarifaastoria']}">
+        		<h:outputText value="#{destino.tarifaastoria}" />
+     		</p:column>
+     		<p:column headerText="#{msg['label.ver']}">
+    		<div align ="center">
+    		<p:commandLink update="form:detalle" oncomplete="PF('dialogo').show()" title="Vista" styleClass="ui-icon ui-icon-search" style="float:center;margin-right:10px">
+            	<f:setPropertyActionListener value="#{destino}" target="#{cargaMB.selectedDestino}" />
+        	</p:commandLink>
+        	</div>
+        	</p:column>
+     		
+ 
+    		
+    		<p:column headerText="#{msg['label.borrar']}">
+					<p:commandButton icon="ui-icon ui-icon-trash" action="#{cargaMB.eliminar(destino)}"  ajax="true"  value="Eliminar" update="listaDestinostmp">
+					</p:commandButton>
+    		</p:column>
+ 
+    		    		
+	</p:dataTable>
+    </p:tab>
+  
+    </p:tabView>
+    
+    
+    </p:column>
+    </p:row>
+    <f:facet name="footer">
+        <p:row>
+            <p:column >
+            <div align="center">
+         
+     
+                <p:commandButton icon="ui-icon-disk" value="#{msg['label.aceptar']}" action="#{cargaMB.crearAgencia}" ajax="false"/>
+             </div>
+            </p:column>
+        </p:row>
+        
+    </f:facet>
+    </p:panelGrid>
+    
+    <p:dialog header="#{msg['label.destino']}" widgetVar="dialogo" modal="false" showEffect="blind" hideEffect="explode" resizable="false">
+        <p:outputPanel id="detalle" style="width:900px;height:400px;text-align:left;">
+            <h:panelGrid  columns="4" rendered="#{not empty cargaMB.selectedDestino}">
+             
+            
+        			    <p:column><h:outputLabel  value="#{msg['label.paisorigen']} : "/></p:column>
+        			    <p:column><p:inputText value="#{cargaMB.selectedDestino.nombreorigen}" readonly="true"></p:inputText></p:column>
+        			    
+        			    <p:column><h:outputLabel  value="#{msg['label.ciudadorigen']} : "/></p:column>
+        			    <p:column><p:inputText value="#{cargaMB.selectedDestino.nombreciudad}" readonly="true"></p:inputText></p:column>
+        		    
+        			     <p:column><h:outputLabel  value="#{msg['label.paisdestino']} : "/></p:column>
+        			    <p:column><p:inputText value="#{cargaMB.selectedDestino.nombrefinal}" readonly="true"></p:inputText></p:column>
+        			    
+        			     <p:column><h:outputLabel  value="#{msg['label.ciudaddestino']} : "/></p:column>
+        			    <p:column><p:inputText value="#{cargaMB.selectedDestino.nombreciudadfinal}" readonly="true"></p:inputText></p:column>
+
+        			
+        			    <p:column><h:outputLabel  value="#{msg['label.aerolinea']} : "/></p:column>
+        			    <p:column colspan="3"><p:inputText value="#{cargaMB.selectedDestino.nombreaerolinea}" readonly="true"></p:inputText></p:column>
+      			
+            
+            			
+        			<p:column><h:outputLabel value="#{msg['label.diassalida']} : "/></p:column>
+        			<p:column colspan="3">
+        			  <h:panelGrid colums="14">
+        			    
+        			           <p:column><h:outputLabel value="#{msg['label.lunes']} : "/></p:column>
+        			           <p:column><p:selectBooleanCheckbox id="lunesv" value="#{cargaMB.selectedDestino.lunes}" readonly="true"/></p:column>
+        			           <p:column><h:outputLabel value="#{msg['label.martes']} : "/></p:column>
+        			           <p:column><p:selectBooleanCheckbox id="martesv" value="#{cargaMB.selectedDestino.martes}" readonly="true"/></p:column>
+        			           <p:column><h:outputLabel value="#{msg['label.miercoles']} : "/></p:column>
+        			           <p:column><p:selectBooleanCheckbox id="miercolesv" value="#{cargaMB.selectedDestino.miercoles}" readonly="true"/></p:column>
+        			           <p:column><h:outputLabel value="#{msg['label.jueves']} : "/></p:column>
+        			           <p:column><p:selectBooleanCheckbox id="juevesv" value="#{cargaMB.selectedDestino.jueves}" readonly="true"/></p:column>
+        			           <p:column><h:outputLabel value="#{msg['label.viernes']} : "/></p:column>
+        			           <p:column><p:selectBooleanCheckbox id="viernesv" value="#{cargaMB.selectedDestino.viernes}" readonly="true"/></p:column>
+        			           <p:column><h:outputLabel value="#{msg['label.sabado']} : "/></p:column>
+        			           <p:column><p:selectBooleanCheckbox id="sabadov" value="#{cargaMB.selectedDestino.sabado}" readonly="true"/></p:column>
+        			           <p:column><h:outputLabel value="#{msg['label.domingo']} : "/></p:column>
+        			           <p:column><p:selectBooleanCheckbox id="domingov" value="#{cargaMB.selectedDestino.domingo}" readonly="true"/></p:column>
+        			     
+        			  </h:panelGrid>
+        			</p:column>
+     		
+        
+          		               
+    		
+    		        <p:column><h:outputLabel for="desdev" value="#{msg['label.rangodesde']} : "/></p:column>
+        			<p:column ><p:inputText id="desdev" value="#{cargaMB.selectedDestino.rangoinicial}" readonly="true"></p:inputText><h:outputLabel value="#{msg['label.kilogramos']}"/></p:column>
+        			<p:column><h:outputLabel for="hastav" value="#{msg['label.rangohasta']} : "/></p:column>
+        			<p:column ><p:inputText id="hastav" value="#{cargaMB.selectedDestino.rangofinal}" readonly="true"></p:inputText><h:outputLabel value="#{msg['label.kilogramos']}"/></p:column>
+        	
+        	
+        			<p:column><h:outputLabel for="tarifaclientev" value="#{msg['label.tarifacliente']} : "/></p:column>
+        			<p:column ><p:inputText id="tarifaclientev" value="#{cargaMB.selectedDestino.tarifacliente}" readonly="true"></p:inputText></p:column>
+        			<p:column><h:outputLabel for="tarifaastoriav" value="#{msg['label.tarifaastoria']} : " /></p:column>
+        			<p:column ><p:inputText id="tarifaastoriav" value="#{cargaMB.selectedDestino.tarifaastoria}" readonly="true"></p:inputText></p:column>
+        			
+    		
+        	
+    		        <p:column><h:outputLabel for="desde2v" value="#{msg['label.rangodesde']} : "/></p:column>
+        			<p:column ><p:inputText id="desde2v" value="#{cargaMB.selectedDestino.rangoinicial2}" readonly="true"></p:inputText><h:outputLabel value="#{msg['label.kilogramos']}"/></p:column>
+        			<p:column><h:outputLabel for="hasta2v" value="#{msg['label.rangohasta']} : "/></p:column>
+        			<p:column ><p:inputText id="hasta2v" value="#{cargaMB.selectedDestino.rangofinal2}" readonly="true"></p:inputText><h:outputLabel value="#{msg['label.kilogramos']}"/></p:column>
+        	
+        			<p:column><h:outputLabel for="tarifacliente2v" value="#{msg['label.tarifacliente']} : "/></p:column>
+        			<p:column ><p:inputText id="tarifacliente2v" value="#{cargaMB.selectedDestino.tarifacliente2}" readonly="true"></p:inputText></p:column>
+        			<p:column><h:outputLabel for="tarifaastoria2v" value="#{msg['label.tarifaastoria']} : " /></p:column>
+        			<p:column ><p:inputText id="tarifaastoria2v" value="#{cargaMB.selectedDestino.tarifaastoria2}" readonly="true"></p:inputText></p:column>
+        			
+    		
+    		        <p:column><h:outputLabel for="desde3v" value="#{msg['label.rangodesde']} : "/></p:column>
+        			<p:column ><p:inputText id="desde3v" value="#{cargaMB.selectedDestino.rangoinicial3}" readonly="true"></p:inputText><h:outputLabel value="#{msg['label.kilogramos']}"/></p:column>
+        			<p:column><h:outputLabel for="hasta3v" value="#{msg['label.rangohasta']} : "/></p:column>
+        			<p:column ><p:inputText id="hasta3v" value="#{cargaMB.selectedDestino.rangofinal3}" readonly="true"></p:inputText><h:outputLabel value="#{msg['label.kilogramos']}"/></p:column>
+        	
+        			<p:column><h:outputLabel for="tarifacliente3v" value="#{msg['label.tarifacliente']} : "/></p:column>
+        			<p:column ><p:inputText id="tarifacliente3v" value="#{cargaMB.selectedDestino.tarifacliente3}" readonly="true"></p:inputText></p:column>
+        			<p:column><h:outputLabel for="tarifaastoria3v" value="#{msg['label.tarifaastoria']} : " /></p:column>
+        			<p:column ><p:inputText id="tarifaastoria3v" value="#{cargaMB.selectedDestino.tarifaastoria3}" readonly="true"></p:inputText></p:column>
+        			
+    		
+        			<p:column><h:outputLabel for="otro1v" value="#{msg['label.concepto']} : "/></p:column>
+        			<p:column ><p:inputText id="otro1v" value="#{cargaMB.selectedDestino.concepto1}" readonly="true"></p:inputText></p:column>
+        			<p:column colspan="2">
+        			         <table><tr>
+        			           <td><h:outputLabel for="otro2v" value="#{msg['label.valorcliente']} : " /></td>
+        			           <td><p:inputText id="otro2v" value="#{cargaMB.selectedDestino.valor1}" ></p:inputText></td>
+        			           <td><h:outputLabel for="otro2vv" value="#{msg['label.valorastoria']} : " /></td>
+        			           <td><p:inputText id="otro2vv" value="#{cargaMB.selectedDestino.valorast1}" ></p:inputText></td>
+        			         </tr></table>
+        			</p:column>
+        			<p:column><h:outputLabel for="otro3v" value="#{msg['label.concepto']} : "/></p:column>
+        			<p:column ><p:inputText id="otro3v" value="#{cargaMB.selectedDestino.concepto2}" readonly="true"></p:inputText></p:column>
+        			<p:column colspan="2">
+        			         <table><tr>
+        			           <td><h:outputLabel for="otro4v" value="#{msg['label.valorcliente']} : " /></td>
+        			           <td><p:inputText id="otro4v" value="#{cargaMB.selectedDestino.valor2}" ></p:inputText></td>
+        			           <td><h:outputLabel for="otro4vv" value="#{msg['label.valorastoria']} : " /></td>
+        			           <td><p:inputText id="otro4vv" value="#{cargaMB.selectedDestino.valorast2}" ></p:inputText></td>
+        			         </tr></table>
+        			</p:column>
+        			<p:column><h:outputLabel for="otro5v" value="#{msg['label.concepto']} : "/></p:column>
+        			<p:column ><p:inputText id="otro5v" value="#{cargaMB.selectedDestino.concepto3}" readonly="true"></p:inputText></p:column>
+        			<p:column colspan="2">
+        			         <table><tr>
+        			           <td><h:outputLabel for="otro6v" value="#{msg['label.valorcliente']} : " /></td>
+        			           <td><p:inputText id="otro6v" value="#{cargaMB.selectedDestino.valor3}" ></p:inputText></td>
+        			           <td><h:outputLabel for="otro6vv" value="#{msg['label.valorastoria']} : " /></td>
+        			           <td><p:inputText id="otro6vv" value="#{cargaMB.selectedDestino.valorast3}" ></p:inputText></td>
+        			         </tr></table>
+        			</p:column>
+        			<p:column><h:outputLabel for="otro7v" value="#{msg['label.concepto']} : "/></p:column>
+        			<p:column ><p:inputText id="otro7v" value="#{cargaMB.selectedDestino.concepto4}" readonly="true"></p:inputText></p:column>
+        			<p:column colspan="2">
+        			         <table><tr>
+        			           <td><h:outputLabel for="otro8v" value="#{msg['label.valorcliente']} : " /></td>
+        			           <td><p:inputText id="otro8v" value="#{cargaMB.selectedDestino.valor4}" ></p:inputText></td>
+        			           <td><h:outputLabel for="otro8vv" value="#{msg['label.valorastoria']} : " /></td>
+        			           <td><p:inputText id="otro8vv" value="#{cargaMB.selectedDestino.valorast4}" ></p:inputText></td>
+        			         </tr></table>
+        			</p:column>
+    		</h:panelGrid>
+    		<h:panelGrid columns="2" rendered="#{not empty cargaMB.selectedDestino}">
+        			<p:column><h:outputLabel for="observacionesdestinov" value="#{msg['label.observaciones']} : "/></p:column>
+        			<p:column><p:inputTextarea id="observacionesdestinov" value="#{cargaMB.selectedDestino.observaciones}"  rows="5" cols="70" maxlength="700" autoResize="false" readonly="true"/></p:column>
+       
+   		
+    	</h:panelGrid>	
+        </p:outputPanel>
+    </p:dialog>
+    
+    	
+        </h:form>
+						<!-- fin del form interno-->
+            </div>
+        </div>
+        <div id="bottom">
+            <ui:insert name="bottom">
+              <ui:include src="../main/templates/footer.xhtml" />
+            </ui:insert>
+        </div>
+ </h:body> 
+  <br/>     
+</html>
+
+
+
+
+
+
+
+
+
+
+

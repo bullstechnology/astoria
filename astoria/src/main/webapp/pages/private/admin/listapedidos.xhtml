@@ -1,0 +1,256 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:sec="http://www.springframework.org/security/tags">
+        
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+		<title>SISCOMFLOR</title>
+        
+     <h:head>
+
+       <!--  <h:outputStylesheet library="css" name="styles.css" /> -->
+        <h:outputStylesheet name="webjars/primeflex/2.0.0/primeflex.css" />
+
+    </h:head>
+    
+    <style type="text/css">
+    .box,
+    .sample-layout > div {
+        background-color: #cce4f7;
+        text-align: center;
+        padding-top: 1em;
+        padding-bottom: 1em;
+        border-radius: 4px;
+        
+    }
+ 
+    .box-stretched {
+        height: 100%;
+    }
+ 
+    .sample-layout {
+        margin: 0;
+    }
+ 
+    .sample-layout > div {
+        border: 1px solid #ffffff;
+    }
+ 
+    .vertical-container {
+        margin: 0;
+        height: 200px;
+        background: #efefef;
+        border-radius: 4px;
+    }
+ 
+    .nested-grid .p-col-4 {
+        padding-bottom: 1em;
+    }
+    
+   .p-grid {
+  width: 100%;
+  height:100%;
+  border: 1px solid black;
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  padding: 10px;
+}
+.container {
+  background: red;
+  height: 100%;
+}
+#top{
+      height:10%;
+      width: 100%;
+      background-color: gray;
+    }
+#left{
+      height:85%;
+      width: 100%;
+
+    }
+#centro{
+      height:85%;
+      width: 100%;
+      overflow-y: scroll;
+    }
+#bottom{
+
+      width: 100%;
+      background-color:#FFFFFF;
+      bottom: 0;
+      position:fixed;
+    }
+    html, body{
+      height:100%;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+</style>
+    
+    
+
+    <h:body style="background-color:#FFFFFF;">
+
+        <div id="header">
+
+            <ui:include src="../main/templates/header.xhtml" />
+
+        </div>
+        
+        <div id='centro'>
+            <div id="left" style='float: left; width: 15%'>
+                <ui:include src="../main/templates/menu.xhtml" />
+            </div>
+            <div id="content" class="left_content" style='float: right; width: 85%'>
+                        <!-- inicio del form interno -->
+						 <h:form id="form">
+        <p:panel header="#{msg['titulo.formulario.buscarPedido']}">
+    <h:panelGrid style="margin-top:20px" columns="4">
+
+
+        			<h:outputLabel for="fechainicial" value="#{msg['label.fechainicial']} : "/>
+        			
+        			           <p:calendar id="fechainicial" value="#{buscarPedidoMB.fechainicial}" pattern="yyyy-MM-dd" mask="true"/>
+        			
+        			<h:outputLabel for="fechafinal" value="#{msg['label.fechafinal']} : "/>
+        			
+        			           <p:calendar id="fechafinal" value="#{buscarPedidoMB.fechafinal}" pattern="yyyy-MM-dd" mask="true"/>
+        			
+        			
+
+
+        			<h:outputLabel for="cliente" value="#{msg['label.cliente']} : "/>
+        			
+        			  <p:selectOneMenu id="cliente" value="#{buscarPedidoMB.cliente}" >
+            						<f:selectItem itemLabel="#{msg['label.seleccioneopcion']}" itemValue="" />
+            						<f:selectItems value="#{buscarPedidoMB.clientesSelect}" />
+       				  </p:selectOneMenu>
+        			
+        			
+ 
+   
+        			<h:outputLabel for="estado" value="#{msg['label.estado']} : "/>
+        			 <p:selectOneMenu id="estado" value="#{buscarPedidoMB.estado}" >
+            						<f:selectItem itemLabel="#{msg['label.seleccioneopcion']}" itemValue="" />
+            						<f:selectItem itemLabel="Cotizado" itemValue="S" />
+            						<f:selectItem itemLabel="Registrado" itemValue="R" />
+            						<f:selectItem itemLabel="Conciliado" itemValue="C" />
+            						<f:selectItem itemLabel="Despachado" itemValue="D" />
+            						<f:selectItem itemLabel="Facturado" itemValue="F" />
+            						<f:selectItem itemLabel="Entregado" itemValue="E" />
+            						<f:selectItem itemLabel="Cancelado" itemValue="X" />
+       				  </p:selectOneMenu>
+        			
+                  <h:outputLabel value="#{msg['label.pedido']} : "/>
+                  <p:inputText id="idPedido" value="#{buscarPedidoMB.idPedido}"  size="4"></p:inputText>
+        			<h:outputLabel value=""/>
+        			<h:outputLabel value=""/>
+        			<div align="center">
+        				<p:commandButton id="buscarPedidoMB" value="#{msg['label.buscar']}" action="#{buscarPedidoMB.buscar}" ajax="false" update="form"/>
+        			</div>	
+        			
+     
+       
+       
+       
+ 
+    </h:panelGrid>
+    </p:panel>
+    
+     <p:dataTable var="pedido" value="#{buscarPedidoMB.listaPedidosSalida}" id="listapedidos" rows="10"
+                         paginator="true"
+                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15"  style="width: 1000px" sortMode="multiple">
+     
+            <p:column headerText="#{msg['label.numpedido']}" sortBy="#{pedido.idpedido}">
+        		<h:outputText value="#{pedido.idpedido}" />
+     		</p:column>
+            
+    		<p:column headerText="#{msg['label.pais']}" sortBy="#{pedido.nombrepais}">
+        		<h:outputText value="#{pedido.nombrepais}" />
+     		</p:column>
+ 
+    		<p:column headerText="#{msg['label.ciudad']}" sortBy="#{pedido.nombreciudad}">
+        		<h:outputText value="#{pedido.nombreciudad}" />
+    		</p:column>
+ 
+    		<p:column headerText="#{msg['label.cliente']}" sortBy="#{pedido.nombrecliente}">
+       			 <h:outputText value="#{pedido.nombrecliente}" />
+    		</p:column>
+ 
+    		<p:column headerText="#{msg['label.fechapedido']}" sortBy="#{pedido.fechapedido}">
+        		<h:outputText value="#{pedido.fechapedido}" />
+    		</p:column>
+    		<p:column headerText="#{msg['label.fechadespacho']}" sortBy="#{pedido.fechadespacho}">
+        		<h:outputText value="#{pedido.fechadespacho}" />
+    		</p:column>
+    		<p:column headerText="#{msg['label.programado']}">
+        		<p:selectBooleanCheckbox value="#{pedido.programado}" disabled="true"/>
+    		</p:column>
+    		<p:column headerText="#{msg['label.accion']}" exportable="false">
+					<p:commandButton icon="ui-icon ui-icon-pencil" action="#{editarPedidoMB.editar(pedido)}" ajax="false" value="#{msg['label.editar']}" rendered="#{pedido.esEditable()}">
+					</p:commandButton>
+					
+					<p:commandButton icon="ui-icon ui-icon-pencil" action="#{conciliarPedidoMB.conciliar(pedido)}" ajax="false" value="#{msg['label.conciliar']}" rendered="#{pedido.esConciliable()}">
+					</p:commandButton>
+					
+					<p:commandButton icon="ui-icon ui-icon-pencil" action="#{conciliarPedidoMB.conciliarEditar(pedido)}" ajax="false" value="#{msg['label.conciliar']}" rendered="#{pedido.esEditableConciliar()}">
+					</p:commandButton>
+					
+					<p:commandButton icon="ui-icon ui-icon-pencil" action="#{invoicePedidoMB.facturar(pedido)}" ajax="false" value="#{msg['label.facturardespacho']}" rendered="#{pedido.esFacturable()}">
+					</p:commandButton>
+					
+					<p:commandButton icon="ui-icon ui-icon-pencil" action="#{invoicePedidoMB.facturarEditar(pedido)}" ajax="false" value="#{msg['label.editarfactura']}" rendered="#{pedido.esFacturableEditar()}" >
+					</p:commandButton>
+					<p:commandButton icon="ui-icon ui-icon-pencil" action="#{entregaPedidoMB.facturarEditar(pedido)}" ajax="false" value="#{msg['label.ver']}" rendered="#{pedido.esEntregado()}" >
+					</p:commandButton>
+					<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_FA')">
+					  <p:commandButton icon="ui-icon ui-icon-pencil" action="#{encabezadoPedidoMB.getPedido(pedido)}" ajax="false" value="Editar Fechas">
+					  </p:commandButton>
+					</sec:authorize>
+					
+					<p:commandButton icon="ui-icon ui-icon-trash" action="#{buscarPedidoMB.cancelar(pedido)}" value="#{msg['label.cancelar']}" rendered="#{pedido.esCancelable()}">
+        					<p:confirm header="Confirmaci&#243;n" message="Esta seguro que desea cancelar el pedido?" icon="ui-icon-alert" />
+    				</p:commandButton>
+    		</p:column>
+
+    		
+	</p:dataTable>
+	<p:separator />
+	<div align="center">
+       <p:commandButton value ="EXCEL" ajax ="false">
+        
+        <p:dataExporter type="xls" target="listapedidos" fileName="pedidosexcel" pageOnly="false"/>
+      </p:commandButton>
+      <p:commandButton value ="PDF" ajax ="false">
+        
+        <p:dataExporter type="pdf" target="listapedidos" fileName="pedidospdf" pageOnly="false"/>
+      </p:commandButton>
+      </div>   
+      
+      <p:confirmDialog global="true">
+        <p:commandButton value="S&#237;" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+    </p:confirmDialog>
+ 	
+    </h:form>
+						
+						<!-- fin del form interno-->
+            </div>
+        </div>
+        <div id="bottom">
+            <ui:insert name="bottom">
+              <ui:include src="../main/templates/footer.xhtml" />
+            </ui:insert>
+        </div>
+ </h:body> 
+  <br/>     
+</html>
+
+

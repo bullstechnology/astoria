@@ -1,0 +1,213 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui">
+        
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+		<title>SISCOMFLOR</title>
+        
+     <h:head>
+
+       <!--  <h:outputStylesheet library="css" name="styles.css" /> -->
+        <h:outputStylesheet name="webjars/primeflex/2.0.0/primeflex.css" />
+
+    </h:head>
+    
+    <style type="text/css">
+    .box,
+    .sample-layout > div {
+        background-color: #cce4f7;
+        text-align: center;
+        padding-top: 1em;
+        padding-bottom: 1em;
+        border-radius: 4px;
+        
+    }
+ 
+    .box-stretched {
+        height: 100%;
+    }
+ 
+    .sample-layout {
+        margin: 0;
+    }
+ 
+    .sample-layout > div {
+        border: 1px solid #ffffff;
+    }
+ 
+    .vertical-container {
+        margin: 0;
+        height: 200px;
+        background: #efefef;
+        border-radius: 4px;
+    }
+ 
+    .nested-grid .p-col-4 {
+        padding-bottom: 1em;
+    }
+    
+   .p-grid {
+  width: 100%;
+  height:100%;
+  border: 1px solid black;
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  padding: 10px;
+}
+.container {
+  background: red;
+  height: 100%;
+}
+#top{
+      height:10%;
+      width: 100%;
+      background-color: gray;
+    }
+#left{
+      height:85%;
+      width: 100%;
+
+    }
+#centro{
+      height:85%;
+      width: 100%;
+      overflow-y: scroll;
+    }
+#bottom{
+
+      width: 100%;
+      background-color:#FFFFFF;
+      bottom: 0;
+      position:fixed;
+    }
+    html, body{
+      height:100%;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+</style>
+    
+    
+
+    <h:body style="background-color:#FFFFFF;">
+
+        <div id="header">
+
+            <ui:include src="../main/templates/header.xhtml" />
+
+        </div>
+        
+        <div id='centro'>
+            <div id="left" style='float: left; width: 15%'>
+                <ui:include src="../main/templates/menu.xhtml" />
+            </div>
+            <div id="content" class="left_content" style='float: right; width: 85%'>
+                        <!-- inicio del form interno -->
+						 <h:form id="formcrear">
+       
+       <h:panelGroup id="panel2">
+        <p:panelGrid style="margin-top:20px">
+    		<f:facet name="header">
+        			<p:row>
+            			<p:column colspan="4">#{msg['titulo.comisiones']}</p:column>
+        			</p:row>
+           </f:facet>
+           
+           <p:row>
+        			<p:column><h:outputLabel value="#{msg['label.tipoflor']}:"/></p:column>
+        			<p:column colspan="3"><p:selectOneMenu value="#{comisionesMB.idTipoFlor}" id="tipoflor">
+        							<f:selectItem itemValue="" itemLabel="#{msg['label.seleccioneopcion']}"/> 
+        							<f:selectItems value="#{comisionesMB.listaTiposFlor}" />
+    						   </p:selectOneMenu>  </p:column>
+    						   
+    						   
+        			        			
+    		</p:row>
+    		 <p:row>
+        			<p:column><h:outputLabel value="#{msg['label.pais']}:"/></p:column>
+        			<p:column colspan="3"><p:selectOneMenu value="#{comisionesMB.idPais}" id="pais">
+        							<f:selectItem itemValue="" itemLabel="#{msg['label.seleccioneopcion']}"/> 
+        							<f:selectItems value="#{comisionesMB.listaPaisesDom}" />
+    						   </p:selectOneMenu>  </p:column>
+    						   
+    						   
+        			        			
+    		</p:row>
+    		<p:row>
+        			<p:column colspan="4">
+        			<div align ="center">
+        			<p:commandButton id="addUser" value="#{msg['label.aceptar']}" action="#{comisionesMB.aceptar}" ajax="true" update="listacomisiones"/>
+       			   </div>
+        			</p:column>
+    		</p:row>
+    
+</p:panelGrid>
+
+<p:dataTable var="item" value="#{comisionesMB.listaComisiones}" id="listacomisiones" widgetVar="wlistacomisiones" editable="true" editMode="cell">
+
+            <f:facet name="header">
+           			#{msg['titulo.listacomisiones']}
+       		</f:facet>
+       		<p:ajax event="cellEdit" listener="#{comisionesMB.onCellEdit}" update="listacomisiones"/>
+       		
+       		
+    		<p:column headerText="#{msg['label.tipoflor']}">
+        		<h:outputText value="#{item.nombreflor}" />
+     		</p:column>
+ 
+    		<p:column headerText="#{msg['label.grado']}">
+        		<h:outputText value="#{item.nombregrado}" />
+    		</p:column>
+    		<p:column headerText="#{msg['label.comision']}">
+        		<p:cellEditor>
+                  <f:facet name="output"><h:outputText value="#{item.comision}"/></f:facet>
+                  <f:facet name="input"><p:inputText id="modelInputUnidades" value="#{item.comision}" style="width:96%" size="6" maxlength="6" rendered="#{comisionesMB.getPermiso(131,'U')}">
+                                        </p:inputText>                      
+                  </f:facet>
+               </p:cellEditor>
+    		</p:column>
+    		
+ 
+    		
+    		
+	</p:dataTable>
+	<div align ="center">
+	<table>
+	<tr><td>
+					<p:commandButton icon="ui-icon ui-icon-pencil" action="#{comisionesMB.editar}"  ajax="false" value="#{msg['label.editar']}" rendered="#{comisionesMB.getPermiso(121,'U')}">
+					</p:commandButton>
+		</td>			
+		<td>			
+					<p:commandButton value ="EXCEL" ajax ="false" rendered="#{comisionesMB.getPermiso(121,'R')}">
+                    <p:dataExporter type="xls" target="formcrear:listacomisiones" fileName="comisionexcel" pageOnly="false"/>
+                    </p:commandButton>
+        </td>
+        <td>            
+                    <p:commandButton value ="PDF" ajax ="false" rendered="#{comisionesMB.getPermiso(121,'R')}">
+                    <p:dataExporter type="pdf" target="formcrear:listacomisiones" fileName="comisionpdf" pageOnly="false"/>
+                    </p:commandButton>
+         </td>
+     </tr>      
+     </table>               
+     </div>
+     
+
+</h:panelGroup>
+        </h:form>
+						<!-- fin del form interno-->
+            </div>
+        </div>
+        <div id="bottom">
+            <ui:insert name="bottom">
+              <ui:include src="../main/templates/footer.xhtml" />
+            </ui:insert>
+        </div>
+ </h:body> 
+  <br/>     
+</html>
+

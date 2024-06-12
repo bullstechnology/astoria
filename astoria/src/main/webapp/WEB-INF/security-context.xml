@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <beans:beans
+        xmlns:sec="http://www.springframework.org/schema/security"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:beans="http://www.springframework.org/schema/beans"
+        xsi:schemaLocation="
+         http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/security
+        http://www.springframework.org/schema/security/spring-security-4.0.xsd">
+
+        <!-- Enable method level Spring Security by annotations  -->
+        <sec:global-method-security pre-post-annotations="enabled" />
+        <sec:http auto-config="true" use-expressions="true">
+
+            <!-- Page level Spring Security : Intercept access to resources in /pages/secure/** -->
+            <!-- Inicio de la seguridad  -->
+            
+<sec:intercept-url pattern="/pages/private/admin/buscarnotadc.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_VE','ROLE_CO','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/buscarnotadcgen.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_PL','ROLE_CL','ROLE_AG','ROLE_HN','ROLE_VE','ROLE_CO','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/buscarusuario.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_VE','ROLE_CO','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/cambiopassword.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_PL','ROLE_CL','ROLE_AG','ROLE_HN','ROLE_VE','ROLE_CO','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/confirmarpedido.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_CO','ROLE_VE')" />
+<sec:intercept-url pattern="/pages/private/admin/crearaerolinea.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_VE','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/crearagenciacarga.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_VE','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/crearciudad.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_VE','ROLE_CO','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/crearcliente.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_VE')" />
+<sec:intercept-url pattern="/pages/private/admin/crearcolor.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_VE','ROLE_CO','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/crearcomision.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE')" />
+<sec:intercept-url pattern="/pages/private/admin/creardestino.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_VE','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/crearempresa.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE')" />
+<sec:intercept-url pattern="/pages/private/admin/crearfranja.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_VE','ROLE_CO','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/creargrado.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/creargradomultiple.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_PL','ROLE_CL','ROLE_AG','ROLE_HN','ROLE_VE','ROLE_CO','ROLE_FA')"/>
+<sec:intercept-url pattern="/pages/private/admin/crearhandler.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_VE','ROLE_CO','ROLE_FA')"/>
+<sec:intercept-url pattern="/pages/private/admin/crearlistaprecios.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_FA')"/>
+<sec:intercept-url pattern="/pages/private/admin/crearnotadc.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/crearpais.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_VE','ROLE_CO','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/crearpedido.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_VE','ROLE_CO')" />
+<sec:intercept-url pattern="/pages/private/admin/crearpedidocot.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_CL','ROLE_VE','ROLE_CO','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/crearplantacion.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/crearproveedor.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/crearplantilla.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_VE','ROLE_CO')" />
+<sec:intercept-url pattern="/pages/private/admin/creartipoflor.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_VE','ROLE_CO','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/creartruck.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_VE','ROLE_CO','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/crearusuario.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_VE')" />
+<sec:intercept-url pattern="/pages/private/admin/crearvariedad.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_VE','ROLE_CO','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/editaraerolinea.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_VE','ROLE_CO','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/editaragenciacarga.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_VE','ROLE_CO','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/editarciudad.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_VE','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/editarcliente.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_VE')" />
+<sec:intercept-url pattern="/pages/private/admin/editarcolor.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/editarfranja.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/editargrado.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/editarhandler.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_VE','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/editarlista.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_VE','ROLE_CO','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/editarlistaprecios.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/editarnotadc.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/editarpais.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_VE','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/editarpedido.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_VE','ROLE_CO')" />
+<sec:intercept-url pattern="/pages/private/admin/editarplantacion.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/editarproveedor.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/editarplantilla.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_VE')" />
+<sec:intercept-url pattern="/pages/private/admin/editartipoflor.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/editartruck.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_VE','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/editarusuario.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE')" />
+<sec:intercept-url pattern="/pages/private/admin/editarvariedad.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/estadodecuenta.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_PL','ROLE_CL','ROLE_AG','ROLE_HN','ROLE_VE','ROLE_CO','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/estadosdecuentaconsolidado.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_VE','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/estadosdecuentageneral.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_VE','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/estadosdecuentasaldos.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_VE','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/facturarpedido.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/handlertruck.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_VE','ROLE_CO','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/listaaerolineas.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_PL','ROLE_AG','ROLE_HN','ROLE_VE','ROLE_CO','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/listaagenciascarga.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_PL','ROLE_AG','ROLE_HN','ROLE_VE','ROLE_CO','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/listaauditoria.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE')" />
+<sec:intercept-url pattern="/pages/private/admin/listaclientes.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_VE','ROLE_CO','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/listaordenes.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_VE','ROLE_CO','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/listapedidos.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_VE','ROLE_CO','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/listapedidosauto.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_VE','ROLE_CO','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/listapedidosdesp.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_PL','ROLE_CL','ROLE_AG','ROLE_HN','ROLE_VE','ROLE_CO','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/listapedidosfact.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_PL','ROLE_CL','ROLE_AG','ROLE_HN','ROLE_VE','ROLE_CO','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/listapedidosprog.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_PL','ROLE_CL','ROLE_AG','ROLE_HN','ROLE_VE','ROLE_CO','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/listaplantaciones.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_VE','ROLE_CO','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/listaproductos.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_VE','ROLE_CO','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/plantacionlistas.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_VE','ROLE_CO','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/repventasconsolidado.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE')" />
+<sec:intercept-url pattern="/pages/private/admin/reppedidospordespachar.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE')" />
+<sec:intercept-url pattern="/pages/private/admin/simpleCommandLink.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_PL','ROLE_CL','ROLE_AG','ROLE_HN','ROLE_VE','ROLE_CO','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/verfactura.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_VE','ROLE_CO','ROLE_FA')" />
+<sec:intercept-url pattern="/pages/private/admin/verplantilla.xhtml" access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_VE','ROLE_CO','ROLE_FA')" />
+            
+            
+            
+            <!-- fin de la seguridad  -->
+            
+            <!-- Page level Spring Security : Permit access to resources in /pages/unsecure/** -->
+           <sec:intercept-url pattern="/pages/private/main/**" access="hasAnyRole('ROLE_ADMIN','ROLE_CL','ROLE_PL','ROLE_AG','ROLE_HN','ROLE_CO','ROLE_VE','ROLE_FA')"/>
+            
+            
+            <!-- Page level Spring Security : Permit access to resources in /pages/unsecure/** -->
+            <sec:intercept-url pattern="/pages/public/**" access="permitAll"/>
+
+            <!-- Page level Spring Security : Intercept access to resources in /** -->
+           <!-- <sec:intercept-url pattern="/**" access="hasRole('ROLE_MODERATOR')"/> -->
+           <sec:intercept-url pattern="/**" access="permitAll"/>
+
+            <!-- Page level Spring Security : Enable Primefaces -->
+            <sec:intercept-url pattern="/javax.faces.resource/**" access="permitAll"/>
+      
+            <!-- Define login page for Spring Security -->      
+            <sec:form-login login-page="/pages/public/login.xhtml"/>
+
+            <!-- Define logout properties for Spring Security -->
+            <sec:logout invalidate-session="true" delete-cookies="true" logout-success-url="/pages/public/salida.xhtml"></sec:logout>
+            <sec:csrf disabled ="true"/>
+        </sec:http>
+       
+        <!-- Set customUserDetailsService class as the authentication Manager for Spring Security-->
+        <sec:authentication-manager alias="authenticationManager">
+            <sec:authentication-provider user-service-ref="customUserDetailsService">
+                <sec:password-encoder hash="plaintext"></sec:password-encoder>
+            </sec:authentication-provider>
+        </sec:authentication-manager>
+
+         <!-- Inject authentication Manager to our LoginBean -->
+        <beans:bean id="loginBean" name="loginBean" class="com.bulls.astoria.magedbean.LoginBean" scope="prototype">
+            <beans:property name="authenticationManager" ref="authenticationManager"></beans:property>
+        </beans:bean>
+        
+    </beans:beans>

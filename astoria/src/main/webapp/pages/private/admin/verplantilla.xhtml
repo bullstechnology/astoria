@@ -1,0 +1,358 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui">
+        
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+		<title>SISCOMFLOR</title>
+        
+     <h:head>
+
+       <!--  <h:outputStylesheet library="css" name="styles.css" /> -->
+        <h:outputStylesheet name="webjars/primeflex/2.0.0/primeflex.css" />
+
+    </h:head>
+    
+    <style type="text/css">
+    .box,
+    .sample-layout > div {
+        background-color: #cce4f7;
+        text-align: center;
+        padding-top: 1em;
+        padding-bottom: 1em;
+        border-radius: 4px;
+        
+    }
+ 
+    .box-stretched {
+        height: 100%;
+    }
+ 
+    .sample-layout {
+        margin: 0;
+    }
+ 
+    .sample-layout > div {
+        border: 1px solid #ffffff;
+    }
+ 
+    .vertical-container {
+        margin: 0;
+        height: 200px;
+        background: #efefef;
+        border-radius: 4px;
+    }
+ 
+    .nested-grid .p-col-4 {
+        padding-bottom: 1em;
+    }
+    
+   .p-grid {
+  width: 100%;
+  height:100%;
+  border: 1px solid black;
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  padding: 10px;
+}
+.container {
+  background: red;
+  height: 100%;
+}
+#top{
+      height:10%;
+      width: 100%;
+      background-color: gray;
+    }
+#left{
+      height:85%;
+      width: 100%;
+
+    }
+#centro{
+      height:85%;
+      width: 100%;
+      overflow-y: scroll;
+    }
+#bottom{
+
+      width: 100%;
+      background-color:#FFFFFF;
+      bottom: 0;
+      position:fixed;
+    }
+    html, body{
+      height:100%;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+</style>
+    
+    
+
+    <h:body style="background-color:#FFFFFF;">
+
+        <div id="header">
+
+            <ui:include src="../main/templates/header.xhtml" />
+
+        </div>
+        
+        <div id='centro'>
+            <div id="left" style='float: left; width: 15%'>
+                <ui:include src="../main/templates/menu.xhtml" />
+            </div>
+            <div id="content" class="left_content" style='float: right; width: 85%'>
+                        <!-- inicio del form interno -->
+						 <h:form id="formcrear" >
+        <p:growl id="growl" sticky="true" showDetail="true"/>
+       <p:wizard flowListener="#{buscarOrdenMB.onFlowProcess}">
+       <p:tab id="generales" title="#{msg['titulo.datoscliente']}">
+       				<p:panel header="Datos generales">
+       <h:panelGrid columns="4" >
+       <h:outputLabel value="#{msg['label.paisorigen']} : "/>
+       <p:selectOneMenu id="paises" value="#{buscarOrdenMB.idPais}" disabled="true">
+            						<f:selectItem itemLabel="#{msg['label.seleccioneopcion']}" itemValue="" />
+            						<f:selectItems value="#{buscarOrdenMB.listaPaisesDom}" />
+            						<p:ajax listener="#{buscarOrdenMB.getCiudadesPais}" update="ciudades"/>
+       </p:selectOneMenu>
+       
+       <h:outputLabel value="#{msg['label.ciudadorigen']} : "/>
+       <p:selectOneMenu id="ciudades" value="#{buscarOrdenMB.idCiudad}" disabled="true">
+            						<f:selectItem itemLabel="#{msg['label.seleccioneopcion']}" itemValue="" />
+            						<f:selectItems value="#{buscarOrdenMB.listaCiudadesDom}" />
+       </p:selectOneMenu>
+       
+       <h:outputLabel value="#{msg['label.paisdestino']} : "/>
+       <p:selectOneMenu id="paisesdestino" value="#{buscarOrdenMB.idPaisDestino}" disabled="true">
+            						<f:selectItem itemLabel="#{msg['label.seleccioneopcion']}" itemValue="" />
+            						<f:selectItems value="#{buscarOrdenMB.listaPaisesDom}" />
+            						<p:ajax listener="#{buscarOrdenMB.getCiudadesPaisDestino}" update="ciudadesdestino"/>
+       </p:selectOneMenu>
+       
+       <h:outputLabel value="#{msg['label.ciudaddestino']} : "/>
+       <p:selectOneMenu id="ciudadesdestino" value="#{buscarOrdenMB.idCiudadDestino}" disabled="true">
+            						<f:selectItem itemLabel="#{msg['label.seleccioneopcion']}" itemValue="" />
+            						<f:selectItems value="#{buscarOrdenMB.listaCiudadesDestinoDom}" />
+       </p:selectOneMenu>
+       
+       <h:outputLabel value="#{msg['label.cliente']} : "/> 
+       <p:selectOneMenu id="cliente" value="#{buscarOrdenMB.idCliente}" disabled="true">
+            						<f:selectItem itemLabel="#{msg['label.seleccioneopcion']}" itemValue="" />
+            						<f:selectItems value="#{buscarOrdenMB.clientesSelect}" />
+       </p:selectOneMenu>
+       <h:outputLabel value="#{msg['label.fechadespacho']} : "/>
+       <p:calendar id="fechadespacho" value="#{buscarOrdenMB.fechadespacho}" pattern="yyyy-MM-dd" mask="true" disabled="true"/>
+        <h:outputLabel value="#{msg['label.fechallegada']} : "/>
+       <p:calendar id="fechallegada" value="#{buscarOrdenMB.fechallegada}" pattern="yyyy-MM-dd" mask="true" disabled="true"/>
+       <h:outputLabel value="#{msg['label.fechallegadafinal']} : "/>
+       <p:calendar id="fechallegadafinal" value="#{buscarOrdenMB.fechallegadafinal}" pattern="yyyy-MM-dd" mask="true" disabled="true"/>
+       <h:outputLabel value="#{msg['label.observaciones']} : "/>
+       <p:inputTextarea rows="10" cols="50" id="observaciones" value="#{buscarOrdenMB.observaciones}" readonly="true"/>
+       <h:outputLabel value="#{msg['label.programado']} : "/>
+       <p:selectBooleanCheckbox id="idProgramado" value="#{buscarOrdenMB.programado}" disabled="true"> 
+       	    <p:ajax update ="dias" listener="#{buscarOrdenMB.programar}" />
+       </p:selectBooleanCheckbox>
+       
+    </h:panelGrid>
+    <p:outputPanel autoUpdate="true">
+    <p:outputPanel id="dias" rendered="#{buscarOrdenMB.programado}">
+    <p:panelGrid columns="4">
+    <p:column><h:outputLabel value="#{msg['label.diasdespacho']} : "/></p:column>
+        			<p:column colspan="3">
+        			  <p:panelGrid colums="14">
+        			     <p:row>
+        			           <p:column><h:outputLabel value="#{msg['label.lunes']} : "/></p:column>
+        			           <p:column><p:selectBooleanCheckbox id="lunes" value="#{buscarOrdenMB.lunes}" /></p:column>
+        			           <p:column><h:outputLabel value="#{msg['label.martes']} : "/></p:column>
+        			           <p:column><p:selectBooleanCheckbox id="martes" value="#{buscarOrdenMB.martes}" /></p:column>
+        			           <p:column><h:outputLabel value="#{msg['label.miercoles']} : "/></p:column>
+        			           <p:column><p:selectBooleanCheckbox id="miercoles" value="#{buscarOrdenMB.miercoles}" /></p:column>
+        			           <p:column><h:outputLabel value="#{msg['label.jueves']} : "/></p:column>
+        			           <p:column><p:selectBooleanCheckbox id="jueves" value="#{buscarOrdenMB.jueves}" /></p:column>
+        			           <p:column><h:outputLabel value="#{msg['label.viernes']} : "/></p:column>
+        			           <p:column><p:selectBooleanCheckbox id="viernes" value="#{buscarOrdenMB.viernes}" /></p:column>
+        			           <p:column><h:outputLabel value="#{msg['label.sabado']} : "/></p:column>
+        			           <p:column><p:selectBooleanCheckbox id="sabado" value="#{buscarOrdenMB.sabado}" /></p:column>
+        			           <p:column><h:outputLabel value="#{msg['label.domingo']} : "/></p:column>
+        			           <p:column><p:selectBooleanCheckbox id="domingo" value="#{buscarOrdenMB.domingo}" /></p:column>
+        			     </p:row>
+        			  </p:panelGrid>
+        			</p:column>
+       
+       </p:panelGrid>
+       </p:outputPanel>
+       </p:outputPanel>
+		</p:panel>
+       				
+		</p:tab>
+
+       <p:tab id="detalles" title="#{msg['label.orden']}  #{buscarOrdenMB.idPedido}">
+    		<p:panel header="#{msg['label.detallesorden']} #{buscarOrdenMB.idPedido}" id="datosgenerales">
+      <h:panelGrid >
+    <p:dataTable var="item" value="#{buscarOrdenMB.detallesPedido}" id="listat" editable="true" editMode="cell" widgetVar="wlistat" rowStyleClass="#{item.num !=  null ? 'highlight1' : 'highlight2'}">
+
+			<f:facet name="header">
+           			#{msg['label.detalledefinitivo']}
+       		</f:facet>
+       		
+       		<p:ajax event="cellEdit" listener="#{buscarOrdenMB.onCellEdit}" update="listat"/>
+       		<p:column headerText="#{msg['label.plantacion']}" style="width:18%">
+        		<p:cellEditor>
+               <f:facet name="output"><h:outputText value="#{item.nombreplantacion}" /></f:facet>
+               <f:facet name="input">
+                   <h:selectOneMenu value="#{item.nombreplantacion}" style="width:100%" rendered="#{item.tipocomposicion == null}" disabled="true">
+                       <f:selectItems value="#{buscarOrdenMB.listaPlantacionesSelect2}" var="plan" itemlabel="#{plan.label}" itemValue="#{plan.label}"/>
+                   </h:selectOneMenu>
+               </f:facet>
+           </p:cellEditor>
+     		</p:column>
+     		<p:column headerText="#{msg['label.composicion']}" style="width:5%">
+        		<h:outputText value="#{item.nombrecomposicion}" />
+     		</p:column>
+     		<p:column headerText="#{msg['label.tipo']}" style="width:5%">
+        		<h:outputText value="#{item.nombretipo}" />
+     		</p:column>
+    		<p:column headerText="#{msg['label.producto']}" style="width:16%">
+        		<h:outputText value="#{item.nombrevariedad}" />
+     		</p:column>
+     		
+     		<p:column headerText="#{msg['label.grado']}" style="width:7%">
+        		<h:outputText value="#{item.nombregrado}" />
+     		</p:column>
+     		<p:column headerText="#{msg['label.cantidadfull']}" style="width:5%">
+        		<p:cellEditor>
+                   <f:facet name="output"><h:outputText value="#{item.cantidadfull}" /></f:facet>
+                   <f:facet name="input">
+                         <p:inputText value="#{item.cantidadfull}" style="width:96%" rendered="#{item.tipocomposicion != null}" readonly="true">
+                         <p:ajax event="blur" update="listat" listener="#{buscarOrdenMB.getNuevaLista}" />
+                         </p:inputText>
+                   </f:facet>
+                </p:cellEditor>
+     		</p:column>
+     		<p:column headerText="#{msg['label.packing']}" style="width:5%">
+				<p:cellEditor>
+                   <f:facet name="output"><h:outputText value="#{item.packing}" /></f:facet>
+                   <f:facet name="input"><p:inputText value="#{item.packing}" style="width:96%" rendered="#{item.tipocomposicion != null}" readonly="true"/></f:facet>
+                </p:cellEditor>
+     		</p:column>
+     		<p:column headerText="#{msg['label.unidades']}" style="width:5%">
+				
+				<p:cellEditor>
+                   <f:facet name="output"><h:outputText value="#{item.tallosporfull}" /></f:facet>
+                   <f:facet name="input">
+                            <p:inputText value="#{item.tallosporfull}" style="width:96%" rendered="#{item.tipocomposicion == null}" readonly="true">
+                  				 <p:ajax event="blur" update="listat" listener="#{buscarOrdenMB.getNuevaLista}" />
+                   			</p:inputText>
+                   </f:facet>
+                </p:cellEditor>
+     		</p:column>
+     		
+     		
+ 
+    		<p:column headerText="#{msg['label.precioplantacion']}" style="width:5%">
+						<p:cellEditor>
+                   			<f:facet name="output"><h:outputText value="#{item.precio}" /></f:facet>
+                   			<f:facet name="input">
+                   			<p:inputText value="#{uMB.format(item.precio)}" style="width:96%" rendered="#{item.tipocomposicion == null}" readonly="true">
+                   			     <p:ajax event="blur" update="listat" listener="#{buscarOrdenMB.getNuevaLista}" />
+                   			</p:inputText>     
+                   			</f:facet>
+                		</p:cellEditor>
+    		</p:column>
+    		<p:column headerText="#{msg['label.comisioncorto']}" style="width:5%">
+						<p:cellEditor>
+                   			<f:facet name="output"><h:outputText value="#{item.comision}" /></f:facet>
+                   			<f:facet name="input">
+                   			<p:inputText value="#{item.comision}" style="width:96%" rendered="#{item.tipocomposicion == null}" readonly="true">
+                   			     <p:ajax event="blur" update="listat" listener="#{buscarOrdenMB.getNuevaLista}" />
+                   			</p:inputText>     
+                   			</f:facet>
+                		</p:cellEditor>
+    		</p:column>
+    		<p:column headerText="#{msg['label.preciototal']}" style="width:5%">
+        		<h:outputText value="#{uMB.format(item.preciototal)}" />
+        		
+     		</p:column>
+     		<p:column headerText="#{msg['label.observaciones']}" style="width:15%">
+						<p:cellEditor>
+                   			<f:facet name="output"><h:outputText value="#{item.observaciones}" /></f:facet>
+                   			<f:facet name="input">
+                   			<p:inputTextarea rows="2" cols="15" id="observaciones" value="#{item.observaciones}" readonly="true"/>     
+                   			</f:facet>
+                		</p:cellEditor>
+    		</p:column>
+    		
+    		<p:columnGroup type="footer">
+  <p:row>
+    <p:column colspan="5" footerText="#{msg['label.totalmayusculas']}:" style="text-align:left"/>
+    <p:column footerText="#{buscarOrdenMB.totalBoxes}" />
+    <p:column>
+    </p:column>
+    <p:column footerText="#{buscarOrdenMB.totalUnidades}" />
+    <p:column>
+    </p:column>
+    <p:column>
+    </p:column>
+    <p:column footerText="#{uMB.format(buscarOrdenMB.totalPrecio)}" />
+    <p:column>
+    </p:column>      
+    <p:column>
+    </p:column> 
+     <p:column>
+    </p:column> 
+  </p:row>
+</p:columnGroup>     
+    		
+  		
+    		
+	</p:dataTable>
+    </h:panelGrid>
+   
+   </p:panel>
+    		
+	
+	</p:tab>
+    </p:wizard>
+    
+    
+        <p:dialog header="#{msg['label.producto']}" widgetVar="dialogo" modal="false" showEffect="blind" hideEffect="explode" resizable="false">
+        <p:outputPanel id="detalle" style="width:900px;height:400px;text-align:left;">
+            <p:dataTable id="eventsDT" var="pro" value="#{buscarOrdenMB.productos2}"  selectionMode="single" selection="#{buscarOrdenMB.selectedProducto}" rowKey="#{pro.codigo}" filteredValue="#{buscarOrdenMB.productos2filtrado}">
+       <p:ajax event="rowSelect" listener="#{buscarOrdenMB.onRowSelect}" update="formcrear:datosgenerales"/>
+        <p:ajax event="rowUnselect" listener="#{buscarOrdenMB.onRowUnselect}"/>
+         
+        <p:column headerText="Codigo" >
+            <h:outputText value="#{pro.codigo}" />
+        </p:column>
+        <p:column headerText="Tipo Flor" >
+            <h:outputText value="#{pro.nombrePadre}"/>
+        </p:column>
+        <p:column headerText="Variedad"  filterBy="#{pro.nombreProducto}" filterMatchMode="startsWith" >
+            <h:outputText value="#{pro.nombreProducto}" />
+        </p:column>
+        <p:column headerText="Grado" sortBy="#{pro.nombregrado}">
+            <h:outputText value="#{pro.nombregrado}"/>
+        </p:column>
+    </p:dataTable>
+        </p:outputPanel>
+    </p:dialog>
+    </h:form>
+        
+						<!-- fin del form interno-->
+            </div>
+        </div>
+        <div id="bottom">
+            <ui:insert name="bottom">
+              <ui:include src="../main/templates/footer.xhtml" />
+            </ui:insert>
+        </div>
+ </h:body> 
+  <br/>     
+</html>
+
+

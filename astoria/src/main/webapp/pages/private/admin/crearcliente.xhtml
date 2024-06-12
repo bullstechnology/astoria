@@ -1,0 +1,410 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui">
+        
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+		<title>SISCOMFLOR</title>
+        
+     <h:head>
+
+       <!--  <h:outputStylesheet library="css" name="styles.css" /> -->
+        <h:outputStylesheet name="webjars/primeflex/2.0.0/primeflex.css" />
+
+    </h:head>
+    
+    <style type="text/css">
+    .box,
+    .sample-layout > div {
+        background-color: #cce4f7;
+        text-align: center;
+        padding-top: 1em;
+        padding-bottom: 1em;
+        border-radius: 4px;
+        
+    }
+ 
+    .box-stretched {
+        height: 100%;
+    }
+ 
+    .sample-layout {
+        margin: 0;
+    }
+ 
+    .sample-layout > div {
+        border: 1px solid #ffffff;
+    }
+ 
+    .vertical-container {
+        margin: 0;
+        height: 200px;
+        background: #efefef;
+        border-radius: 4px;
+    }
+ 
+    .nested-grid .p-col-4 {
+        padding-bottom: 1em;
+    }
+    
+   .p-grid {
+  width: 100%;
+  height:100%;
+  border: 1px solid black;
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  padding: 10px;
+}
+.container {
+  background: red;
+  height: 100%;
+}
+#top{
+      height:10%;
+      width: 100%;
+      background-color: gray;
+    }
+#left{
+      height:85%;
+      width: 100%;
+
+    }
+#centro{
+      height:85%;
+      width: 100%;
+      overflow-y: scroll;
+    }
+#bottom{
+
+      width: 100%;
+      background-color:#FFFFFF;
+      bottom: 0;
+      position:fixed;
+    }
+    html, body{
+      height:100%;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+</style>
+    
+    
+
+    <h:body style="background-color:#FFFFFF;">
+
+        <div id="header">
+
+            <ui:include src="../main/templates/header.xhtml" />
+
+        </div>
+        
+        <div id='centro'>
+            <div id="left" style='float: left; width: 15%'>
+                <ui:include src="../main/templates/menu.xhtml" />
+            </div>
+            <div id="content" class="left_content" style='float: right; width: 85%'>
+                        <!-- inicio del form interno -->
+						 <h:form id="form">
+        
+        <p:panelGrid style="margin-top:20px">
+           
+       <p:row><p:column> 
+        
+        
+            <p:tabView>
+        <p:tab title="#{msg['label.datosgenerales']}">
+            <p:panelGrid>
+               
+ 
+    		<p:row>
+        			<p:column><h:outputLabel for="codigo" value="#{msg['label.codigo']} : "/></p:column>
+        			<p:column colsapn="3"><p:inputText id="codigo" value="#{clienteMB.codigo}" ></p:inputText></p:column>
+        	</p:row>
+    		
+     		<p:row>	
+     		        <p:column><h:outputLabel for="nit" value="#{msg['label.tipodocumento']} : " /></p:column>
+        			<p:column >        			
+        			<p:selectOneMenu value="#{clienteMB.tipoident}" id="tipodoc" required="true">
+        							<f:selectItem itemValue="" itemLabel="#{msg['label.seleccioneopcion']} "/> 
+        							<f:selectItems value="#{clienteMB.listaTipodocumentoDom}" />
+    						   </p:selectOneMenu> 
+        			
+        			
+        			</p:column>	
+        			<p:column><h:outputLabel for="numdoc" value="#{msg['label.numerodocumento']} : " /></p:column>
+        			<p:column ><p:inputText id="numdoc" value="#{clienteMB.numident}" ></p:inputText></p:column>
+    		</p:row>
+    		
+     		<p:row>
+     		        <p:column><h:outputLabel for="nombre" value="#{msg['label.nombre']} : "/></p:column>
+        			<p:column colspan="3"><p:inputText id="nombre" value="#{clienteMB.nombre}"  size="50"></p:inputText></p:column>
+     		</p:row>
+     		
+     		<p:row>
+     		
+     		       <p:column><h:outputLabel for="pais" value="#{msg['label.pais']} : "/></p:column>
+        			<p:column >
+        			           <p:selectOneMenu value="#{clienteMB.pais}" id="pais" >
+        							<f:selectItem itemValue="" itemLabel="#{msg['label.seleccioneopcion']} "/> 
+        							<f:selectItems value="#{clienteMB.listaPaisesDom}" />
+        							<p:ajax listener="#{clienteMB.getCiudadesPais}" update="ciudad"/>
+    						   </p:selectOneMenu>
+        			</p:column>
+        			<p:column><h:outputLabel for="ciudad" value="#{msg['label.ciudad']} : " /></p:column>
+        			<p:column>
+        			          <p:selectOneMenu value="#{clienteMB.ciudad}" id="ciudad" >
+        							<f:selectItem itemValue="" itemLabel="#{msg['label.seleccioneopcion']} "/> 
+        							<f:selectItems value="#{clienteMB.listaCiudadesDom}" />
+    						   </p:selectOneMenu>
+        			</p:column>
+        			
+    		</p:row>
+    		
+    		<p:row>
+    		      <p:column><h:outputLabel for="direccion" value="#{msg['label.direccion']} : "/></p:column>
+        		  <p:column colspan="3"><p:inputText id="direccion" value="#{clienteMB.direccion}"  size="50"></p:inputText></p:column>
+    		</p:row>
+    		<p:row>
+    		      <p:column><h:outputLabel for="vendedor" value="#{msg['label.vendedor']} : "/></p:column>
+        		  <p:column colspan="3">
+        		         <p:selectOneMenu value="#{clienteMB.idVendedor}" id="idVendedor" >
+        							<f:selectItem itemValue="" itemLabel="#{msg['label.seleccioneopcion']} "/> 
+        							<f:selectItems value="#{clienteMB.listaEmpleados}" />
+    						   </p:selectOneMenu>
+        		  </p:column>
+    		</p:row>
+    		<p:row>
+    		      <p:column><h:outputLabel for="reqFactura" value="#{msg['label.requierefactura']} : "/></p:column>
+        		  <p:column ><p:selectBooleanCheckbox id="reqFactura" value="#{clienteMB.reqFactura}" /></p:column>
+        		  <p:column><h:outputLabel for="reqFito" value="#{msg['label.requierefito']} : "/></p:column>
+        		  <p:column ><p:selectBooleanCheckbox id="reqFito" value="#{clienteMB.reqFito}" /></p:column>
+    		</p:row>
+    		
+    		
+    		<p:row>
+        			<p:column><h:outputLabel for="observaciones" value="#{msg['label.observaciones']} : "/></p:column>
+        			<p:column colspan="3"><p:inputTextarea id="observaciones" value="#{clienteMB.observaciones}"  rows="5" cols="50" maxlength="500" autoResize="false" /></p:column>
+     		</p:row>
+     		<p:row>
+        			<p:column><h:outputLabel value="#{msg['label.diasdespacho']} : "/></p:column>
+        			<p:column colspan="3">
+        			  <p:panelGrid colums="14">
+        			     <p:row>
+        			           <p:column><h:outputLabel value="#{msg['label.lunes']} : "/></p:column>
+        			           <p:column><p:selectBooleanCheckbox id="lunes" value="#{clienteMB.lunes}" /></p:column>
+        			           <p:column><h:outputLabel value="#{msg['label.martes']} : "/></p:column>
+        			           <p:column><p:selectBooleanCheckbox id="martes" value="#{clienteMB.martes}" /></p:column>
+        			           <p:column><h:outputLabel value="#{msg['label.miercoles']} : "/></p:column>
+        			           <p:column><p:selectBooleanCheckbox id="miercoles" value="#{clienteMB.miercoles}" /></p:column>
+        			           <p:column><h:outputLabel value="#{msg['label.jueves']} : "/></p:column>
+        			           <p:column><p:selectBooleanCheckbox id="jueves" value="#{clienteMB.jueves}" /></p:column>
+        			           <p:column><h:outputLabel value="#{msg['label.viernes']} : "/></p:column>
+        			           <p:column><p:selectBooleanCheckbox id="viernes" value="#{clienteMB.viernes}" /></p:column>
+        			           <p:column><h:outputLabel value="#{msg['label.sabado']} : "/></p:column>
+        			           <p:column><p:selectBooleanCheckbox id="sabado" value="#{clienteMB.sabado}" /></p:column>
+        			           <p:column><h:outputLabel value="#{msg['label.domingo']} : "/></p:column>
+        			           <p:column><p:selectBooleanCheckbox id="domingo" value="#{clienteMB.domingo}" /></p:column>
+        			     </p:row>
+        			  </p:panelGrid>
+        			</p:column>
+     		</p:row>
+
+    
+            </p:panelGrid>
+        </p:tab>
+        <p:tab title="#{msg['label.contactos']}">
+            <p:panelGrid>
+               
+    		
+    		<p:row>
+        			<p:column><h:outputLabel for="tel1" value="#{msg['label.telefonouno']} : "/></p:column>
+        			<p:column ><p:inputText id="tel1" value="#{clienteMB.tel1}" ></p:inputText></p:column>
+        			<p:column><h:outputLabel for="tel2" value="#{msg['label.telefonodos']} : " /></p:column>
+        			<p:column ><p:inputText id="tel2" value="#{clienteMB.tel2}" ></p:inputText></p:column>
+        			
+    		</p:row>
+    		
+    		<p:row>
+    		        <p:column><h:outputLabel for="fax" value="#{msg['label.fax']} : "/></p:column>
+        			<p:column ><p:inputText id="fax" value="#{clienteMB.fax}" ></p:inputText></p:column>
+        			<p:column><h:outputLabel for="cel1" value="#{msg['label.celularuno']} : "/></p:column>
+        			<p:column ><p:inputText id="cel1" value="#{clienteMB.cel1}" ></p:inputText></p:column>
+        	</p:row>	
+        	<p:row>	
+        			<p:column><h:outputLabel for="cel2" value="#{msg['label.celulardos']} : " /></p:column>
+        			<p:column ><p:inputText id="cel2" value="#{clienteMB.cel2}" ></p:inputText></p:column>
+        			<p:column><h:outputLabel for="web" value="#{msg['label.web']} : "/></p:column>
+        			<p:column ><p:inputText id="web" value="#{clienteMB.web}" ></p:inputText></p:column>
+    		</p:row>
+    		
+    		<p:row>
+        			<p:column><h:outputLabel for="correo1" value="#{msg['label.emailuno']} : "/></p:column>
+        			<p:column><p:inputText id="correo1" value="#{clienteMB.correo1}" ></p:inputText></p:column>
+        			<p:column><h:outputLabel for="correo2" value="#{msg['label.emaildos']} : " /></p:column>
+        			<p:column><p:inputText id="correo2" value="#{clienteMB.correo2}" ></p:inputText></p:column>
+    		</p:row>
+    		
+    		<p:row>
+        			<p:column><h:outputLabel for="ctoven" value="#{msg['label.contactoven']} : "/></p:column>
+        			<p:column colspan="3"><p:inputText id="ctoven" value="#{clienteMB.contactoven}" size="65"></p:inputText></p:column>
+        	</p:row>
+        	<p:row>		
+        			<p:column><h:outputLabel for="ctoprop" value="#{msg['label.contactoprop']} : " /></p:column>
+        			<p:column colspan="3"><p:inputText id="ctoprop" value="#{clienteMB.contactoprop}" size="65"></p:inputText></p:column>
+        			
+    		</p:row>
+    		
+    		<p:row>
+    		        <p:column><h:outputLabel for="ctoinvoice" value="#{msg['label.contactoinvoice']} : "/></p:column>
+        			<p:column colspan="3"><p:inputText id="ctoinvoice" value="#{clienteMB.contactoinvoice}" size="65"></p:inputText></p:column>
+        	</p:row>
+        	<p:row>		
+        			<p:column><h:outputLabel for="skype1" value="#{msg['label.skypeven']} : "/></p:column>
+        			<p:column ><p:inputText id="skype1" value="#{clienteMB.skypeven}" ></p:inputText></p:column>
+        			<p:column><h:outputLabel for="skype2" value="#{msg['label.skypeprop']} : " /></p:column>
+        			<p:column ><p:inputText id="skype2" value="#{clienteMB.skypeprop}" ></p:inputText></p:column>
+        	</p:row>
+    		
+    		<p:row>		
+        			<p:column><h:outputLabel for="skype3" value="#{msg['label.skypealterno']} : "/></p:column>
+        			<p:column colspan="3"><p:inputText id="skype3" value="#{clienteMB.skypealterno}" ></p:inputText></p:column>
+    		</p:row>
+    		
+    		
+    	</p:panelGrid>	
+        </p:tab>
+        <p:tab title="#{msg['label.balance']}">
+             <p:panelGrid>
+               
+    		
+    		<p:row>
+        			<p:column><h:outputLabel for="cupo" value="#{msg['label.cupo']} : "/></p:column>
+        			<p:column ><p:inputText id="cupo" value="#{clienteMB.cupo}" ></p:inputText></p:column>
+        			<p:column><h:outputLabel for="desc" value="#{msg['label.descripcion']} : " /></p:column>
+        			<p:column ><p:inputTextarea id="desc" value="#{clienteMB.desccupo}"  rows="5" cols="50" maxlength="500" autoResize="false" /></p:column>
+        			
+    		</p:row>
+    		
+    		
+    		
+    	</p:panelGrid>	
+        </p:tab>
+        <p:tab title="#{msg['label.trucks']}">
+             
+    		
+    		<p:dataTable id="checkboxDT1" var="truck" value="#{clienteMB.trucks}" selection="#{clienteMB.selectedTrucks}" rowKey="#{truck.id}" style="margin-bottom:0">
+        
+        <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+
+        <p:column headerText="#{msg['label.nombre']}">
+            <h:outputText value="#{truck.nombre}" />
+        </p:column>
+        <p:column headerText="#{msg['label.codigo']}">
+            <h:outputText value="#{truck.codigo}" />
+        </p:column>
+        <p:column headerText="#{msg['label.descripcion']}">
+            <h:outputText value="#{truck.descripcion}" />
+        </p:column>
+        
+        
+    </p:dataTable>
+    	
+        </p:tab>
+    
+     <p:tab title="#{msg['label.handlers']}">
+             
+    		
+    		<p:dataTable id="checkboxDT2" var="handler" value="#{clienteMB.handlers}" selection="#{clienteMB.selectedHandlers}" rowKey="#{handler.id}" style="margin-bottom:0">
+        
+        <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+
+        <p:column headerText="#{msg['label.nombre']}">
+            <h:outputText value="#{handler.nombre}" />
+        </p:column>
+        <p:column headerText="#{msg['label.codigo']}">
+            <h:outputText value="#{handler.codigo}" />
+        </p:column>
+        <p:column headerText="#{msg['label.descripcion']}">
+            <h:outputText value="#{handler.descripcion}" />
+        </p:column>
+        
+        
+    </p:dataTable>
+    	
+        </p:tab>
+        
+    <p:tab title="#{msg['label.vendedores']}">
+             
+    		
+    		<p:dataTable id="checkboxDT3" var="vendedor" value="#{clienteMB.empleados}" selection="#{clienteMB.selectedVendedores}" rowKey="#{vendedor.id}" style="margin-bottom:0">
+        
+        <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+
+        <p:column headerText="#{msg['label.nombre']}">
+            <h:outputText value="#{vendedor.nombre} #{vendedor.segnombre} #{vendedor.apellido} #{vendedor.segapellido}" />
+        </p:column>
+               
+        
+    </p:dataTable>
+    	
+        </p:tab>
+        
+        <p:tab title="#{msg['label.compradores']}">
+             
+    		
+    		<p:dataTable id="checkboxDT4" var="comprador" value="#{clienteMB.empleados}" selection="#{clienteMB.selectedCompradores}" rowKey="#{comprador.id}" style="margin-bottom:0">
+        
+        <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+
+        <p:column headerText="#{msg['label.nombre']}">
+             <h:outputText value="#{comprador.nombre} #{comprador.segnombre} #{comprador.apellido} #{comprador.segapellido}" />
+        </p:column>
+       
+        
+    </p:dataTable>
+    	
+        </p:tab>
+        
+    </p:tabView>
+    
+    
+    </p:column>
+    </p:row>
+    <f:facet name="footer">
+        <p:row>
+            <p:column >
+            <div align="center">
+         
+     
+                <p:commandButton icon="ui-icon-disk" value="#{msg['label.aceptar']}" action="#{clienteMB.crearCliente}" ajax="false"/>
+             </div>
+            </p:column>
+        </p:row>
+        
+    </f:facet>
+    </p:panelGrid>
+    
+    
+    
+    	
+        </h:form>
+						
+						<!-- fin del form interno-->
+            </div>
+        </div>
+        <div id="bottom">
+            <ui:insert name="bottom">
+              <ui:include src="../main/templates/footer.xhtml" />
+            </ui:insert>
+        </div>
+ </h:body> 
+  <br/>     
+</html>
+
+
+
+

@@ -1,0 +1,633 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui">
+        
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+		<title>SISCOMFLOR</title>
+        
+     <h:head>
+
+       <!--  <h:outputStylesheet library="css" name="styles.css" /> -->
+        <h:outputStylesheet name="webjars/primeflex/2.0.0/primeflex.css" />
+
+    </h:head>
+    
+    <style type="text/css">
+    .box,
+    .sample-layout > div {
+        background-color: #cce4f7;
+        text-align: center;
+        padding-top: 1em;
+        padding-bottom: 1em;
+        border-radius: 4px;
+        
+    }
+ 
+    .box-stretched {
+        height: 100%;
+    }
+ 
+    .sample-layout {
+        margin: 0;
+    }
+ 
+    .sample-layout > div {
+        border: 1px solid #ffffff;
+    }
+ 
+    .vertical-container {
+        margin: 0;
+        height: 200px;
+        background: #efefef;
+        border-radius: 4px;
+    }
+ 
+    .nested-grid .p-col-4 {
+        padding-bottom: 1em;
+    }
+    
+   .p-grid {
+  width: 100%;
+  height:100%;
+  border: 1px solid black;
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  padding: 10px;
+}
+.container {
+  background: red;
+  height: 100%;
+}
+#top{
+      height:10%;
+      width: 100%;
+      background-color: gray;
+    }
+#left{
+      height:85%;
+      width: 100%;
+
+    }
+#centro{
+      height:85%;
+      width: 100%;
+      overflow-y: scroll;
+    }
+#bottom{
+
+      width: 100%;
+      background-color:#FFFFFF;
+      bottom: 0;
+      position:fixed;
+    }
+    html, body{
+      height:100%;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+</style>
+    
+    
+
+    <h:body style="background-color:#FFFFFF;">
+
+        <div id="header">
+
+            <ui:include src="../main/templates/header.xhtml" />
+
+        </div>
+        
+        <div id='centro'>
+            <div id="left" style='float: left; width: 15%'>
+                <ui:include src="../main/templates/menu.xhtml" />
+            </div>
+            <div id="content" class="left_content" style='float: right; width: 85%'>
+                        <!-- inicio del form interno -->
+						 <h:form id="formcrear" >
+        <p:growl id="growl" sticky="true" showDetail="true"/>
+        <p:messages id="messages" showDetail="true" closable="true">
+            <p:autoUpdate />
+        </p:messages>
+       <p:wizard flowListener="#{pedidoMB.onFlowProcess}" >
+       <p:tab id="generales" title="#{msg['titulo.datoscliente']}">
+       				<p:panel header="Datos generales">
+       <h:panelGrid columns="4" >
+       <h:outputLabel value="#{msg['label.paisorigen']} : "/>
+       <p:selectOneMenu id="paises" value="#{pedidoMB.idPais}" >
+            						<f:selectItem itemLabel="#{msg['label.seleccioneopcion']}" itemValue="" />
+            						<f:selectItems value="#{pedidoMB.listaPaisesDom}" />
+            						<p:ajax listener="#{pedidoMB.getCiudadesPais}" update="ciudades"/>
+       </p:selectOneMenu>
+       
+       <h:outputLabel value="#{msg['label.ciudadorigen']} : "/>
+       <p:selectOneMenu id="ciudades" value="#{pedidoMB.idCiudad}" >
+            						<f:selectItem itemLabel="#{msg['label.seleccioneopcion']}" itemValue="" />
+            						<f:selectItems value="#{pedidoMB.listaCiudadesDom}" />
+       </p:selectOneMenu>
+       
+       <h:outputLabel value="#{msg['label.paisdestino']} : "/>
+       <p:selectOneMenu id="paisesdestino" value="#{pedidoMB.idPaisDestino}" >
+            						<f:selectItem itemLabel="#{msg['label.seleccioneopcion']}" itemValue="" />
+            						<f:selectItems value="#{pedidoMB.listaPaisesDom}" />
+            						<p:ajax listener="#{pedidoMB.getCiudadesPaisDestino}" update="ciudadesdestino"/>
+       </p:selectOneMenu>
+       
+       <h:outputLabel value="#{msg['label.ciudaddestino']} : "/>
+       <p:selectOneMenu id="ciudadesdestino" value="#{pedidoMB.idCiudadDestino}" >
+            						<f:selectItem itemLabel="#{msg['label.seleccioneopcion']}" itemValue="" />
+            						<f:selectItems value="#{pedidoMB.listaCiudadesDestinoDom}" />
+       </p:selectOneMenu>
+       
+       <h:outputLabel value="#{msg['label.cliente']} : "/> 
+       <p:selectOneMenu id="cliente" value="#{pedidoMB.idCliente}" effect="fade" filter="true" filterMatchMode="startsWith">
+            						<f:selectItem itemLabel="#{msg['label.seleccioneopcion']}" itemValue="" />
+            						<f:selectItems value="#{pedidoMB.clientesSelect}" />
+            						<p:ajax listener="#{pedidoMB.getPlantilla}" update="cpacking cantidad detalle formcrear:eventsDT2"/>
+            						
+        	        	 
+       </p:selectOneMenu>
+       <h:outputLabel value="#{msg['label.fechadespacho']} : "/>
+       <p:calendar id="fechadespacho" value="#{pedidoMB.fechadespacho}" pattern="yyyy-MM-dd" mask="true"/>
+        <h:outputLabel value="#{msg['label.fechallegada']} : "/>
+       <p:calendar id="fechallegada" value="#{pedidoMB.fechallegada}" pattern="yyyy-MM-dd" mask="true"/>
+       <h:outputLabel value="#{msg['label.fechallegadafinal']} : "/>
+       <p:calendar id="fechallegadafinal" value="#{pedidoMB.fechallegadafinal}" pattern="yyyy-MM-dd" mask="true"/>
+       <h:outputLabel value="#{msg['label.observaciones']} : "/>
+       <p:inputTextarea rows="10" cols="50" id="observaciones" value="#{pedidoMB.observaciones}"/>
+       
+       
+       
+    </h:panelGrid>
+    <p:outputPanel autoUpdate="true">
+    <p:outputPanel id="dias" rendered="#{pedidoMB.programado}">
+    <p:panelGrid columns="4">
+    <p:column><h:outputLabel value="#{msg['label.diasdespacho']} : "/></p:column>
+        			<p:column colspan="3">
+        			  <p:panelGrid colums="14">
+        			     <p:row>
+        			           <p:column><h:outputLabel value="#{msg['label.lunes']} : "/></p:column>
+        			           <p:column><p:selectBooleanCheckbox id="lunes" value="#{pedidoMB.lunes}" /></p:column>
+        			           <p:column><h:outputLabel value="#{msg['label.martes']} : "/></p:column>
+        			           <p:column><p:selectBooleanCheckbox id="martes" value="#{pedidoMB.martes}" /></p:column>
+        			           <p:column><h:outputLabel value="#{msg['label.miercoles']} : "/></p:column>
+        			           <p:column><p:selectBooleanCheckbox id="miercoles" value="#{pedidoMB.miercoles}" /></p:column>
+        			           <p:column><h:outputLabel value="#{msg['label.jueves']} : "/></p:column>
+        			           <p:column><p:selectBooleanCheckbox id="jueves" value="#{pedidoMB.jueves}" /></p:column>
+        			           <p:column><h:outputLabel value="#{msg['label.viernes']} : "/></p:column>
+        			           <p:column><p:selectBooleanCheckbox id="viernes" value="#{pedidoMB.viernes}" /></p:column>
+        			           <p:column><h:outputLabel value="#{msg['label.sabado']} : "/></p:column>
+        			           <p:column><p:selectBooleanCheckbox id="sabado" value="#{pedidoMB.sabado}" /></p:column>
+        			           <p:column><h:outputLabel value="#{msg['label.domingo']} : "/></p:column>
+        			           <p:column><p:selectBooleanCheckbox id="domingo" value="#{pedidoMB.domingo}" /></p:column>
+        			     </p:row>
+        			  </p:panelGrid>
+        			</p:column>
+       
+       </p:panelGrid>
+       </p:outputPanel>
+       </p:outputPanel>
+		</p:panel>
+       				
+		</p:tab>
+
+       <p:tab id="detalles" title="#{msg['label.pedido']}">
+    		<p:panel styleClass="panelgeneral" header="#{msg['label.detallespedido']}" id="datosgenerales">
+   <p:panelGrid style="margin-top:20px" columns="8" columnClasses="left">
+                    
+                  
+                    
+                    <p:column style = "text-align: center">
+       				<h:outputLabel value="#{msg['label.plantacion']}"/>
+       				</p:column>
+       				
+       				<p:column style = "text-align: center">
+        			<p:selectOneMenu value="#{pedidoMB.idPlantacion}" id="plantacion" effect="fade" filter="true" filterMatchMode="startsWith">
+        							<f:selectItem itemValue="" itemLabel="#{msg['label.seleccioneopcion']}"/> 
+        							<f:selectItems value="#{pedidoMB.listaPlantacionesSelect}" />
+        							<p:ajax listener="#{pedidoMB.getPackingPlantacion}" update="cpacking cantidad detalle formcrear:eventsDT"/>
+        							
+    			    </p:selectOneMenu>
+    			    </p:column >
+       				
+       				
+                    <p:column  style = "text-align: center">
+       				<h:outputLabel value="#{msg['label.cantidadfull']}"/>
+       				</p:column>
+       				
+       				<p:column style = "text-align: center">
+       				<p:inputText id="cantidadfull" value="#{pedidoMB.cantidadfull}"  size="4">
+       				  <p:ajax event="blur" update="cantidad" listener="#{pedidoMB.multiplica}" />
+       				</p:inputText>
+       				</p:column>
+       				
+       				<p:column style = "text-align: center">
+    			    <h:outputLabel value="#{msg['label.packing']}"/>
+    			    </p:column>
+    			    
+    			     <p:column style = "text-align: center">
+       				<p:inputText id="cpacking" value="#{pedidoMB.packing}"  size="4">
+       				    <p:ajax event="blur" update="cantidad" listener="#{pedidoMB.multiplica}" />
+       				</p:inputText>
+       				</p:column>
+    			     <p:column style = "text-align: center">
+    			     <table>	
+    			    <tr>
+    			    <td>
+    			        <h:outputLabel value="#{msg['label.cantidadtallos']}"/>
+    			    </td>
+    			    <td>	    
+       				   <p:inputText id="cantidad" value="#{pedidoMB.cantidad}"  size="4" readonly="true"></p:inputText>
+       				
+       				</td>
+        	        </tr>
+        	        </table>	 
+       				</p:column> 
+       			    <p:column style = "text-align: center">
+    			    
+    			    </p:column>
+    		 
+                    
+        			<p:column style = "text-align: center">
+    			    	<h:outputLabel value="#{msg['label.codigo']}"/>
+    			    </p:column>
+    			     <p:column style = "text-align: center">
+    			    <table>	
+    			    <tr>
+    			    <td>
+    			    
+    			    	<p:inputText id="codigo" value="#{pedidoMB.codigo}"  size="6" onkeyup="if (event.keyCode != 13) return false;">
+    			    		<p:ajax event="blur" update="nombrepro precio comision preciomascomision" listener="#{pedidoMB.handleKeyEvent}" />
+    			    	</p:inputText>
+    			    </td>
+    			   <td>	
+    			   		 <p:commandLink update="nombrepro codigo" oncomplete="PF('dialogo').show()" title="Vista" styleClass="ui-icon ui-icon-search" style="float:center;margin-right:10px">
+        	        	 </p:commandLink>
+        	       </td>
+        	        <td>	
+        	        	 <p:inputText value="#{pedidoMB.nombreproducto}" id="nombrepro"/>
+        	       </td>
+        	        </tr>
+        	        </table>	 
+        	        </p:column>
+        	        <p:column style = "text-align: center">	
+       				<h:outputLabel value="#{msg['label.unidades']}"/>
+       				</p:column>
+       				
+       				<p:column style = "text-align: center">
+       				<p:inputText id="cantidadxfull" value="#{pedidoMB.cantidadxfull}"  size="6">
+       				</p:inputText>
+       				</p:column>
+       				
+       				<p:column style = "text-align: center">
+       				<h:outputLabel value="#{msg['label.precioplantacion']}"/>
+       				</p:column>
+       		
+       		        <p:column style = "text-align: center">
+    			    	<p:inputText id="precio" value="#{pedidoMB.precio}"  size="6">
+    			    	    <p:ajax event="blur" update="precio comision preciomascomision" listener="#{pedidoMB.multiplica3}" />
+    			    	</p:inputText>
+        	        </p:column>
+       				
+       					<p:column style = "text-align: center">
+       					    <table>	
+    			    		<tr>
+    			    		<td>
+       					       <h:outputLabel value="#{msg['label.comisioncorto']}"/>
+       					   </td>
+       					   <td>
+       					      <p:inputText id="comision" value="#{pedidoMB.comision}"  size="6">
+       					         <p:ajax event="blur" update="precio comision preciomascomision" listener="#{pedidoMB.multiplica3}" />
+       					      </p:inputText>
+       					    </td>
+        	        		</tr>
+        	       			 </table>
+       				</p:column>
+       				
+    			    <p:column style = "text-align: center">	 
+    			     <table>	
+    			    		<tr>
+    			    		<td>
+    			    		<h:outputLabel value="#{msg['label.preciototal']}"/>
+       					   </td>
+       					   <td>
+        	        	   <p:inputText id="preciomascomision" value="#{uMB.format(pedidoMB.precioconcomision)}"  size="6" readonly="true">
+        	        	      <p:ajax event="blur" update="precio comision preciomascomision" listener="#{pedidoMB.multiplica3}" />
+        	        	   </p:inputText>
+        	                </td>
+        	        		</tr>
+        	        </table>	    
+        	        </p:column>
+       				 <p:column>
+       				 </p:column>
+       				  <p:column>
+       				 </p:column>
+       				  <p:column>
+       				 </p:column>
+       				  <p:column colspan="2">
+       				     <div align="center">
+                				<p:commandButton id="subirdetalle" value="#{msg['label.aceptar']}" action="#{pedidoMB.subirDetalle}" ajax="true"  update="formcrear:listatemporal"/>
+         				 </div>
+       				 </p:column>
+       				  <p:column>
+       				 </p:column>
+       				  <p:column>
+       				 </p:column>
+       				  <p:column>
+       				 </p:column>
+	</p:panelGrid>
+	 
+       <h:panelGrid id="plistatemporal">
+    <p:dataTable var="itemdetalle" value="#{pedidoMB.detallesTemporal}" id="listatemporal" widgetVar="wlistatemporal" editable="true" editMode="cell">
+
+			<f:facet name="header">
+           			#{msg['label.detalletemporal']}
+       		</f:facet>
+       		<p:ajax event="cellEdit" listener="#{pedidoMB.onCellEdit}" update="listatemporal"/>
+       		
+    		<p:column headerText="#{msg['label.producto']}">
+        		<h:outputText value="#{itemdetalle.nombrevariedad}" />
+     		</p:column>
+     		
+     		<p:column headerText="#{msg['label.grado']}">
+        		<h:outputText value="#{itemdetalle.nombregrado}" />
+     		</p:column>
+     		
+     		<p:column headerText="#{msg['label.unidades']}">
+				<p:cellEditor>
+                  <f:facet name="output"><h:outputText value="#{itemdetalle.unidades}"/></f:facet>
+                  <f:facet name="input"><p:inputText id="modelInputUnidades" value="#{itemdetalle.unidades}" style="width:96%">
+                                         <p:ajax event="blur" update="listatemporal" listener="#{pedidoMB.multiplica2}" />
+                                        </p:inputText>                      
+                  </f:facet>
+               </p:cellEditor>
+     		</p:column>
+     		
+    		<p:column headerText="#{msg['label.precioplantacion']}">
+				<p:cellEditor>
+                  <f:facet name="output"><h:outputText value="#{itemdetalle.precio}"/></f:facet>
+                  <f:facet name="input"><p:inputText id="modelInputPrecio" value="#{itemdetalle.precio}" style="width:96%">
+                  							<p:ajax event="blur" update="listatemporal" listener="#{pedidoMB.multiplica2}" />
+                                        </p:inputText>
+                  </f:facet>
+               </p:cellEditor>
+    		</p:column>
+    		<p:column headerText="#{msg['label.comisioncorto']}">
+				<p:cellEditor>
+                  <f:facet name="output"><h:outputText value="#{itemdetalle.comision}"/></f:facet>
+                  <f:facet name="input"><p:inputText id="modelInputComision" value="#{itemdetalle.comision}" style="width:96%">
+                  							<p:ajax event="blur" update="listatemporal" listener="#{pedidoMB.multiplica2}" />
+                                        </p:inputText>
+                  </f:facet>
+               </p:cellEditor>
+    		</p:column>
+    		<p:column headerText="#{msg['label.preciototal']}">
+					<h:outputText value="#{uMB.format((itemdetalle.comision + itemdetalle.precio) * itemdetalle.unidades)}"/>
+                  
+    		</p:column>
+    		
+    		<p:column headerText="#{msg['label.borrar']}">
+					<p:commandButton icon="ui-icon ui-icon-trash" actionListener="#{pedidoMB.eliminar(itemdetalle)}"  ajax="true"  value="Eliminar" update="listatemporal">
+					</p:commandButton>
+    		</p:column>
+  		    
+    		
+	</p:dataTable>
+
+          <div align="center">
+                <p:commandButton id="subirTotal" value="#{msg['label.aceptar']}" action="#{pedidoMB.subir}" ajax="true"  update="formcrear:listat formcrear:datosgenerales formcrear:listatemporal"/>
+          </div>
+
+    </h:panelGrid>
+   
+   
+   
+   
+   
+   
+   
+    <h:panelGrid id="detallespedido">
+    <p:dataTable var="item" value="#{pedidoMB.detallesPedido}" id="listat" editable="true" editMode="cell" widgetVar="wlistat" rowStyleClass="#{item.num !=  null ? 'highlight1' : 'highlight2'}">
+
+			<f:facet name="header">
+           			#{msg['label.detalledefinitivo']}
+       		</f:facet>
+       		
+       		<p:ajax event="cellEdit" listener="#{pedidoMB.onCellEdit}" update="formcrear:listat"/>
+       		<p:column headerText="#{msg['label.plantacion']}" style="width:18%">
+       		<p:cellEditor>
+               <f:facet name="output"><h:outputText value="#{item.nombreplantacion}" /></f:facet>
+               <f:facet name="input">
+                   <h:selectOneMenu value="#{item.nombreplantacion}" style="width:100%" rendered="#{item.tipocomposicion == null}">
+                       <f:selectItems value="#{pedidoMB.listaPlantacionesSelect}" var="plan" itemlabel="#{plan.label}" itemValue="#{plan.label}"/>
+                   </h:selectOneMenu>
+               </f:facet>
+           </p:cellEditor>
+     		</p:column>
+     		
+     		
+     		
+     		
+     		
+     		<p:column headerText="#{msg['label.composicion']}" style="width:5%">
+        		<h:outputText value="#{item.nombrecomposicion}" />
+     		</p:column>
+     		<p:column headerText="#{msg['label.tipo']}" style="width:5%">
+        		<h:outputText value="#{item.nombretipo}" />
+     		</p:column>
+    		<p:column headerText="#{msg['label.producto']}" style="width:16%">
+        		<h:outputText value="#{item.nombrevariedad}" />
+     		</p:column>
+     		
+     		<p:column headerText="#{msg['label.grado']}" style="width:7%">
+        		<h:outputText value="#{item.nombregrado}" />
+     		</p:column>
+     		<p:column headerText="#{msg['label.cantidadfull']}" style="width:5%">
+        		<p:cellEditor>
+                   <f:facet name="output"><h:outputText value="#{item.cantidadfull}" /></f:facet>
+                   <f:facet name="input"><p:inputText value="#{item.cantidadfull}" style="width:96%" rendered="#{item.tipocomposicion != null}"/></f:facet>
+                </p:cellEditor>
+     		</p:column>
+     		<p:column headerText="#{msg['label.packing']}" style="width:5%">
+				<p:cellEditor>
+                   <f:facet name="output"><h:outputText value="#{item.packing}" /></f:facet>
+                   <f:facet name="input"><p:inputText value="#{item.packing}" style="width:96%" rendered="#{item.tipocomposicion != null}"/></f:facet>
+                </p:cellEditor>
+     		</p:column>
+     		<p:column headerText="#{msg['label.unidades']}" style="width:5%">
+				
+				<p:cellEditor>
+                   <f:facet name="output"><h:outputText value="#{item.tallosporfull}" /></f:facet>
+                   <f:facet name="input">
+                            <p:inputText value="#{item.tallosporfull}" style="width:96%" rendered="#{item.tipocomposicion == null}">
+                  				 <p:ajax event="blur" update="listat" listener="#{pedidoMB.getNuevaLista}" />
+                   			</p:inputText>
+                   </f:facet>
+                </p:cellEditor>
+     		</p:column>
+     		
+     		
+ 
+    		<p:column headerText="#{msg['label.precioplantacion']}" style="width:5%">
+						<p:cellEditor>
+                   			<f:facet name="output"><h:outputText value="#{item.precio}" /></f:facet>
+                   			<f:facet name="input">
+                   			<p:inputText value="#{item.precio}" style="width:96%" rendered="#{item.tipocomposicion == null}">
+                   			     <p:ajax event="blur" update="listat" listener="#{pedidoMB.getNuevaLista}" />
+                   			</p:inputText>     
+                   			</f:facet>
+                		</p:cellEditor>
+    		</p:column>
+    		<p:column headerText="#{msg['label.comisioncorto']}" style="width:5%">
+						<p:cellEditor>
+                   			<f:facet name="output"><h:outputText value="#{item.comision}" /></f:facet>
+                   			<f:facet name="input">
+                   			<p:inputText value="#{item.comision}" style="width:96%" rendered="#{item.tipocomposicion == null}">
+                   			     <p:ajax event="blur" update="listat" listener="#{pedidoMB.getNuevaLista}" />
+                   			</p:inputText>     
+                   			</f:facet>
+                		</p:cellEditor>
+    		</p:column>
+    		<p:column headerText="#{msg['label.preciototal']}" style="width:5%">
+        		<h:outputText value="#{uMB.format(item.preciototal)}" />
+        		
+     		</p:column>
+     		<p:column headerText="#{msg['label.observaciones']}" style="width:15%">
+						<p:cellEditor>
+                   			<f:facet name="output"><h:outputText value="#{item.observaciones}" /></f:facet>
+                   			<f:facet name="input">
+                   			<p:inputTextarea rows="2" cols="15" id="observaciones" value="#{item.observaciones}"/>     
+                   			</f:facet>
+                		</p:cellEditor>
+    		</p:column>
+    		<p:column headerText="" style="width:2%">
+					            	<p:commandLink update="listat" actionListener = "#{pedidoMB.eliminar2(item)}" styleClass="ui-icon ui-icon-trash" style="float:center;margin-right:10px" rendered="#{item.detalle}">
+        	        	 			</p:commandLink>
+        	        	 		
+    		</p:column>
+    		<p:column headerText="" style="width:2%">
+					      			<p:commandLink update="listat formcrear:listatemporal formcrear:cantidadfull formcrear:cpacking formcrear:cantidad formcrear:plantacion formcrear:eventsDT" actionListener = "#{pedidoMB.retomar(item)}" styleClass="ui-icon ui-icon-pencil" style="float:center;margin-right:10px" rendered="#{item.detalle}">
+        	        	 			</p:commandLink>
+        	        	 		
+    		</p:column>
+    		
+    		<p:columnGroup type="footer">
+  <p:row>
+    <p:column colspan="5" footerText="TOTAL:" style="text-align:left"/>
+    <p:column footerText="#{pedidoMB.totalBoxes}" />
+    
+    <p:column>
+    </p:column>
+    <p:column footerText="#{pedidoMB.totalUnidades}" />
+    <p:column>
+    </p:column>
+    <p:column>
+    </p:column>
+    <p:column footerText="#{uMB.format(pedidoMB.totalPrecio)}" />
+    <p:column>
+    </p:column>    
+    <p:column>
+    </p:column>    
+    <p:column>
+    </p:column>  
+  </p:row>
+</p:columnGroup>       
+        
+        
+        
+ 	</p:dataTable>
+    </h:panelGrid>
+    <div align="center">
+    		<p:commandButton id="aceptar" value="#{msg['label.aceptar']}" action="#{pedidoMB.crearPedido}" ajax="false"/>
+     </div>
+   </p:panel>
+    		
+	
+	</p:tab>
+    </p:wizard>
+    
+    
+        <p:dialog header="#{msg['label.producto']}" widgetVar="dialogo" modal="false" showEffect="blind" hideEffect="explode" resizable="false">
+        <p:outputPanel id="detalle" style="width:900px;height:400px;text-align:left;">
+            <p:dataTable id="eventsDT" var="pro" value="#{pedidoMB.productos2}"  selectionMode="single" selection="#{pedidoMB.selectedProducto}" rowKey="#{pro.codigo}" filteredValue="#{pedidoMB.productos2filtrado}">
+       <p:ajax event="rowSelect" listener="#{pedidoMB.onRowSelect}" update="formcrear:datosgenerales"/>
+        <p:ajax event="rowUnselect" listener="#{pedidoMB.onRowUnselect}"/>
+         
+        <p:column headerText="Codigo" >
+            <h:outputText value="#{pro.codigo}" />
+        </p:column>
+        <p:column headerText="Tipo Flor" >
+            <h:outputText value="#{pro.nombrePadre}"/>
+        </p:column>
+        <p:column headerText="Variedad"  filterBy="#{pro.nombreProducto}" filterMatchMode="startsWith" >
+            <h:outputText value="#{pro.nombreProducto}" />
+        </p:column>
+        <p:column headerText="Grado" sortBy="#{pro.nombregrado}">
+            <h:outputText value="#{pro.nombregrado}"/>
+        </p:column>
+    </p:dataTable>
+        </p:outputPanel>
+    </p:dialog>
+    
+    <p:dialog header="#{msg['label.ordenes']}" widgetVar="dialogo2" modal="false" showEffect="blind" hideEffect="explode" resizable="false">
+        <p:outputPanel id="detalle2" style="width:900px;height:400px;text-align:left;">
+            <p:dataTable id="eventsDT2" var="pedido" value="#{pedidoMB.plantillas}"  selectionMode="single" selection="#{pedidoMB.selectedPedido}" rowKey="#{pedido.idpedido}">
+       <p:ajax event="rowSelect" listener="#{pedidoMB.onRowSelect2}" update="formcrear:cliente formcrear:paisesdestino formcrear:ciudadesdestino formcrear:paises formcrear:ciudades formcrear:observaciones formcrear:datosgenerales formcrear:datosgenerales"/>
+        <p:ajax event="rowUnselect" listener="#{pedidoMB.onRowUnselect2}"/>
+         
+         <p:column headerText="#{msg['label.numpedido']}">
+        		<h:outputText value="#{pedido.idpedido}" />
+     		</p:column>
+            
+    		<p:column headerText="#{msg['label.pais']}">
+        		<h:outputText value="#{pedido.nombrepais}" />
+     		</p:column>
+ 
+    		<p:column headerText="#{msg['label.ciudad']}">
+        		<h:outputText value="#{pedido.nombreciudad}" />
+    		</p:column>
+ 
+    		<p:column headerText="#{msg['label.lunes']}">
+        		<p:selectBooleanCheckbox value="#{pedido.lunes}" disabled="true"/>
+    		</p:column>
+    		<p:column headerText="#{msg['label.martes']}">
+        		<p:selectBooleanCheckbox value="#{pedido.martes}" disabled="true"/>
+    		</p:column>
+    		<p:column headerText="#{msg['label.miercoles']}">
+        		<p:selectBooleanCheckbox value="#{pedido.miercoles}" disabled="true"/>
+    		</p:column>
+    		<p:column headerText="#{msg['label.jueves']}">
+        		<p:selectBooleanCheckbox value="#{pedido.jueves}" disabled="true"/>
+    		</p:column>
+    		<p:column headerText="#{msg['label.viernes']}">
+        		<p:selectBooleanCheckbox value="#{pedido.viernes}" disabled="true"/>
+    		</p:column>
+    		<p:column headerText="#{msg['label.sabado']}">
+        		<p:selectBooleanCheckbox value="#{pedido.sabado}" disabled="true"/>
+    		</p:column>
+    		<p:column headerText="#{msg['label.domingo']}">
+        		<p:selectBooleanCheckbox value="#{pedido.domingo}" disabled="true"/>
+    		</p:column>
+
+    </p:dataTable>
+        </p:outputPanel>
+    </p:dialog>
+    </h:form>
+						<!-- fin del form interno-->
+            </div>
+        </div>
+        <div id="bottom">
+            <ui:insert name="bottom">
+              <ui:include src="../main/templates/footer.xhtml" />
+            </ui:insert>
+        </div>
+ </h:body> 
+  <br/>     
+</html>
+
+

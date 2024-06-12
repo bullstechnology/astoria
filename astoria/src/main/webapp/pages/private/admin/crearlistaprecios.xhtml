@@ -1,0 +1,217 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui">
+        
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+		<title>SISCOMFLOR</title>
+        
+     <h:head>
+
+       <!--  <h:outputStylesheet library="css" name="styles.css" /> -->
+        <h:outputStylesheet name="webjars/primeflex/2.0.0/primeflex.css" />
+
+    </h:head>
+    
+    <style type="text/css">
+    .box,
+    .sample-layout > div {
+        background-color: #cce4f7;
+        text-align: center;
+        padding-top: 1em;
+        padding-bottom: 1em;
+        border-radius: 4px;
+        
+    }
+ 
+    .box-stretched {
+        height: 100%;
+    }
+ 
+    .sample-layout {
+        margin: 0;
+    }
+ 
+    .sample-layout > div {
+        border: 1px solid #ffffff;
+    }
+ 
+    .vertical-container {
+        margin: 0;
+        height: 200px;
+        background: #efefef;
+        border-radius: 4px;
+    }
+ 
+    .nested-grid .p-col-4 {
+        padding-bottom: 1em;
+    }
+    
+   .p-grid {
+  width: 100%;
+  height:100%;
+  border: 1px solid black;
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  padding: 10px;
+}
+.container {
+  background: red;
+  height: 100%;
+}
+#top{
+      height:10%;
+      width: 100%;
+      background-color: gray;
+    }
+#left{
+      height:85%;
+      width: 100%;
+
+    }
+#centro{
+      height:85%;
+      width: 100%;
+      overflow-y: scroll;
+    }
+#bottom{
+
+      width: 100%;
+      background-color:#FFFFFF;
+      bottom: 0;
+      position:fixed;
+    }
+    html, body{
+      height:100%;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+</style>
+    
+    
+
+    <h:body style="background-color:#FFFFFF;">
+
+        <div id="header">
+
+            <ui:include src="../main/templates/header.xhtml" />
+
+        </div>
+        
+        <div id='centro'>
+            <div id="left" style='float: left; width: 15%'>
+                <ui:include src="../main/templates/menu.xhtml" />
+            </div>
+            <div id="content" class="left_content" style='float: right; width: 85%'>
+                        <!-- inicio del form interno -->
+						 <h:form id="formcrear">
+        <p:growl id="growl" sticky="true" showDetail="true"/>
+       <p:wizard flowListener="#{preciosMB.onFlowProcess}">
+       <p:tab id="generales" title="#{msg['titulo.plantacion']}">
+       <p:panel header="Datos Generales">
+       <h:panelGrid style="margin-top:20px" columns="2">
+
+        			<h:outputLabel value="#{msg['label.plantacion']} : "/>
+        			<p:selectOneMenu value="#{preciosMB.idPlantacion}" id="plantacion">
+        							<f:selectItem itemValue="" itemLabel="#{msg['label.seleccioneopcion']}"/> 
+        							<f:selectItems value="#{preciosMB.listaPlantacionesSelect}" />
+        							<p:ajax listener="#{preciosMB.getProductosPlantacion}" update="listat3 franjas"/>
+    			    </p:selectOneMenu>
+    						   
+        			<h:outputLabel value="#{msg['label.temporada']} : "/>
+        			<p:selectOneMenu id="console" value="#{preciosMB.tipo}">
+            						<f:selectItem itemLabel="#{msg['label.seleccioneopcion']}" itemValue="Z" />
+            						<f:selectItem itemLabel="Invierno" itemValue="I" />
+            						<f:selectItem itemLabel="Verano" itemValue="V" />
+            						<f:selectItem itemLabel="Especial" itemValue="E" />
+					</p:selectOneMenu>
+
+        			<h:outputLabel value="#{msg['label.franja']} : "/>
+        			<p:selectOneMenu id="franjas" value="#{preciosMB.idFranja}">
+            						<f:selectItem itemLabel="#{msg['label.seleccioneopcion']}" itemValue="" />
+            						<f:selectItems value="#{preciosMB.franjasSelect}" />
+         						</p:selectOneMenu>
+		</h:panelGrid>
+		 <div align="center">
+            <table><tr>
+            
+             <td>
+                 <p:commandButton id="imprimirListaGeneral" icon="ui-icon-print"  value = "Lista Precios PDF" actionListener="#{entregaPedidoMB.imprimirListaPrecios('P')}" onclick="form.target='_blank'" ajax="false"/>
+            </td>
+            
+             <td>
+                 <p:commandButton id="imprimirListaGeneral2" icon="ui-icon-print"  value = "Lista Precios EXCEL" actionListener="#{entregaPedidoMB.imprimirListaPrecios('E')}" onclick="form.target='_blank'" ajax="false"/>
+            </td>
+            
+            </tr></table>
+    		
+     </div>		
+		</p:panel>
+		</p:tab>
+
+<p:tab id="productostab" title="#{msg['label.producto']}">
+    <p:panel header="Datos Productos">
+    
+    
+     <h:panelGrid >
+    <p:dataTable var="item" value="#{preciosMB.productos3}" id="listat3" editable="true" editMode="cell" widgetVar="wlistat3" sortMode="multiple" filteredValue="#{preciosMB.productos3Filtrada}" paginator="true"
+                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="200,250,300">
+
+			<f:facet name="header">
+           			Lista de precios
+       		</f:facet>
+       		
+       		<p:ajax event="cellEdit" listener="#{preciosMB.onCellEdit}"/>
+    		<p:column headerText="#{msg['label.flor']}" sortBy="#{item.nombrePadre}">
+        		<h:outputText value="#{item.nombrePadre}" />
+     		</p:column>
+    		<p:column headerText="#{msg['label.producto']}" sortBy="#{item.nombreProducto}" filterBy="#{item.nombreProducto}" filterMatchMode="startsWith">
+        		<h:outputText value="#{item.nombreProducto}" />
+     		</p:column>
+     		<p:column headerText="#{msg['label.color']}">
+        		<h:outputText value="#{item.nombrecolor}" />
+     		</p:column>
+     		<p:column headerText="#{msg['label.grado']}" sortBy="#{item.nombregrado}">
+        		<h:outputText value="#{item.nombregrado}" />
+     		</p:column>
+ 
+    		<p:column headerText="#{msg['label.precio']}">
+        		<p:cellEditor>
+                  <f:facet name="output"><h:outputText value="#{item.precio}" /></f:facet>
+                  <f:facet name="input"><p:inputText id="modelInput" value="#{item.precio}" style="width:96%"/></f:facet>
+              </p:cellEditor>
+    		</p:column>
+
+  		
+    		
+	</p:dataTable>
+    </h:panelGrid>
+    <div align="center">
+    		<p:commandButton id="aceptar" value="#{msg['label.aceptar']}" action="#{preciosMB.crearLista}" ajax="true"/>
+     </div>
+     
+    
+   </p:panel>
+	
+	</p:tab>
+    </p:wizard>
+    </h:form>
+						<!-- fin del form interno-->
+            </div>
+        </div>
+        <div id="bottom">
+            <ui:insert name="bottom">
+              <ui:include src="../main/templates/footer.xhtml" />
+            </ui:insert>
+        </div>
+ </h:body> 
+  <br/>     
+</html>
+
+
+

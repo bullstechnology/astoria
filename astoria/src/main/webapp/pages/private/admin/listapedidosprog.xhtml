@@ -1,0 +1,181 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui">
+        
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+		<title>SISCOMFLOR</title>
+        
+     <h:head>
+
+       <!--  <h:outputStylesheet library="css" name="styles.css" /> -->
+        <h:outputStylesheet name="webjars/primeflex/2.0.0/primeflex.css" />
+
+    </h:head>
+    
+    <style type="text/css">
+    .box,
+    .sample-layout > div {
+        background-color: #cce4f7;
+        text-align: center;
+        padding-top: 1em;
+        padding-bottom: 1em;
+        border-radius: 4px;
+        
+    }
+ 
+    .box-stretched {
+        height: 100%;
+    }
+ 
+    .sample-layout {
+        margin: 0;
+    }
+ 
+    .sample-layout > div {
+        border: 1px solid #ffffff;
+    }
+ 
+    .vertical-container {
+        margin: 0;
+        height: 200px;
+        background: #efefef;
+        border-radius: 4px;
+    }
+ 
+    .nested-grid .p-col-4 {
+        padding-bottom: 1em;
+    }
+    
+   .p-grid {
+  width: 100%;
+  height:100%;
+  border: 1px solid black;
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  padding: 10px;
+}
+.container {
+  background: red;
+  height: 100%;
+}
+#top{
+      height:10%;
+      width: 100%;
+      background-color: gray;
+    }
+#left{
+      height:85%;
+      width: 100%;
+
+    }
+#centro{
+      height:85%;
+      width: 100%;
+      overflow-y: scroll;
+    }
+#bottom{
+
+      width: 100%;
+      background-color:#FFFFFF;
+      bottom: 0;
+      position:fixed;
+    }
+    html, body{
+      height:100%;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+</style>
+    
+    
+
+    <h:body style="background-color:#FFFFFF;">
+
+        <div id="header">
+
+            <ui:include src="../main/templates/header.xhtml" />
+
+        </div>
+        
+        <div id='centro'>
+            <div id="left" style='float: left; width: 15%'>
+                <ui:include src="../main/templates/menu.xhtml" />
+            </div>
+            <div id="content" class="left_content" style='float: right; width: 85%'>
+                        <!-- inicio del form interno -->
+						<h:form id="form">
+        <p:panel header="#{msg['titulo.formulario.listaprogramados']}">
+   
+    
+    
+     <p:dataTable var="pedido" value="#{buscarPedidoProgramadoMB.listaPedidosRegulares}">
+     
+             <p:column headerText="#{msg['label.numpedido']}">
+        		<h:outputText value="#{pedido.idpedido}" />
+     		</p:column>
+     		
+            <p:column headerText="#{msg['label.cliente']}">
+       			 <h:outputText value="#{pedido.nombrecliente}" />
+    		</p:column>
+    		<p:column headerText="#{msg['label.pais']}">
+        		<h:outputText value="#{pedido.nombrepais}" />
+     		</p:column>
+ 
+    		<p:column headerText="#{msg['label.ciudad']}">
+        		<h:outputText value="#{pedido.nombreciudad}" />
+    		</p:column>
+ 
+    		
+ 
+    		<p:column headerText="#{msg['label.lunes']}">
+        		<p:selectBooleanCheckbox value="#{pedido.lunes}" disabled="true"/>
+    		</p:column>
+    		<p:column headerText="#{msg['label.martes']}">
+        		<p:selectBooleanCheckbox value="#{pedido.martes}" disabled="true"/>
+    		</p:column>
+    		<p:column headerText="#{msg['label.miercoles']}">
+        		<p:selectBooleanCheckbox value="#{pedido.miercoles}" disabled="true"/>
+    		</p:column>
+    		<p:column headerText="#{msg['label.jueves']}">
+        		<p:selectBooleanCheckbox value="#{pedido.jueves}" disabled="true"/>
+    		</p:column>
+    		<p:column headerText="#{msg['label.viernes']}">
+        		<p:selectBooleanCheckbox value="#{pedido.viernes}" disabled="true"/>
+    		</p:column>
+    		<p:column headerText="#{msg['label.sabado']}">
+        		<p:selectBooleanCheckbox value="#{pedido.sabado}" disabled="true"/>
+    		</p:column>
+    		<p:column headerText="#{msg['label.domingo']}">
+        		<p:selectBooleanCheckbox value="#{pedido.domingo}" disabled="true"/>
+    		</p:column>
+    		<p:column headerText="#{msg['label.editar']}" >
+					<p:commandButton icon="ui-icon ui-icon-pencil" action="#{editarPedidoMB.editar(pedido)}" ajax="false" value="#{msg['label.editar']}">
+					</p:commandButton>
+    		</p:column>
+    		<p:column headerText="#{msg['label.conciliar']}">
+					<p:commandButton icon="ui-icon ui-icon-pencil" action="#{conciliarPedidoMB.conciliar(pedido)}" ajax="false" value="#{msg['label.conciliar']}" >
+					</p:commandButton>
+    		</p:column>
+    		
+	</p:dataTable>
+ 	</p:panel>
+    </h:form>
+						<!-- fin del form interno-->
+            </div>
+        </div>
+        <div id="bottom">
+            <ui:insert name="bottom">
+              <ui:include src="../main/templates/footer.xhtml" />
+            </ui:insert>
+        </div>
+ </h:body> 
+  <br/>     
+</html>
+
+
+

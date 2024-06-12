@@ -1,0 +1,179 @@
+
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+
+	<h:form>
+ <p:growl autoUpdate="true"/>
+		<p:panelMenu style="width:213px;height:483px;border:none;font-size:small;padding:0px;" layout="block">
+		<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_GE','ROLE_VE','ROLE_CO','ROLE_FA')">
+
+        <p:submenu label="Menu">
+            <p:submenu label="Administraci&oacute;n" icon="ui-icon-extlink">
+                <p:submenu label="Aerolineas" icon="ui-icon-arrowthick-1-ne">
+                    <p:menuitem value="Crear aerolinea" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/crearaerolinea.xhtml" />
+                    <p:menuitem value="Crear Destinos" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/creardestino.xhtml" />
+                    <p:menuitem value="Lista aerolineas" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/listaaerolineas.xhtml" />
+                </p:submenu>
+                <p:submenu label="Cargueras" icon="ui-icon-cart">
+                    <p:menuitem value="Crear carguera" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/crearagenciacarga.xhtml" />
+                    <p:menuitem value="Lista cargueras" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/listaagenciascarga.xhtml" />
+                </p:submenu>
+                <p:submenu label="Clientes" icon="ui-icon-person">
+                    <p:menuitem value="Crear cliente" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/crearcliente.xhtml" />
+                    <p:menuitem value="Lista clientes" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/listaclientes.xhtml" />
+                </p:submenu>
+                <p:submenu label="Comisiones" icon="ui-icon-person">
+                    <p:menuitem value="Crear comision" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/crearcomision.xhtml" />
+                </p:submenu>
+                <p:submenu label="Configuraci&oacute;n" icon="ui-icon-person">
+                    <p:menuitem value="Crear Empresa" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/crearempresa.xhtml" />
+                </p:submenu>
+                <p:submenu label="Colores" icon="ui-icon-grip-dotted-vertical">
+                    <p:menuitem value="Crear/Editar color" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/crearcolor.xhtml" />
+                </p:submenu>
+                <p:submenu label="Franjas" icon="ui-icon-calendar">
+                    <p:menuitem value="Crear/Eliminar franjas" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/crearfranja.xhtml" />
+                </p:submenu>
+                <p:submenu label="Grado" icon="ui-icon-grip-dotted-vertical">
+                    <p:menuitem value="Crear/Editar grado" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/creargrado.xhtml" />
+                </p:submenu>
+                <p:submenu label="Listas de precio" icon="ui-icon-document">
+                    <p:menuitem value="Crear Lista" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/crearlistaprecios.xhtml" />
+                    <p:menuitem value="Ver listas" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/plantacionlistas.xhtml" />
+                </p:submenu>
+                <p:submenu label="Pa&iacute;ses/Ciudades" icon="ui-icon-flag">
+                    <p:menuitem value="Crear/Editar Pa&iacute;ses" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/crearpais.xhtml" />
+                    <p:menuitem value="Crear/Editar Ciudades" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/crearciudad.xhtml" />
+                </p:submenu>
+                 <p:submenu label="Plantaciones" icon="ui-icon-home">
+                 <p:menuitem value="Crear Proveedor" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/crearproveedor.xhtml" />
+                    <p:menuitem value="Crear plantaci&oacute;n" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/crearplantacion.xhtml" />
+                    <p:menuitem value="Ver plantaciones" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/listaplantaciones.xhtml" />
+                </p:submenu>
+                 <p:submenu label="Productos" icon="ui-icon-heart">
+                    <p:menuitem value="Crear flor" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/creartipoflor.xhtml" />
+                    <p:menuitem value="Crear variedad" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/crearvariedad.xhtml" />
+                    <p:menuitem value="Crear codigos" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/listaproductos.xhtml" />
+                </p:submenu>
+                <p:submenu label="Trucks/Handlers" icon="ui-icon-arrow-4-diag">
+                    <p:menuitem value="Crear Truck" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/creartruck.xhtml" />
+                    <p:menuitem value="Crear Handler" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/crearhandler.xhtml" />
+                    <p:menuitem value="Handler Vs truck" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/handlertruck.xhtml" />
+                </p:submenu>
+               <p:submenu label="Usuarios" icon="ui-icon-person">
+                    <p:menuitem value="Crear usuarios" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/crearusuario.xhtml" />
+                    <p:menuitem value="Buscar Usuarios" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/buscarusuario.xhtml" />
+                    <p:menuitem value="Cambio Password" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/cambiopassword.xhtml" />
+                </p:submenu>
+                
+            </p:submenu>
+            <p:submenu label="Operaci&oacute;n" icon="ui-icon-extlink">
+                     <p:submenu label="Notas Deb/Cred" icon="ui-icon-document">
+                    		<p:menuitem value="Crear Nota" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/crearnotadc.xhtml" />
+                   			<p:menuitem value="Buscar Nota" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/buscarnotadc.xhtml" />
+                	</p:submenu>
+                    <p:submenu label="Pedidos" icon="ui-icon-pencil">
+                        <p:menuitem value="Autorizar" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/listapedidosauto.xhtml" />
+                    	<p:menuitem value="Crear pedido" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/crearpedido.xhtml" />
+                    	<p:menuitem value="Buscar pedido" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/listapedidos.xhtml" />
+                    	
+                   </p:submenu>
+                   <p:submenu label="Ordenes Regulares" icon="ui-icon-pencil">
+                        <p:menuitem value="Crear Orden" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/crearplantilla.xhtml" />
+                        <p:menuitem value="Buscar Orden" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/listaordenes.xhtml" />
+                    	
+                   </p:submenu>
+                   <p:submenu label="Cotizaciones" icon="ui-icon-document">
+                    		<p:menuitem value="Por Revisar" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/listacotizaciones.xhtml" />
+                   			<p:menuitem value="Revisadas" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/listacotizacionesrev.xhtml" />
+                	</p:submenu>
+            </p:submenu>
+            <p:submenu label="#{msg['label.estadodecuenta']}" icon="ui-icon-calculator">
+                    <p:menuitem value="#{msg['label.estadodecuenta']}" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/estadosdecuentageneral.xhtml" />
+                    <p:menuitem value="#{msg['label.estadoconsolidado']}" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/estadosdecuentaconsolidado.xhtml" />
+                    <p:menuitem value="#{msg['label.saldos']}" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/estadosdecuentasaldos.xhtml" />
+            </p:submenu>
+            <p:submenu label="#{msg['label.reportes']}" icon="ui-icon-document">
+                    <p:menuitem value="#{msg['label.consolidadoventas']}" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/repventasconsolidado.xhtml" />
+                    <p:menuitem value="#{msg['label.pedidospordespachar']}" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/reppedidospordespachar.xhtml" />
+                    
+            </p:submenu>
+            
+            <p:submenu label="#{msg['label.monitoreo']}" icon="ui-icon-comment">
+                    <p:menuitem value="#{msg['label.monitoreo']}" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/listaauditoria.xhtml" />
+                    
+            </p:submenu>
+            
+           
+        </p:submenu>
+        </sec:authorize>
+        <sec:authorize access="hasAnyRole('ROLE_CL')">
+
+        <p:submenu label="#{msg['label.menu']}">
+            <p:submenu label="#{msg['label.miestadodecuenta']}" icon="ui-icon-extlink">
+                    <p:menuitem value="#{msg['label.notasdebitocredito']}" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/buscarnotadcgen.xhtml" />
+                    <p:menuitem value="#{msg['label.estadodecuenta']}" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/estadodecuenta.xhtml" />
+            </p:submenu>
+            <p:submenu label="#{msg['label.miusuario']}" icon="ui-icon-extlink">
+                    <p:menuitem value="#{msg['label.cambiopassword']}" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/cambiopassword.xhtml" />
+            </p:submenu>
+            <p:submenu label="#{msg['label.pedidos']}" icon="ui-icon-extlink">
+                    <p:menuitem value="#{msg['label.cotizacion']}" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/crearpedidocot.xhtml" />
+            </p:submenu>
+           
+        </p:submenu>
+        </sec:authorize>
+        <sec:authorize access="hasAnyRole('ROLE_PL')">
+
+        <p:submenu label="#{msg['label.menu']}">
+            <p:submenu label="#{msg['label.miestadodecuenta']}" icon="ui-icon-extlink">
+                    <p:menuitem value="#{msg['label.notasdebitocredito']}" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/buscarnotadcgen.xhtml" />
+                    <p:menuitem value="#{msg['label.estadodecuenta']}" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/estadodecuenta.xhtml" />
+            </p:submenu>
+             <p:submenu label="#{msg['label.miusuario']}" icon="ui-icon-extlink">
+                    <p:menuitem value="#{msg['label.cambiopassword']}" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/cambiopassword.xhtml" />
+            </p:submenu>
+           
+        </p:submenu>
+
+        </sec:authorize>
+        <sec:authorize access="hasAnyRole('ROLE_AG')">
+
+        <p:submenu label="#{msg['label.menu']}">
+            <p:submenu label="#{msg['label.miestadodecuenta']}" icon="ui-icon-extlink">
+                    <p:menuitem value="#{msg['label.notasdebitocredito']}" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/buscarnotadcgen.xhtml" />
+                    <p:menuitem value="#{msg['label.estadodecuenta']}" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/estadodecuenta.xhtml" />
+            </p:submenu>
+             <p:submenu label="#{msg['label.miusuario']}" icon="ui-icon-extlink">
+                    <p:menuitem value="#{msg['label.cambiopassword']}" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/cambiopassword.xhtml" />
+            </p:submenu>
+           
+        </p:submenu>
+
+        </sec:authorize>
+         <sec:authorize access="hasAnyRole('ROLE_HN')">
+
+        <p:submenu label="#{msg['label.menu']}">
+            <p:submenu label="#{msg['label.miestadodecuenta']}" icon="ui-icon-extlink">
+                    <p:menuitem value="#{msg['label.notasdebitocredito']}" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/buscarnotadcgen.xhtml" />
+                    <p:menuitem value="#{msg['label.estadodecuenta']}" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/estadodecuenta.xhtml" />
+            </p:submenu>
+             <p:submenu label="#{msg['label.miusuario']}" icon="ui-icon-extlink">
+                    <p:menuitem value="#{msg['label.cambiopassword']}" icon="ui-icon-gear" url="#{request.contextPath}/pages/private/admin/cambiopassword.xhtml" />
+            </p:submenu>
+           
+        </p:submenu>
+
+        </sec:authorize>
+    </p:panelMenu>
+
+	</h:form>
+</ui:composition>
+
+

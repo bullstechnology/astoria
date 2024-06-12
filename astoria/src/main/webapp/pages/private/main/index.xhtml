@@ -1,0 +1,54 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="templates/template.xhtml">
+	<ui:define name="metadata">
+	</ui:define>
+	<ui:define name="content">
+		
+		
+		<div class='centrar'>
+		    
+            <h:form  id="loginFormId" prependId="false">
+            <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+            <p:panelGrid styleClass="panelGridCenter">
+            
+    <f:facet name="header">
+        <p:row>
+            <p:column colspan="2"><h:outputText value="#{msg['label.bienvenida']}" /></p:column>
+        </p:row>
+        <p:row>
+            <p:column colspan="2"><p:graphicImage name="/images/logo.jpg" /></p:column>
+        </p:row>
+        <p:row>
+            <p:column colspan="2"><div align="center"><h:outputText value="#{msg['label.compania']}" /></div></p:column>
+    </p:row>
+    </f:facet>
+    
+    
+    
+    <p:row>
+        <p:column colspan="2" styleClass="ui-widget-header">
+            <p:spacer height="0"/>
+        </p:column>
+    </p:row>
+    <p:row>
+ 
+    	 <p:column colspan="2"><div align="center"><h:outputText value="#{msg['label.porfavoringrese']}" /></div></p:column>
+    </p:row>
+    
+   
+</p:panelGrid>
+            
+            
+            
+                    
+            </h:form>
+        </div>
+		
+		
+		
+	</ui:define>
+</ui:composition>

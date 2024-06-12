@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+    </h:head>
+     <h:body>
+        <h:form id="formcrear">
+       
+       
+        <p:panelGrid style="margin-top:20px">
+    		<f:facet name="header">
+        			<p:row>
+            			<p:column colspan="4">#{msg['titulo.creardestinos']}</p:column>
+        			</p:row>
+           </f:facet>
+ 
+    		<p:row>
+     		
+     		       <p:column><h:outputLabel  value="#{msg['label.paisorigen']} :KEBT15.1 "/></p:column>
+        			<p:column >
+        			           <h:selectOneMenu value="#{destinoMB.idorigen}" id="paisorigen" >
+        							<!-- <f:selectItem itemValue="" itemLabel="#{msg['label.seleccioneopcion']} "/> 
+        							<f:selectItems value="#{destinoMB.listaPaisesDom}" />
+        						    -->
+        							<p:ajax  listener="#{destinoMB.getCiudadesPaisOrigen}" update="ciudadorigen" event="change" process="@this"/>
+        							<f:selectItem itemLabel="#{msg['label.seleccioneopcion']}" itemValue="" noSelectionOption="true" />
+                					<f:selectItems value="#{destinoMB.listaPaisesDom}" />
+    						   </h:selectOneMenu>
+        			</p:column>
+        			 <p:column><h:outputLabel  value="#{msg['label.ciudadorigen']} : "/></p:column>
+        			<p:column >
+        			           <h:selectOneMenu value="#{destinoMB.idciudadorigen}" id="ciudadorigen" >
+        							<f:selectItem itemValue="" itemLabel="#{msg['label.seleccioneopcion']} " noSelectionOption="true"/> 
+        							<f:selectItems value="#{destinoMB.listaCiudadesOrigenDom}" />
+  						   </h:selectOneMenu>
+        			</p:column>
+        </p:row>	
+        
+        <p:row>		
+        			 <p:column><h:outputLabel  value="#{msg['label.paisdestino']} : feb17"/></p:column>
+        			<p:column >
+        			           <p:selectOneMenu value="#{destinoMB.iddestino}" id="paisdestino" >
+        							<f:selectItem itemValue="" itemLabel="#{msg['label.seleccioneopcion']} "/> 
+        							<f:selectItems value="#{destinoMB.listaPaisesDom}" />
+        							<p:ajax listener="#{destinoMB.getCiudadesPaisDestino()}" update="ciudaddestino" />
+    						   </p:selectOneMenu>
+        			</p:column>
+        			 <p:column><h:outputLabel  value="#{msg['label.ciudaddestino']} : "/></p:column>
+        			<p:column >
+        			           <p:selectOneMenu value="#{destinoMB.idciudaddestino}" id="ciudaddestino" >
+        							<f:selectItem itemValue="" itemLabel="#{msg['label.seleccioneopcion']} "/> 
+        							<f:selectItems value="#{destinoMB.listaCiudadesDestinoDom}" />
+
+    						   </p:selectOneMenu>
+        			</p:column>
+        			        			
+    		</p:row>
+    		               
+    		   		    			
+        	<p:row>
+        			<p:column colspan="4" >
+        			<div align="center">
+        			    				<p:commandButton id="addDestino" value="#{msg['label.aceptar']}" action="#{destinoMB.subir}"   update="listaDestinos" rendered="#{destinoMB.getPermiso(111,'C')}"/>
+        			
+        			</div>
+        			</p:column>
+    		</p:row>
+    
+</p:panelGrid>
+
+<p:dataTable var="destino" value="#{destinoMB.listaDestinos}" id="listaDestinos">
+    		<p:column headerText="#{msg['label.paisorigen']}">
+        		<h:outputText value="#{destino.nombreorigen}" />
+     		</p:column>
+     		<p:column headerText="#{msg['label.ciudadorigen']}">
+        		<h:outputText value="#{destino.nombreciudad}" />
+     		</p:column>
+     		<p:column headerText="#{msg['label.paisdestino']}">
+        		<h:outputText value="#{destino.nombrefinal}" />
+     		</p:column>
+     		<p:column headerText="#{msg['label.ciudaddestino']}">
+        		<h:outputText value="#{destino.nombreciudadfinal}" />
+     		</p:column>
+     		
+    		<p:column headerText="#{msg['label.borrar']}">
+					<p:commandButton icon="ui-icon ui-icon-trash" action="#{destinoMB.eliminar(destino)}"  ajax="true"  value="Eliminar" update="listaDestinos" rendered="#{destinoMB.getPermiso(111,'D')}">
+					</p:commandButton>
+    		</p:column>
+ 
+    		    		
+	</p:dataTable>
+	
+	
+        </h:form>
+
+ </h:body>
+    </html>

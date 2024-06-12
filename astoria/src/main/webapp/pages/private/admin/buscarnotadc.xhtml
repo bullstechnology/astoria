@@ -1,0 +1,264 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui">
+        
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+		<title>SISCOMFLOR</title>
+        
+     <h:head>
+
+       <!--  <h:outputStylesheet library="css" name="styles.css" /> -->
+        <h:outputStylesheet name="webjars/primeflex/2.0.0/primeflex.css" />
+
+    </h:head>
+    
+    <style type="text/css">
+    .box,
+    .sample-layout > div {
+        background-color: #cce4f7;
+        text-align: center;
+        padding-top: 1em;
+        padding-bottom: 1em;
+        border-radius: 4px;
+        
+    }
+ 
+    .box-stretched {
+        height: 100%;
+    }
+ 
+    .sample-layout {
+        margin: 0;
+    }
+ 
+    .sample-layout > div {
+        border: 1px solid #ffffff;
+    }
+ 
+    .vertical-container {
+        margin: 0;
+        height: 200px;
+        background: #efefef;
+        border-radius: 4px;
+    }
+ 
+    .nested-grid .p-col-4 {
+        padding-bottom: 1em;
+    }
+    
+   .p-grid {
+  width: 100%;
+  height:100%;
+  border: 1px solid black;
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  padding: 10px;
+}
+.container {
+  background: red;
+  height: 100%;
+}
+#top{
+      height:10%;
+      width: 100%;
+      background-color: gray;
+    }
+#left{
+      height:85%;
+      width: 100%;
+
+    }
+#centro{
+      height:85%;
+      width: 100%;
+      overflow-y: scroll;
+    }
+#bottom{
+
+      width: 100%;
+      background-color:#FFFFFF;
+      bottom: 0;
+      position:fixed;
+    }
+    html, body{
+      height:100%;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+</style>
+    
+    
+
+    <h:body style="background-color:#FFFFFF;">
+
+        <div id="header">
+
+            <ui:include src="../main/templates/header.xhtml" />
+
+        </div>
+        
+        <div id='centro'>
+            <div id="left" style='float: left; width: 15%'>
+                <ui:include src="../main/templates/menu.xhtml" />
+            </div>
+            <div id="content" class="left_content" style='float: right; width: 85%'>
+                        <!-- inicio del form interno -->
+						<h:form id="formcrear">
+       
+       
+        <p:panelGrid style="margin-top:20px">
+    		<f:facet name="header">
+        			<p:row>
+            			<p:column colspan="2">#{msg['titulo.buscarnotas']}</p:column>
+        			</p:row>
+           </f:facet>
+ 
+    		<p:row>
+        			<p:column><h:outputLabel value="#{msg['label.cliente']} : "/></p:column> 
+                    <p:column>                
+                                    <p:selectOneMenu id="cliente" value="#{buscarNotasMB.idCliente}" effect="fade" filter="true" filterMatchMode="startsWith">
+            						<f:selectItem itemLabel="#{msg['label.seleccioneopcion']}" itemValue="" />
+            						<f:selectItems value="#{buscarNotasMB.clientesSelect}" />
+                    </p:selectOneMenu>
+                    </p:column>
+        	</p:row>
+        	<p:row>
+        	<p:column><h:outputLabel value="#{msg['label.proveedor']} : "/></p:column>
+        	<p:column>
+        							<p:selectOneMenu value="#{buscarNotasMB.idPlantacion}" id="plantacion" effect="fade" filter="true" filterMatchMode="startsWith">
+    					            <f:selectItem itemValue="" itemLabel="#{msg['label.seleccioneopcion']} "/>
+        							<f:selectItems value="#{buscarNotasMB.proveedores}" var="prov" itemLabel="#{prov.nombre}" itemValue="#{prov.idproveedor}" />
+    		                        </p:selectOneMenu>
+
+    		 </p:column>	    
+    	    </p:row>
+    	    <p:row>
+        	<p:column><h:outputLabel value="#{msg['label.agencia']} : "/></p:column>
+        	<p:column><p:selectOneMenu value="#{buscarNotasMB.idAgencia}" id="agencia">
+        							<f:selectItem itemValue="" itemLabel="#{msg['label.seleccioneopcion']}"/> 
+        							<f:selectItems value="#{buscarNotasMB.listaAgenciasSelect}" />
+    		</p:selectOneMenu>
+    		 </p:column>	    
+    	    </p:row>
+    	    <p:row>
+        	<p:column><h:outputLabel value="#{msg['label.handler']} : "/></p:column>
+        	<p:column>
+        							<p:selectOneMenu value="#{buscarNotasMB.idHandler}" id="handler">
+    					            <f:selectItem itemValue="" itemLabel="#{msg['label.seleccioneopcion']} "/>
+        							<f:selectItems value="#{buscarNotasMB.handlers}" var="han" itemLabel="#{han.nombre}" itemValue="#{han.id}" />
+    		                        </p:selectOneMenu>
+
+    		 </p:column>	    
+    	    </p:row>
+    	    <p:row>
+    	    <p:column><h:outputLabel value="#{msg['label.debitocredito']} : "/></p:column>
+        	<p:column><p:selectOneMenu value="#{buscarNotasMB.idDebitoCredito}" id="debitocredito">
+        							<f:selectItem itemValue="1" itemLabel="#{msg['label.debito']}"/> 
+        							<f:selectItem itemValue="-1" itemLabel="#{msg['label.credito']}"/>
+       							
+    		</p:selectOneMenu>
+    		 </p:column>
+    		 </p:row>
+    		 
+    		  <p:row>
+    	    <p:column><h:outputLabel value="#{msg['label.estado']} : "/></p:column>
+        	<p:column><p:selectOneMenu value="#{buscarNotasMB.idEstado}" id="destado">
+        							<f:selectItem itemValue="" itemLabel="#{msg['label.seleccioneopcion']}"/> 
+        							<f:selectItems value="#{buscarNotasMB.listaEstadosSelect}" />
+       							
+    		</p:selectOneMenu>
+    		 </p:column>
+    		 </p:row>
+    		  
+    		<p:row>
+        			<p:column></p:column>
+        			<p:column></p:column>
+    		</p:row>
+    		
+    		
+    		<p:row>
+    		   
+        			<p:column colspan="2"><div align="center"><p:commandButton id="addUser" value="#{msg['label.aceptar']}" action="#{buscarNotasMB.buscar}" ajax="true" update="formcrear:listanotas"/></div></p:column>
+        			
+    		</p:row>
+    
+</p:panelGrid>
+
+<p:dataTable var="dominio" value="#{buscarNotasMB.listanotas}" id="listanotas" rows="10"
+                         paginator="true"
+                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15">
+
+           <p:column headerText="#{msg['label.codigo']}">
+        		<h:outputText value="#{dominio.id}" />
+     		</p:column>
+    		<p:column headerText="#{msg['label.titular']}" sortBy="#{dominio.titular}">
+        		<h:outputText value="#{dominio.titular}" />
+     		</p:column>
+     		<p:column headerText="#{msg['label.tipo']}">
+        		<h:outputText value="#{dominio.tipo}" />
+    		</p:column>
+     		<p:column headerText="#{msg['label.valor']}" sortBy="#{dominio.valor}">
+        		<h:outputText value="#{dominio.valor}" />
+     		</p:column>
+     		<p:column headerText="#{msg['label.factura']}" sortBy="#{dominio.factura}">
+        		<h:outputText value="#{dominio.factura}" />
+    		</p:column>
+    		<p:column headerText="#{msg['label.awb']}" sortBy="#{dominio.awb}">
+        		<h:outputText value="#{dominio.awb}" />
+    		</p:column>
+ 
+    		<p:column headerText="#{msg['label.descripcion']}">
+        		<h:outputText value="#{dominio.descripcion}" />
+    		</p:column>
+    		
+    		<p:column headerText="#{msg['label.fecha']}" sortBy="#{dominio.fecha}">
+        		<h:outputText value="#{dominio.fecha}" />
+    		</p:column>
+    		<p:column headerText="#{msg['label.usuario']}">
+        		<h:outputText value="#{dominio.username}" />
+    		</p:column>
+    		<p:column headerText="#{msg['label.editar']}" exportable="false" rendered="#{buscarNotasMB.getPermiso(251,'U')}">
+        		<p:commandButton icon="ui-icon ui-icon-pencil" action="#{buscarNotasMB.editar(dominio)}"  ajax="false" value="#{msg['label.editar']}">
+					</p:commandButton>
+    		</p:column>
+    		   		
+    		
+	</p:dataTable>
+    <div align="center"> 
+
+	<table>
+	<tr>	
+	
+	    	
+		<td>			
+					<p:commandButton value ="EXCEL" ajax ="false">
+                    <p:dataExporter type="xls" target="formcrear:listanotas" fileName="listaexcel" pageOnly="false"/>
+                    </p:commandButton>
+        </td>
+        <td>            
+                    <p:commandButton value ="PDF" ajax ="false">
+                    <p:dataExporter type="pdf" target="formcrear:listanotas" fileName="listaspdf" pageOnly="false"/>
+                    </p:commandButton>
+         </td>
+     </tr>      
+     </table>  
+     </div>    
+        </h:form>
+						
+						<!-- fin del form interno-->
+            </div>
+        </div>
+        <div id="bottom">
+            <ui:insert name="bottom">
+              <ui:include src="../main/templates/footer.xhtml" />
+            </ui:insert>
+        </div>
+ </h:body> 
+  <br/>     
+</html>

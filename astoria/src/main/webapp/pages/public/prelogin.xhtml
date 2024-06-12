@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+         <f:view locale="#{facesContext.externalContext.requestLocale}"></f:view>
+    <h:head>
+    
+       <style type="text/css">
+    				.imgeditar {
+       							 background-image:url("#{resource['images/editar.jpg']}") !important;
+       							 width: 40px;
+								 height: 40px;
+    					  }
+    			    .imgeliminar {
+       							 background-image:url("#{resource['images/eliminar.jpg']}") !important;
+    					  }		
+    				 .imgesperar {
+       							 background-image:url("#{resource['images/ajax-loader.gif']}") !important;
+    					  }		 
+    					  
+    			     .ui-panelgrid td, .ui-panelgrid tr
+							{
+    							border-style: none !important
+							}  
+							
+						.centrar
+
+	{
+
+		position: absolute;
+
+		top:10%;
+
+		left:50%;
+
+		width:400px;
+
+		margin-left:-200px;
+
+
+		height:300px;
+
+
+
+		margin-top:-150px;
+
+		border:0px solid #808080;
+
+		padding:5px;
+
+	}	
+	
+	.panelGridCenter {
+    margin: 0 auto;
+}	 
+			</style>
+			
+			<link rel="stylesheet" href="#{resource['template/templates.css']}" type="text/css" />
+    </h:head>
+    <h:body id="page_bg">
+   
+    	<div id="header">
+		
+		<div id="pillmenu"><ul id="mainlevel"><li></li></ul></div>
+		<div id="search"><form action="index.php" method="post">
+	<div class="search">
+     </div>
+</form><div id="jflanguageselection"><div class="rawimages"></div></div><!--JoomFish V2.1.7 (Dafad)-->
+<!-- &copy; 2003-2011 Think Network, released under the GPL. -->
+<!-- More information: at http://www.joomfish.net -->
+</div>					
+		<div class="clr"></div>
+		<div class="logo"><p style="text-align: left" class="MsoNormal" align="left"><img src="#{resource['images/logoheader.jpg']}" alt="Astoria Flowers"></img> </p></div>
+
+	
+
+	</div>
+	  
+        <div id="content">
+                				
+				<div id="maincolumn">	
+				    <h:form  id="formcrear" prependId="false">
+                    <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+                    <div id="jflanguageselection" align="right" 	style="margin-right:45px; margin-top:45px;">
+    <div class="rawimages">
+    <table><tr>
+    <td>
+       <span>
+      <p:commandLink
+
+    			action="#{idiomaMB.putIngles}" ajax="false">
+    			<h:graphicImage value="#{resource['images/engrande.jpg']}" title="English (United Kingdom)"/>
+		</p:commandLink>
+		</span>
+	</td>	
+	<td>
+		<span>
+		<p:commandLink
+
+    			action="#{idiomaMB.putRuso}" ajax="false">
+    			<h:graphicImage value="#{resource['images/rugrande.png']}" title="Russian (CIS)"/>
+		</p:commandLink>
+		</span>
+	</td>
+	<td>	
+		<span>
+		<p:commandLink
+
+    			action="#{idiomaMB.putEspanol}" ajax ="false">
+    			<h:graphicImage value="#{resource['images/esgrande.jpg']}" title="Español"/>
+		</p:commandLink>
+		</span>
+	</td>	
+		</tr></table>
+       </div>
+       #{msg['label.eleccionidioma']}
+       </div> 
+            
+                    
+            </h:form>		
+		        </div>
+			
+				    
+        
+        
+           
+        </div>
+
+    </h:body>
+    </html>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+									
+				
+	
+		
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

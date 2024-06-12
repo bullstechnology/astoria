@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+    
+       <style type="text/css">
+    				.imgeditar {
+       							 background-image:url("#{resource['images/editar.jpg']}") !important;
+       							 width: 40px;
+								 height: 40px;
+    					  }
+    			    .imgeliminar {
+       							 background-image:url("#{resource['images/eliminar.jpg']}") !important;
+    					  }		
+    				 .imgesperar {
+       							 background-image:url("#{resource['images/ajax-loader.gif']}") !important;
+    					  }		 
+    					  
+    			     .ui-panelgrid td, .ui-panelgrid tr
+							{
+    							border-style: none !important
+							}  
+							
+						.centrar
+
+	{
+
+		position: absolute;
+
+		top:50%;
+
+		left:50%;
+
+		width:400px;
+
+		margin-left:-200px;
+
+
+		height:300px;
+
+
+
+		margin-top:-150px;
+
+		border:0px solid #808080;
+
+		padding:5px;
+
+	}	
+	
+	.panelGridCenter {
+    margin: 0 auto;
+}	 
+			</style>
+			<link rel="stylesheet" href="#{resource['template/templates.css']}" type="text/css" />
+    </h:head>
+<h:body>
+            <h:form id="formcrear">
+    		<p:panel styleClass="panelgeneral" header="#{msg['label.detallespedido']}" id="datosgenerales">
+   <p:panelGrid style="margin-top:20px" columns="2" columnClasses="left">
+   
+                    <p:column><h:outputLabel value="#{msg['label.nombres']}:"/></p:column>
+        			<p:column> 
+        			          <p:inputText id="nombres" value="#{cotizacionMB.cotizacion.nombre}"  size="25">
+       					      </p:inputText>
+    				</p:column>
+    						   
+    			    <p:column><h:outputLabel value="#{msg['label.email']}:"/></p:column>
+        			<p:column>
+        			          <p:inputText id="apellidos" value="#{cotizacionMB.cotizacion.email}"  size="25">
+       					      </p:inputText>
+    			     </p:column>	
+    			     <p:column><h:outputLabel value="#{msg['label.descripcion']}:"/></p:column>
+    			     <p:column> 
+
+       					       <p:inputTextarea rows="10" cols="50"  value="#{cotizacionMB.cotizacion.descripcion}" />
+    			     </p:column>			   
+                    
+       				      				  
+	</p:panelGrid>
+	 
+  <div align="center">
+                				<p:commandButton id="subirdetalle2" value="#{msg['label.aceptar']}" action="#{cotizacionMB.cotizar}" ajax="true" />
+                				
+  </div>
+    
+   </p:panel>
+    
+    
+        
+    </h:form>
+        
+
+
+
+        <br/>
+  </h:body>
+    </html>
+ 

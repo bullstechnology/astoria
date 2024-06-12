@@ -1,0 +1,219 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui">
+        
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+		<title>SISCOMFLOR</title>
+        
+     <h:head>
+
+       <!--  <h:outputStylesheet library="css" name="styles.css" /> -->
+        <h:outputStylesheet name="webjars/primeflex/2.0.0/primeflex.css" />
+
+    </h:head>
+    
+    <style type="text/css">
+    .box,
+    .sample-layout > div {
+        background-color: #cce4f7;
+        text-align: center;
+        padding-top: 1em;
+        padding-bottom: 1em;
+        border-radius: 4px;
+        
+    }
+ 
+    .box-stretched {
+        height: 100%;
+    }
+ 
+    .sample-layout {
+        margin: 0;
+    }
+ 
+    .sample-layout > div {
+        border: 1px solid #ffffff;
+    }
+ 
+    .vertical-container {
+        margin: 0;
+        height: 200px;
+        background: #efefef;
+        border-radius: 4px;
+    }
+ 
+    .nested-grid .p-col-4 {
+        padding-bottom: 1em;
+    }
+    
+   .p-grid {
+  width: 100%;
+  height:100%;
+  border: 1px solid black;
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  padding: 10px;
+}
+.container {
+  background: red;
+  height: 100%;
+}
+#top{
+      height:10%;
+      width: 100%;
+      background-color: gray;
+    }
+#left{
+      height:85%;
+      width: 100%;
+
+    }
+#centro{
+      height:85%;
+      width: 100%;
+      overflow-y: scroll;
+    }
+#bottom{
+
+      width: 100%;
+      background-color:#FFFFFF;
+      bottom: 0;
+      position:fixed;
+    }
+    html, body{
+      height:100%;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+</style>
+    
+    
+
+    <h:body style="background-color:#FFFFFF;">
+
+        <div id="header">
+
+            <ui:include src="../main/templates/header.xhtml" />
+
+        </div>
+        
+        <div id='centro'>
+            <div id="left" style='float: left; width: 15%'>
+                <ui:include src="../main/templates/menu.xhtml" />
+            </div>
+            <div id="content" class="left_content" style='float: right; width: 85%'>
+                        <!-- inicio del form interno -->
+						<h:form id="formcrear">
+        <h:panelGroup>
+        <p:panelGrid>
+               <f:facet name="header">
+        			<p:row>
+            				<p:column colspan="4">#{msg['label.datosgenerales']}</p:column>
+        			</p:row>
+                </f:facet>
+   
+ 
+    		<p:row>
+        			<p:column><h:outputLabel for="codigo" value="#{msg['label.codigo']} : "/></p:column>
+        			<p:column ><p:inputText id="codigo" value="#{editarListaMB.plantacioneditar.codigo}" readonly="true"></p:inputText></p:column>
+        			<p:column><h:outputLabel for="nit" value="#{msg['label.nit']} : " /></p:column>
+        			<p:column ><p:inputText id="nit" value="#{editarListaMB.plantacioneditar.nit}" readonly="true"></p:inputText></p:column>
+    		</p:row>
+    		
+     		<p:row>
+     		        <p:column><h:outputLabel for="nombre" value="#{msg['label.nombre']} : "/></p:column>
+        			<p:column colspan="3"><p:inputText id="nombre" value="#{editarListaMB.plantacioneditar.nombre}"  size="50" readonly="true"></p:inputText></p:column>
+     		</p:row>
+     		
+     		<p:row>
+    		<p:column>
+    		    <h:outputLabel  value="#{msg['label.temporada']} : "/>
+        		<p:inputText value="#{editarListaMB.listaeditar.tipo}" readonly="true"/>
+    		</p:column>
+    		<p:column>
+    		     <h:outputLabel  value="#{msg['label.franja']} : "/>
+        		<p:inputText value="#{editarListaMB.listaeditar.nombrefranja}" readonly="true"/>
+    		</p:column>
+    		<p:column>
+    		     <h:outputLabel  value="#{msg['label.fechainicial']} : "/>
+        		<p:inputText value="#{editarListaMB.listaeditar.fechaini}" readonly="true"/>
+    		</p:column>
+    		<p:column>
+    		    <p:outputLabel  value="#{msg['label.fechafinal']} : "/>
+        		<p:inputText value="#{editarListaMB.listaeditar.fechafin}" readonly="true"/>
+    		</p:column>
+    		</p:row>
+        </p:panelGrid>
+        
+        <p:separator />
+                
+          <p:dataTable var="item2" value="#{editarListaMB.listaDetalles}" id="listat2" filteredValue="#{editarListaMB.listaDetallesFiltrada}" paginator="true"
+                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="200,250,300" sortMode="multiple">
+             <f:facet name="header">
+        			#{msg['label.detallelista']}
+    		</f:facet>
+    		<p:column headerText="#{msg['label.flor']}">
+        		<h:outputText value="#{item2.nombrePadre}" />
+     		</p:column>
+    		<p:column headerText="#{msg['label.producto']}" filterBy="#{item2.nombreProducto}" filterMatchMode="startsWith">
+        		<h:outputText value="#{item2.nombreProducto}" />
+     		</p:column>
+    		<p:column headerText="#{msg['label.color']}">
+        		<h:outputText value="#{item2.nombrecolor}" />
+    		</p:column>
+    		<p:column headerText="#{msg['label.grado']}" sortBy="#{item2.nombregrado}">
+        		<h:outputText value="#{item2.nombregrado}" />
+    		</p:column>
+    		<p:column headerText="#{msg['label.precio']}">
+        		<h:outputText value="#{item2.precio}" />
+    		</p:column>
+    		    		
+			</p:dataTable>
+			<p:separator />
+			<div align="center"> 
+
+	<table>
+	<tr>	
+	
+	     <td>
+	         <p:commandButton icon="ui-icon 	ui-icon-arrow-1-w" action="#{editarListaMB.regresarLista}" value="#{msg['label.regresar']}" ajax="false">
+	         </p:commandButton>
+	     </td>		
+		<td>			
+					<p:commandButton value ="EXCEL" ajax ="false">
+                    <p:dataExporter type="xls" target="listat2" fileName="preciosexcel" pageOnly="false"/>
+                    </p:commandButton>
+        </td>
+        <td>            
+                    <p:commandButton value ="PDF" ajax ="false">
+                    <p:dataExporter type="pdf" target="listat2" fileName="preciospdf" pageOnly="false"/>
+                    </p:commandButton>
+         </td>
+     </tr>      
+     </table>  
+     </div>  
+			
+			
+
+</h:panelGroup>
+</h:form>
+						
+						<!-- fin del form interno-->
+            </div>
+        </div>
+        <div id="bottom">
+            <ui:insert name="bottom">
+              <ui:include src="../main/templates/footer.xhtml" />
+            </ui:insert>
+        </div>
+ </h:body> 
+  <br/>     
+</html>
+
+

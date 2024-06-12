@@ -1,0 +1,172 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui">
+        
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+		<title>SISCOMFLOR</title>
+        
+     <h:head>
+
+       <!--  <h:outputStylesheet library="css" name="styles.css" /> -->
+        <h:outputStylesheet name="webjars/primeflex/2.0.0/primeflex.css" />
+
+    </h:head>
+    
+    <style type="text/css">
+    .box,
+    .sample-layout > div {
+        background-color: #cce4f7;
+        text-align: center;
+        padding-top: 1em;
+        padding-bottom: 1em;
+        border-radius: 4px;
+        
+    }
+ 
+    .box-stretched {
+        height: 100%;
+    }
+ 
+    .sample-layout {
+        margin: 0;
+    }
+ 
+    .sample-layout > div {
+        border: 1px solid #ffffff;
+    }
+ 
+    .vertical-container {
+        margin: 0;
+        height: 200px;
+        background: #efefef;
+        border-radius: 4px;
+    }
+ 
+    .nested-grid .p-col-4 {
+        padding-bottom: 1em;
+    }
+    
+   .p-grid {
+  width: 100%;
+  height:100%;
+  border: 1px solid black;
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  padding: 10px;
+}
+.container {
+  background: red;
+  height: 100%;
+}
+#top{
+      height:10%;
+      width: 100%;
+      background-color: gray;
+    }
+#left{
+      height:85%;
+      width: 100%;
+
+    }
+#centro{
+      height:85%;
+      width: 100%;
+      overflow-y: scroll;
+    }
+#bottom{
+
+      width: 100%;
+      background-color:#FFFFFF;
+      bottom: 0;
+      position:fixed;
+    }
+    html, body{
+      height:100%;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+</style>
+    
+    
+
+    <h:body style="background-color:#FFFFFF;">
+
+        <div id="header">
+
+            <ui:include src="../main/templates/header.xhtml" />
+
+        </div>
+        
+        <div id='centro'>
+            <div id="left" style='float: left; width: 15%'>
+                <ui:include src="../main/templates/menu.xhtml" />
+            </div>
+            <div id="content" class="left_content" style='float: right; width: 85%'>
+                        <!-- inicio del form interno -->
+						 <h:form id="form">
+        <p:growl id="msgs" showDetail="true"/>
+        <p:dataTable var="producto" value="#{productoMB.productos}" id="listaProductos" editable="true" editMode="cell" widgetVar="cellproductos">
+        <f:facet name="header">
+               #{msg['titulo.listaproductos']}
+    	</f:facet>
+    	    <p:ajax event="cellEdit" listener="#{productoMB.onCellEdit}"/>
+    		<p:column headerText="#{msg['label.tipoflor']}">
+        		<h:outputText value="#{producto.nombrePadre}" />
+     		</p:column>
+     		<p:column headerText="#{msg['label.variedad']}">
+        		<h:outputText value="#{producto.nombreProducto}" />
+     		</p:column>
+     		<p:column headerText="#{msg['label.grado']}">
+        		<h:outputText value="#{producto.nombregrado}" />
+     		</p:column>
+     		
+     		<p:column headerText="#{msg['label.codigo']}">
+        		<p:cellEditor>
+               		<f:facet name="output"><h:outputText value="#{producto.codigo}" /></f:facet>
+               		<f:facet name="input"><p:inputText value="#{producto.codigo}" style="width:96%" readonly="#{!productoMB.getPermiso(211,'U')}"/></f:facet>
+           		</p:cellEditor>
+     		</p:column>
+ 
+    		<f:facet name="footer">
+               <p:column headerText="#{msg['label.editar']}">
+					<p:commandButton icon="ui-icon ui-icon-pencil" actionListener="#{productoMB.editar}" ajax="true" value="Editar" update="listaProductos" rendered="#{productoMB.getPermiso(211,'U')}">
+					</p:commandButton>
+    		</p:column>
+    	   </f:facet>
+    		
+ 
+    		    		
+	</p:dataTable>
+     <p:separator />
+	<div align="center">
+       <p:commandButton value ="EXCEL" ajax ="true">
+        
+        <p:dataExporter type="xls" target="listaProductos" fileName="productosexcel" pageOnly="false"/>
+      </p:commandButton>
+      <p:commandButton value ="PDF" ajax ="true">
+        
+        <p:dataExporter type="pdf" target="form:listaProductos" fileName="productospdf" pageOnly="false"/>
+      </p:commandButton>
+      </div>    
+        
+        </h:form>
+						
+						<!-- fin del form interno-->
+            </div>
+        </div>
+        <div id="bottom">
+            <ui:insert name="bottom">
+              <ui:include src="../main/templates/footer.xhtml" />
+            </ui:insert>
+        </div>
+ </h:body> 
+  <br/>     
+</html>
+
+
+
