@@ -35,7 +35,7 @@ import com.bulls.astoria.magedbean.GeneralManagedBean;
 @SessionScoped
 public class AerolineaManagedBean extends GeneralManagedBean implements Serializable{
 	
-	private Integer id;
+	private Integer id;;
 	private String codigo;
 	private String nombre;
 	private String prefijo;
