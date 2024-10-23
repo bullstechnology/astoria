@@ -79,6 +79,7 @@ public class BuscarPedido extends GeneralManagedBean implements Serializable{
 		  clienteaux = this.cliente;
 	      if(estado==null)
 	    	  estado=null;
+	      System.out.println("buscando pedido ..." + clienteaux +   "   " +  estado+ "   " + fechainicial +   "   " + fechafinal +   "   " + pedido);
 	      listaPedidos = pedidoService.getPedidos(clienteaux, estado, fechainicial, fechafinal,pedido);
 	  getPedidosBean(listaPedidos);
 	 } 
