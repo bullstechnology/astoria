@@ -131,5 +131,7 @@ public interface DominioDao {
 	public Dominio getDominioPadreCodigo(Integer idPadre,String codigo);
 	public Dominio getDominioPadreNombre(Integer idPadre,String nombre);
 	public Double getSaldoInicial(Integer idEntidad,String entidad, String tiposaldo,Date fecha);
+	public List  getProductosCompleto(Integer idTipoFlor, Integer idVariedad);
+	public List  getProductosCompletoFlor(Integer idTipoFlor);
 
 }

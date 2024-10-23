@@ -89,7 +89,7 @@ public class DominioDaoImpl extends AbstractDao implements DominioDao  {
 		getSession().flush();
 	}
 	
-	
+	@Transactional
 	public List <Dominio> getDominiosXPadre(Integer idDominioPadre){
 		Query query = getSession().createQuery("from Dominio where dominiopadre = :idDominioPadre");
 		query.setInteger("idDominioPadre",idDominioPadre);
@@ -177,6 +177,19 @@ public class DominioDaoImpl extends AbstractDao implements DominioDao  {
 	public List  getProductosCompleto(Integer idVariedad){
 		Query query = getSession().createQuery("select new map(pro.id as idproducto,pro.enabled as enabled,pro.codigo as codigo,flor.id as idpadre,flor.nomcorto as nompadre,var.id as idhijo ,var.nomcorto as nomhijo, gra.id as idgrado,gra.nomcorto as nomgrado) FROM Dominio flor ,Dominio var , Dominio gra , Producto pro where var.dominiopadre = flor.id and gra.id  = pro.idgrado and var.id = pro.idvariedad and var.id = :idVariedad order by flor.nomcorto, var.nomcorto");
 		query.setInteger("idVariedad",idVariedad);
+		return query.list();
+	}
+	
+	public List  getProductosCompleto(Integer idTipoFlor, Integer idVariedad){
+		Query query = getSession().createQuery("select new map(pro.id as idproducto,pro.enabled as enabled,pro.codigo as codigo,flor.id as idpadre,flor.nomcorto as nompadre,var.id as idhijo ,var.nomcorto as nomhijo, gra.id as idgrado,gra.nomcorto as nomgrado) FROM Dominio flor ,Dominio var , Dominio gra , Producto pro where var.dominiopadre = flor.id and gra.id  = pro.idgrado and var.id = pro.idvariedad and var.id = :idVariedad and var.dominiopadre = :idTipoFlor order by flor.nomcorto, var.nomcorto");
+		query.setInteger("idTipoFlor",idTipoFlor);
+		query.setInteger("idVariedad",idVariedad);
+		return query.list();
+	}
+	
+	public List  getProductosCompletoFlor(Integer idTipoFlor){
+		Query query = getSession().createQuery("select new map(pro.id as idproducto,pro.enabled as enabled,pro.codigo as codigo,flor.id as idpadre,flor.nomcorto as nompadre,var.id as idhijo ,var.nomcorto as nomhijo, gra.id as idgrado,gra.nomcorto as nomgrado) FROM Dominio flor ,Dominio var , Dominio gra , Producto pro where var.dominiopadre = flor.id and gra.id  = pro.idgrado and var.id = pro.idvariedad and var.dominiopadre = :idTipoFlor order by flor.nomcorto, var.nomcorto");
+		query.setInteger("idTipoFlor",idTipoFlor);
 		return query.list();
 	}
 

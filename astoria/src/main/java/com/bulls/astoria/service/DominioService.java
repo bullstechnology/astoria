@@ -138,5 +138,9 @@ public interface DominioService {
     public Double getSaldoInicial(Integer idEntidad,String entidad, String tiposaldo,Date fecha);
     
     
+    public List  getProductosCompleto(Integer idTipoFlor, Integer idVariedad);
+    public List  getProductosCompletoFlor(Integer idTipoFlor);
+    
+    
  }
 

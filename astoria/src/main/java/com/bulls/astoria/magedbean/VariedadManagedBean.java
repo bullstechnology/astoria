@@ -60,6 +60,7 @@ public class VariedadManagedBean extends GeneralManagedBean implements Serializa
 	private Dominio dominio;
 	private Dominio dominioEditar;
 	List<SelectItem> listaTiposFlor;
+	List<SelectItem>  listaVariedadesSelect;
 	List <SelectItem> coloresSelect;
 	
 	private String foto;
@@ -199,6 +200,15 @@ public class VariedadManagedBean extends GeneralManagedBean implements Serializa
     		dompojo.setColor(dominioService.getDominio(dom.getIdcolor()).getNomcorto());
     		listaVariedades2.add(dompojo);
     	}
+    }
+    
+public List<SelectItem> getVariedades(Integer idtipoFlor){
+    	
+    	System.out.println("en get Variedades con tipo flor :" + idtipoFlor);
+    	listaVariedades = dominioService.getDominiosXPadre(idtipoFlor);
+    	listaVariedadesSelect = Convertidor.dominiosToSelectdItems(tiposFlor);
+    	return listaVariedadesSelect;
+ 
     }
     
 	public void reset() {
@@ -590,6 +600,16 @@ public void handleFileUploadJSF() {
 	public void setSelectedDominio2(com.bulls.astoria.pojo.Dominio selectedDominio2) {
 		this.selectedDominio2 = selectedDominio2;
 	}
+	
+	
+	public List<SelectItem> getListaVariedadesSelect() {
+		return listaVariedadesSelect;
+	}
+
+	public void setListaVariedadesSelect(List<SelectItem> listaVariedadesSelect) {
+		this.listaVariedadesSelect = listaVariedadesSelect;
+	}
+
 	public void borrarSession(){
 		  FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("aerolineaMB");
 		  FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("cargaMB");

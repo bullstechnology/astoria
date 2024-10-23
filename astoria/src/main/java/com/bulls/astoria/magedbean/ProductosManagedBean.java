@@ -19,20 +19,29 @@ import org.primefaces.PrimeFaces;
 //import org.primefaces.context.RequestContext;
 import org.primefaces.event.CellEditEvent;
 
+import com.bulls.astoria.enumeracion.EnuDominio;
 import com.bulls.astoria.persistence.Dominio;
 import com.bulls.astoria.pojo.Producto;
 import com.bulls.astoria.service.DominioService;
+import com.bulls.astoria.utils.Convertidor;
 
 
 
 @ManagedBean (name="productoMB")
 @SessionScoped
+
 public class ProductosManagedBean extends GeneralManagedBean implements Serializable{
 
 	
     transient ResourceBundle bundle ;
 	List <Map> productosMap;
 	List <Producto> productos;
+	List <Dominio> tiposFlor;
+	List <Dominio> variedades;
+	List <SelectItem> listaVariedades;
+	List<SelectItem> listaTiposFlor;
+	private Integer tipoFlor;
+	public Integer variedad;
 	
 	@ManagedProperty(value="#{DominioService}")
 	DominioService dominioService;
@@ -41,8 +50,13 @@ public class ProductosManagedBean extends GeneralManagedBean implements Serializ
 	public void ProductosManagedBean(){
 		borrarSession();
 		bundle =  ResourceBundle.getBundle("messages");
+		tiposFlor = dominioService.getDominios(EnuDominio.FLORES.getIdTipoDominio());
+	    listaTiposFlor = Convertidor.dominiosToSelectdItems(tiposFlor);
+	    variedades = dominioService.getDominios(EnuDominio.VARIEDADES.getIdTipoDominio());
+	    //listaVariedades = Convertidor.dominiosToSelectdItems(variedades);
+	    listaVariedades = new ArrayList<SelectItem>();
 		productosMap = dominioService.getProductosCompleto();
-		productos = getProductosmap(productosMap);
+		//productos = getProductosmap(productosMap);
 	}
 	
 	public void onCellEdit(CellEditEvent event) {
@@ -99,7 +113,53 @@ public class ProductosManagedBean extends GeneralManagedBean implements Serializ
 		return productossalida;
 	}
 	
+public List<SelectItem> getVariedades(Integer idtipoFlor){
+    	
+    	System.out.println("en get Variedades con tipo flor :" + idtipoFlor);
+    	System.out.println("en get Variedades con tipo flor2 :" + this.tipoFlor);
+    	variedades = dominioService.getDominiosXPadre(idtipoFlor);
+    	listaVariedades = Convertidor.dominiosToSelectdItems(variedades);
+    	return listaVariedades;
+ 
+    }
+
+public List<SelectItem> getVariedades2(){
 	
+
+	System.out.println("en get Variedades2 con tipo flor2 :" + this.tipoFlor);
+	variedades = dominioService.getDominiosXPadre(this.tipoFlor);
+	listaVariedades = Convertidor.dominiosToSelectdItems(variedades);
+	return listaVariedades;
+
+}
+	
+	public List<Producto> buscarProductos(Integer idTipoFlor, Integer idvariedad) {
+		
+		System.out.println("entre en buscar productos con idTipoFlor " + idTipoFlor + "  y variedad  " +idvariedad) ;
+		System.out.println("entre en buscar productos2 con idTipoFlor " + this.tipoFlor + "  y variedad  " +this.variedad) ;
+		productosMap = dominioService.getProductosCompleto(idTipoFlor,idvariedad);
+		productos = getProductosmap(productosMap);
+		System.out.println("retornando busqueda con "+productos.size());
+		return productos;
+	}
+	
+public List<Producto> buscarProductos2() {
+		
+		
+		System.out.println("entre en buscar productos2 con idTipoFlor " + this.tipoFlor + "  y variedad  " +this.variedad) ;
+		if (validarBuscar()){
+			
+		
+		if(this.variedad != 0) {
+		   productosMap = dominioService.getProductosCompleto(this.tipoFlor,this.variedad);
+		}else {
+			productosMap = dominioService.getProductosCompletoFlor(this.tipoFlor);	
+		}
+		productos = getProductosmap(productosMap);
+		System.out.println("retornando busqueda con "+productos.size());
+		}
+		return productos;
+	}
 	 private void abrirConfirmacion(){
 			
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("tituloconfirmacion"), bundle.getString("confirmaeditarlistaproductos"));
@@ -108,6 +168,19 @@ public class ProductosManagedBean extends GeneralManagedBean implements Serializ
 			return;
 
 		}
+	 
+	 
+	 public boolean validarBuscar(){
+	  	  
+	  	  boolean ok = true;
+	   		  if(0 == this.tipoFlor.intValue() || 0 == this.variedad.intValue()){
+	  			  ok = false;
+	  			  FacesContext.getCurrentInstance().addMessage(null,
+	  						new FacesMessage(FacesMessage.SEVERITY_ERROR,"Busqueda","Debe escoger un tipo de Flor y una Variedad" ));
+	  		  }
+	   	  return ok;
+	  	
+	}
 
 	public ResourceBundle getBundle() {
 		return bundle;
@@ -142,6 +215,58 @@ public class ProductosManagedBean extends GeneralManagedBean implements Serializ
 		this.dominioService = dominioService;
 	}
 	
+	
+	public Integer getTipoFlor() {
+		return tipoFlor;
+	}
+
+	public void setTipoFlor(Integer tipoFlor) {
+		this.tipoFlor = tipoFlor;
+	}
+	
+
+	public Integer getVariedad() {
+		return variedad;
+	}
+
+	public void setVariedad(Integer variedad) {
+		this.variedad = variedad;
+	}
+	
+	
+
+	public List<Dominio> getTiposFlor() {
+		return tiposFlor;
+	}
+
+	public void setTiposFlor(List<Dominio> tiposFlor) {
+		this.tiposFlor = tiposFlor;
+	}
+
+	public List<Dominio> getVariedades() {
+		return variedades;
+	}
+
+	public void setVariedades(List<Dominio> variedades) {
+		this.variedades = variedades;
+	}
+
+	public List<SelectItem> getListaVariedades() {
+		return listaVariedades;
+	}
+
+	public void setListaVariedades(List<SelectItem> listaVariedades) {
+		this.listaVariedades = listaVariedades;
+	}
+
+	public List<SelectItem> getListaTiposFlor() {
+		return listaTiposFlor;
+	}
+
+	public void setListaTiposFlor(List<SelectItem> listaTiposFlor) {
+		this.listaTiposFlor = listaTiposFlor;
+	}
+
 	public void borrarSession(){
 		  FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("aerolineaMB");
 		  FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("cargaMB");

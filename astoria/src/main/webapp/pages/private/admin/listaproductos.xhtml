@@ -110,7 +110,7 @@
                         <!-- inicio del form interno -->
 						 <h:form id="form">
         <p:growl id="msgs" showDetail="true"/>
-        <p:dataTable var="producto" value="#{productoMB.productos}" id="listaProductos" editable="true" editMode="cell" widgetVar="cellproductos">
+        <p:dataTable var="producto" value="#{productoMB.productos}" id="listaProductos" editable="true" editMode="cell" widgetVar="cellproductos" paginator="true" pageLinks="500">
         <f:facet name="header">
                #{msg['titulo.listaproductos']}
     	</f:facet>

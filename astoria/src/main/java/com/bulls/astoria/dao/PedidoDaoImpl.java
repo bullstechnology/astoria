@@ -361,12 +361,13 @@ public List<ComposicionFacturado> getComposicionesFacturado(Integer idDetalle){
 		if(fechainicial != null && fechainicial !=  null ){
 			pasofecha = true;
 			if(pasocliente || pasoestado || pasopedido){
-				buffer.append("and fechapedido >= :fechainicial and fechapedido >= :fechafinal");
+				buffer.append("and fechapedido >= :fechainicial and fechapedido <= :fechafinal");
 			}else {
 				buffer.append("fechapedido >= :fechainicial and fechapedido <= :fechafinal");
 			}
 			
 		}
+		System.out.println("Va a realizar la consulta de pedido con : " + buffer.toString());
 		Query query = getSession().createQuery(buffer.toString());
 		
 		
@@ -383,7 +384,7 @@ public List<ComposicionFacturado> getComposicionesFacturado(Integer idDetalle){
 			query.setDate("fechainicial",fechainicial);
 			query.setDate("fechafinal",fechafinal);
 		}
-		
+		System.out.println("Va a realizar la consulta de pedido2 con : " + query.toString() + " resultrados " + query.list().size());
 		return query.list();
 		
 	}

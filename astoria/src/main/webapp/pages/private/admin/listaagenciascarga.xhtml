@@ -67,24 +67,15 @@
       background-color: gray;
     }
 #left{
-      height:90%;
-      
-      text-align:justify;
+      height:85%;
+      width: 100%;
 
     }
 #centro{
-      height:90%;
-      
-      display : flex;
-      flex-direction : row;
-      
+      height:85%;
+      width: 100%;
+      overflow-y: scroll;
     }
-#content{
-     height:90%;
-     
-     text-align:justify;
-      
-    }    
 #bottom{
 
       width: 100%;
@@ -103,7 +94,7 @@
     
     
 
-    <h:body style="background-color:#FFFFFF;">
+     <h:body style="background-color:#FFFFFF;">
 
         <div id="header">
 
@@ -112,10 +103,10 @@
         </div>
         
         <div id='centro'>
-            <div id="left" >
+            <div id="left" style='float: left; width: 15%'>
                 <ui:include src="../main/templates/menu.xhtml" />
             </div>
-            <div id="content" >
+            <div id="content" class="left_content" style='float: right; width: 85%'>
                         <!-- inicio del form interno -->
 						<h:form id="form">
         
@@ -161,16 +152,14 @@
         
         </h:form>
         
-        ssss
-						<!-- fin del form interno-->
+ 						<!-- fin del form interno-->
             </div>
         </div>
         <div id="bottom">
-            <ui:insert name="bottom">
+            
               <ui:include src="../main/templates/footer.xhtml" />
-            </ui:insert>
+           
         </div>
  </h:body> 
   <br/>     
 </html>
-

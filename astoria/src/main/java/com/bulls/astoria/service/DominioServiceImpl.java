@@ -144,6 +144,14 @@ public class DominioServiceImpl implements DominioService,Serializable{
 		return dominioDAO.getProductosCompleto();
 	}
 	
+	public List  getProductosCompleto(Integer idTipoFlor, Integer idVariedad){
+		return dominioDAO.getProductosCompleto(idTipoFlor,idVariedad);
+	}
+	
+	public List  getProductosCompletoFlor(Integer idTipoFlor){
+		return dominioDAO.getProductosCompletoFlor(idTipoFlor);
+	}
+	
 	public void crearAgencia (AgenciaCarga agencia){
 		dominioDAO.crearAgencia(agencia);
 	}
